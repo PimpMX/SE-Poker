@@ -1,4 +1,4 @@
-package model
+package de.htwg.model
 
 class GameField(argNumPlayers: Int) {
 

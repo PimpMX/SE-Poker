@@ -1,6 +1,6 @@
-package view
+package de.htwg.view
 
-import model.GameField
+import de.htwg.model.GameField
 
 object TUI {
 

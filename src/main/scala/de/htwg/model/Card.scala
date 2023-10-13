@@ -1,4 +1,4 @@
-package model
+package de.htwg.model
 
 enum Color:
   case PIP, SPADES, CLUBS, HEARTS

@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="418e4cc4-7023-41ad-91d6-4c98c2d4e389" name="Changes" comment="Ende Übungsstunde 1">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/model/Card.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/model/GameHandler.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/model/Player.scala" afterDir="false" />
+    <list default="true" id="418e4cc4-7023-41ad-91d6-4c98c2d4e389" name="Changes" comment="Adjusted folder structure">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/TexasHoldEm.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/GameHandler.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Controller/Controller.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/controller/Controller.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/ExecutionStub.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/TexasHoldEm.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Model/GameField.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/model/GameField.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Model/Model.scala" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/View/View.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/view/TUI.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/TexasHoldEm.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/controller/Controller.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/controller/Controller.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/model/Card.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/Card.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/model/GameField.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/GameField.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/model/Player.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/Player.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/view/TUI.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/view/TUI.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +24,13 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Scala Object" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,7 +66,20 @@
       <recent name="$PROJECT_DIR$/src/main/scala/Controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.run">
+  <component name="RunManager" selected="Application.de.htwg.run">
+    <configuration name="de.htwg.run" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="de.htwg.run" />
+      <module name="SE-Poker" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.htwg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="main" />
       <module name="SE-Poker" />
@@ -76,6 +96,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.de.htwg.run" />
         <item itemvalue="Application.run" />
         <item itemvalue="Application.main" />
       </list>
@@ -92,7 +113,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697137333791</updated>
-      <workItem from="1697137337405" duration="9948000" />
+      <workItem from="1697137337405" duration="10385000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1697137595675</created>
@@ -115,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697140351500</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Ende Übungsstunde 1">
+      <created>1697183743732</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697183743732</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,6 +164,7 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Basic datastructures" />
     <MESSAGE value="Ende Übungsstunde 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ende Übungsstunde 1" />
+    <MESSAGE value="Adjusted folder structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjusted folder structure" />
   </component>
 </project>

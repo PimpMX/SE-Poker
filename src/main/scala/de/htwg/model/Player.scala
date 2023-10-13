@@ -1,4 +1,4 @@
-package model
+package de.htwg.model
 
 import scala.util.Try
 

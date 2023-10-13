@@ -1,4 +1,6 @@
-import controller.Controller
+package de.htwg
+
+import de.htwg.controller.Controller
 
 object TexasHoldEm {
 
@@ -7,4 +9,3 @@ object TexasHoldEm {
     println(Controller.getCLIView)
   }
 }
-
