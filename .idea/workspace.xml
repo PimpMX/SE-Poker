@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="418e4cc4-7023-41ad-91d6-4c98c2d4e389" name="Changes" comment="Adjusted folder structure">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/TexasHoldEm.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/GameHandler.scala" afterDir="false" />
+    <list default="true" id="418e4cc4-7023-41ad-91d6-4c98c2d4e389" name="Changes" comment="Adjusted folder structure and null init">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SE-Poker-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SE-Poker-build.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/TexasHoldEm.scala" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/controller/Controller.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/controller/Controller.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/model/Card.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/Card.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/model/GameField.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/GameField.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/model/Player.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/Player.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/view/TUI.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/view/TUI.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/controller/Controller.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/controller/Controller.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/model/GameField.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/GameField.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/model/Player.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/model/Player.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,20 +43,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/scala/Model" />
@@ -113,7 +110,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697137333791</updated>
-      <workItem from="1697137337405" duration="10385000" />
+      <workItem from="1697137337405" duration="11904000" />
+      <workItem from="1697189836358" duration="312000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1697137595675</created>
@@ -143,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697183743732</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Adjusted folder structure and null init">
+      <created>1697184847854</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697184847855</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +170,7 @@
     <MESSAGE value="Basic datastructures" />
     <MESSAGE value="Ende Übungsstunde 1" />
     <MESSAGE value="Adjusted folder structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjusted folder structure" />
+    <MESSAGE value="Adjusted folder structure and null init" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjusted folder structure and null init" />
   </component>
 </project>

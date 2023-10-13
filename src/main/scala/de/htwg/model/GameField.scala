@@ -1,7 +1,5 @@
 package de.htwg.model
 
-class GameField(argNumPlayers: Int) {
-
-  val numPlayers: Int = argNumPlayers
-  def getNumPlayers: Int = numPlayers
+class GameField(numPlayers: Int) {
+  def getNumPlayers: Int = numPlayers;
 }
