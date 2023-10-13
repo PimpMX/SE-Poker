@@ -4,6 +4,8 @@ import de.htwg.model.GameField
 
 object GameHandler {
 
+  //  Testcomment
+
   private var game: Option[GameField] = None
 
   def initGame(numPlayers: Int): GameField = {
