@@ -2,4 +2,9 @@
 *.ipr
 *.iws
 .idea
+.bloop
+.metals
+.vscode
+project
+target
 out
