@@ -10,10 +10,9 @@ object TUI {
     val calculated = calcFieldLen(gameState)
     val fLength = if(calculated > 25) { calculated } else { 25 }
 
-    print(calculated)
-
     //  Skalierung mit Mock Daten machen.
 
+    /*
     val outString: String = """
         |           Welcome to SE-Poker!
         |
@@ -25,6 +24,9 @@ object TUI {
         |*   [**][**]   [**][**]   [**][**]   [**][**]    *
         |***************************************************
         |""".stripMargin
+     */
+
+    val outString: String = "*" * calculated;
 
     outString
   }
