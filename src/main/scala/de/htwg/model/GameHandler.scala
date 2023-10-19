@@ -25,7 +25,9 @@ object GameHandler {
         (new Card(Color.PIP, Rank.ACE), new Card(Color.SPADES, Rank.TWO)), 1000, 0)
        */
 
-      val players = new Vector()
+      val players: Vector[Player] = Vector(new Player(0,
+        new Hand((new Card(Color.PIP, Rank.ACE), new Card(Color.CLUBS, Rank.ACE))),
+        1000, 0))
 
       game = Some(new GameField(numPlayers, players))
     }
