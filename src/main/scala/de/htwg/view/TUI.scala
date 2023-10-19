@@ -8,25 +8,14 @@ object TUI {
   def produceCLIView(gameState: GameField): String = {
 
     val calculated = calcFieldLen(gameState)
-    val fLength = if(calculated > 25) { calculated } else { 25 }
+    val fieldLen = if(calculated > 25) { calculated } else { 25 }
+    val (topUsers, botUsers) = gameState.getPlayers.splitAt(gameState.getPlayers.length / 2)
 
-    //  Skalierung mit Mock Daten machen.
-
-    /*
-    val outString: String = """
-        |           Welcome to SE-Poker!
-        |
-        |*************************** *************************
-        |*   [PA][KK]   [**][**]   [**][**]   [**][**]   *
-        |*                                                   *
-        |*   [K6][PA][**][**][**]                         *
-        |*                                                  *
-        |*   [**][**]   [**][**]   [**][**]   [**][**]    *
-        |***************************************************
-        |""".stripMargin
-     */
+    print(topUsers + " " + botUsers)
 
     val outString: String = "*" * calculated;
+
+    //outString = outString + "\n"
 
     outString
   }
