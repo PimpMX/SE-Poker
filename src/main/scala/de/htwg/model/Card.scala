@@ -11,9 +11,9 @@ enum Rank:
 class Card(argColor: Color, argRank: Rank) {
 
   val color: Color = argColor
-  val rank: Rank = argRank
+  val rank: Rank = argRank;
 
   def getColor: Color = color
   def getRank: Rank = rank
-
+  
 }

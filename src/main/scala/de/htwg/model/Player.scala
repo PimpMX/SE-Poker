@@ -3,17 +3,16 @@ package de.htwg.model
 import scala.util.Try
 
 class Player(playerNum: Int,
-             cards: Array[Card],
+             cards: (Card, Card),
              balance: Int,
              moneyInPool: Int) {
 
   //  Vektor anstatt Array verwenden.
 
-  /*
-  def getPlayerNum: Int = argPlayerNum
-  def getCards: Array[Card] = argCards
-  def getBalance: Int = balance
-  */
+  def getPlayerNum: Int = playerNum
+  def getCards: (Card, Card) = cards;
+  def getBalance: Int = balance;
+  def getBettedMoney: Int = balance;
 
   def betMoney(amount: Int): Option[Player] = {
     if (amount <= balance) {
