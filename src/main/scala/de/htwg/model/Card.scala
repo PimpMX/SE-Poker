@@ -16,16 +16,14 @@ class Card(argColor: Color, argRank: Rank) {
   def getColor: Color = color
   def getRank: Rank = rank
 
-  /*
-
-  val colorToString: Map[Color.Value, String] = Map(
+  val colorToString: Map[Color, String] = Map(
     Color.CLUBS -> "C",
     Color.PIP -> "P",
     Color.SPADES -> "S",
     Color.HEARTS -> "H"
   )
 
-  val rankToString: Map[Rank.Value, String] = Map(
+  val rankToString: Map[Rank, String] = Map(
     Rank.TWO -> "2",
     Rank.THREE -> "3",
     Rank.FOUR -> "4",
@@ -42,5 +40,4 @@ class Card(argColor: Color, argRank: Rank) {
   )
 
   override def toString: String = s"[${colorToString(color)}${rankToString(rank)}]"
-  */
 }
