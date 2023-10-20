@@ -2,6 +2,7 @@ package de.htwg.model
 
 import de.htwg.model.GameField
 import scala.util.Random
+import de.htwg.model.Card
 
 object GameHandler {
 
@@ -93,18 +94,20 @@ object GameHandler {
       new Card(Color.SPADES, Rank.KING)
     )
 
-    Random.shuffle(cards)
+    val shuffledCards = Random.shuffle(cards)
 
-    val cardsToRemove: Vector[Card] = Vector(cards(0), cards(1), cards(2), cards(3), cards(4))
+    val cardsToRemove: Vector[Card] = Vector(shuffledCards(0), shuffledCards(1))
 
-    val freeCards = cards.filterNot(cardsToRemove.contains)
-    val usedCards = cards.filter(cardsToRemove.contains)
+    val freeCards = shuffledCards.filterNot(cardsToRemove.contains)
+    val usedCards = shuffledCards.filter(cardsToRemove.contains)
+
+    cardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
     
     val countFree = freeCards.length
     val countUsed = usedCards.length
     println("Free: " + countFree + " Used: " + countUsed)
 
 
-    cards
+    shuffledCards
   }
 }
