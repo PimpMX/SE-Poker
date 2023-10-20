@@ -96,12 +96,17 @@ object GameHandler {
 
     val shuffledCards = Random.shuffle(cards)
 
-    val cardsToRemove: Vector[Card] = Vector(shuffledCards(0), shuffledCards(1))
+    val playerCardsToRemove: Vector[Card] = Vector(shuffledCards(0), shuffledCards(1))
+    val gameCardsToRemove: Vector[Card] = Vector(shuffledCards(2), shuffledCards(3), shuffledCards(4), shuffledCards(5), shuffledCards(6))
 
-    val freeCards = shuffledCards.filterNot(cardsToRemove.contains)
-    val usedCards = shuffledCards.filter(cardsToRemove.contains)
+    val CardsToRemove = playerCardsToRemove ++ gameCardsToRemove
 
-    cardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
+    val freeCards = shuffledCards.filterNot(CardsToRemove.contains)
+    val usedCards = shuffledCards.filter(CardsToRemove.contains)
+
+    playerCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
+    println("- - - - - - - - - - - - - - - - -")
+    gameCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
     
     val countFree = freeCards.length
     val countUsed = usedCards.length
