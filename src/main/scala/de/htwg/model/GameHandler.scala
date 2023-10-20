@@ -1,6 +1,7 @@
 package de.htwg.model
 
 import de.htwg.model.GameField
+import scala.util.Random
 
 object GameHandler {
 
@@ -26,7 +27,7 @@ object GameHandler {
        */
 
       val players: Vector[Player] = Vector(new Player(0,
-        new Hand((new Card(Color.PIP, Rank.ACE), new Card(Color.CLUBS, Rank.ACE))),
+        new Hand((new Card(Color.CLUBS, Rank.ACE), new Card(Color.CLUBS, Rank.ACE))),
         1000, 0))
 
       game = Some(new GameField(numPlayers, players))
@@ -36,20 +37,21 @@ object GameHandler {
   }
 
   def getCardSet(): Vector[Card] = {
-    Vector(
-      new Card(Color.PIP, Rank.ACE),
-      new Card(Color.PIP, Rank.TWO),
-      new Card(Color.PIP, Rank.THREE),
-      new Card(Color.PIP, Rank.FOUR),
-      new Card(Color.PIP, Rank.FIVE),
-      new Card(Color.PIP, Rank.SIX),
-      new Card(Color.PIP, Rank.SEVEN),
-      new Card(Color.PIP, Rank.EIGHT),
-      new Card(Color.PIP, Rank.NINE),
-      new Card(Color.PIP, Rank.TEN),
-      new Card(Color.PIP, Rank.JACK),
-      new Card(Color.PIP, Rank.QUEEN),
-      new Card(Color.PIP, Rank.KING),
+
+    val cards: Vector[Card] = Vector(
+      new Card(Color.CLUBS, Rank.ACE),
+      new Card(Color.CLUBS, Rank.TWO),
+      new Card(Color.CLUBS, Rank.THREE),
+      new Card(Color.CLUBS, Rank.FOUR),
+      new Card(Color.CLUBS, Rank.FIVE),
+      new Card(Color.CLUBS, Rank.SIX),
+      new Card(Color.CLUBS, Rank.SEVEN),
+      new Card(Color.CLUBS, Rank.EIGHT),
+      new Card(Color.CLUBS, Rank.NINE),
+      new Card(Color.CLUBS, Rank.TEN),
+      new Card(Color.CLUBS, Rank.JACK),
+      new Card(Color.CLUBS, Rank.QUEEN),
+      new Card(Color.CLUBS, Rank.KING),
       new Card(Color.HEARTS, Rank.ACE),
       new Card(Color.HEARTS, Rank.TWO),
       new Card(Color.HEARTS, Rank.THREE),
@@ -90,6 +92,19 @@ object GameHandler {
       new Card(Color.SPADES, Rank.QUEEN),
       new Card(Color.SPADES, Rank.KING)
     )
-  }
 
+    Random.shuffle(cards)
+
+    val cardsToRemove: Vector[Card] = Vector(cards(0), cards(1), cards(2), cards(3), cards(4))
+
+    val freeCards = cards.filterNot(cardsToRemove.contains)
+    val usedCards = cards.filter(cardsToRemove.contains)
+    
+    val countFree = freeCards.length
+    val countUsed = usedCards.length
+    println("Free: " + countFree + " Used: " + countUsed)
+
+
+    cards
+  }
 }

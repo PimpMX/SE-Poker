@@ -1,7 +1,7 @@
 package de.htwg.model
 
 enum Color:
-  case PIP, SPADES, CLUBS, HEARTS
+  case DIAMONDS, SPADES, CLUBS, HEARTS
 
 enum Rank:
   case TWO, THREE, FOUR, FIVE,
