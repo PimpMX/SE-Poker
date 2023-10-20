@@ -7,12 +7,14 @@ class Player(playerNum: Int,
              balance: Int,
              moneyInPool: Int) {
 
-  //  Vektor anstatt Array verwenden.
-
   def getPlayerNum: Int = playerNum
-  def getHand: Hand = hand;
-  def getBalance: Int = balance;
-  def getBettedMoney: Int = balance;
+  def getHand: Hand = hand
+  def getBalance: Int = balance
+  def getBettedMoney: Int = moneyInPool
+
+  def getPlayerStr: String = s"Player${playerNum}"
+  def getBalanceStr: String = s"${balance}"
+  def getBettedStr: String = s"${moneyInPool}"
 
   def betMoney(amount: Int): Option[Player] = {
     if (amount <= balance) {
