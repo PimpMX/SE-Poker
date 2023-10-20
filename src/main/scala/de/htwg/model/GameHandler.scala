@@ -99,10 +99,10 @@ object GameHandler {
     val playerCardsToRemove: Vector[Card] = Vector(shuffledCards(0), shuffledCards(1))
     val gameCardsToRemove: Vector[Card] = Vector(shuffledCards(2), shuffledCards(3), shuffledCards(4), shuffledCards(5), shuffledCards(6))
 
-    val CardsToRemove = playerCardsToRemove ++ gameCardsToRemove
+    val cardsToRemove = playerCardsToRemove ++ gameCardsToRemove
 
-    val freeCards = shuffledCards.filterNot(CardsToRemove.contains)
-    val usedCards = shuffledCards.filter(CardsToRemove.contains)
+    val freeCards = shuffledCards.filterNot(cardsToRemove.contains)
+    val usedCards = shuffledCards.filter(cardsToRemove.contains)
 
     playerCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
     println("- - - - - - - - - - - - - - - - -")
