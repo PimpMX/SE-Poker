@@ -1,13 +1,14 @@
 package de.htwg
 
 import de.htwg.controller.Controller
-import de.htwg.model.GameHandler.getCardSet
+import de.htwg.model.CardSet
 
 object TexasHoldEm {
 
   @main
   def run(): Unit = {
     println(Controller.getCLIView)
-    getCardSet()
+    val cardSet = new CardSet()
+    val cards = cardSet.fullCardSet()
   }
 }
