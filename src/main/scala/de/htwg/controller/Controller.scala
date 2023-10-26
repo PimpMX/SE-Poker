@@ -5,6 +5,6 @@ import de.htwg.model.{GameField, GameHandler}
 object Controller {
 
   def getCLIView: String = {
-    TUI.produceCLIView(GameHandler.initGame(4))
+    TUI.produceCLIView(GameHandler.initGame(6))
   }
 }

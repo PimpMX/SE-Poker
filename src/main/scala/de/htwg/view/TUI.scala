@@ -1,6 +1,8 @@
 package de.htwg.view
 
 import de.htwg.model.GameField
+import de.htwg.model.CommunityCard
+import de.htwg.model.CommunityCards
 
 object TUI {
 
@@ -9,54 +11,71 @@ object TUI {
 
     val calculated = calcFieldLen(gameState)
     val fieldLen = if(calculated > 25) { calculated } else { 25 }
-    val (topUsers, botUsers) = gameState.getPlayers.splitAt(gameState.getPlayers.length / 2)
+    
+    val (topUsers, botUsers) = gameState.getPlayers.splitAt(
+      if (gameState.getPlayers.length > 1)
+        gameState.getPlayers.length / 2 
+      else gameState.getPlayers.length % 2
+    )
 
-    val topUserNames: Vector[String] = for (user <- topUsers) yield s"${user.getPlayerStr}    "
-    val topUserCards: Vector[String] = for (user <- topUsers) yield s"${user.getHand}   "
-    val topUserBalance: Vector[String] = for (user <- topUsers) yield f"${user.getBettedStr}%-11s"
+    val topUserNames: String = (for (user <- topUsers) yield s"${user.getPlayerStr}    ").mkString("")
+    val topUserCards: String = (for (user <- topUsers) yield s"${user.getHand}   ").mkString("")
+    val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val botUserNames: Vector[String] = for (user <- botUsers) yield s"${user.getPlayerStr}    "
-    val botUserCards: Vector[String] = for (user <- botUsers) yield s"${user.getHand}   "
-    val botUserBalance: Vector[String] = for (user <- botUsers) yield f"${user.getBettedStr}%-11s"
+    val botUserNames: String = (for (user <- botUsers) yield s"${user.getPlayerStr}    ").mkString("")
+    val botUserCards: String = (for (user <- botUsers) yield s"${user.getHand}   ").mkString("")
+    val botUserBalance: String = (for (user <- botUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    println("*" * fieldLen)
-    println(s"*   ${topUserNames.mkString("")}   *")
-    println(s"*   ${topUserCards.mkString("")}   *")
-    println(s"*   ${topUserBalance.mkString("")}   *")
+    val comCards: CommunityCards = gameState.getCommunityCards
+    val paddedComCards: String = centerString(fieldLen, comCards.toString())
 
-    println("")
-    println("")
+    val maxLen = math.max(botUserNames.length(), topUserNames.length())
 
-    println(botUserBalance.mkString(""))
-    println(botUserCards.mkString(""))
-    println(botUserNames.mkString(""))
-    println("*" * fieldLen)
+    if(gameState.getNumPlayers > 2) {
 
+      val outString: String = "*" * fieldLen + "\n" +
+        s"*   ${topUserNames.padTo(maxLen, " ").mkString("")}*\n" +
+        s"*   ${topUserCards.padTo(maxLen, " ").mkString("")}*\n" +
+        s"*   ${topUserBalance.padTo(maxLen, " ").mkString("")}*\n" +
+        "*" + " " * (fieldLen - 2)  + "*\n" +
+        s"*${paddedComCards}*\n" +
+        "*" + " " * (fieldLen - 2)  + "*\n" +
+        s"*   ${botUserBalance.padTo(maxLen, " ").mkString("")}*\n" +
+        s"*   ${botUserCards.padTo(maxLen, " ").mkString("")}*\n" +
+        s"*   ${botUserNames.padTo(maxLen, " ").mkString("")}*\n" +
+        "*" * fieldLen + "\n"
 
-    val outString = s""
+      outString
+    } else {
 
-    /*
-    val outString: String = """
-        |           Welcome to SE-Poker!
-        |
-        |*************************************************
-        |*   Player1    Player2    Player3    Player4    *
-        |*   [PA][KK]   [**][**]   [**][**]   [**][**]   *
-        |*   1000       1000       1000       1000       *
-        |*                                               *
-        |*             [K6][PA][**][**][**]              *
-        |*                                               *
-        |*   1000       1000       1000       1000       *
-        |*   [**][**]   [**][**]   [**][**]   [**][**]   *
-        |*   Player5    Player6    Player7    Player8    *
-        |*************************************************
-        |""".stripMargin
-    */
+      val outString: String = "*" * fieldLen + "\n" +
+        s"*${centerString(fieldLen, topUserNames)}*\n" +
+        s"*${centerString(fieldLen, topUserCards)}*\n" +
+        s"*${centerString(fieldLen, topUserBalance)}*\n" +
+        "*" + " " * (fieldLen - 2)  + "*\n" +
+        s"*${paddedComCards}*\n" +
+        "*" + " " * (fieldLen - 2)  + "*\n" +
+        s"*${centerString(fieldLen, botUserBalance)}*\n" +
+        s"*${centerString(fieldLen, botUserCards)}*\n" +
+        s"*${centerString(fieldLen, botUserNames)}*\n" +
+        "*" * fieldLen + "\n"
 
-    outString
+      outString
+    }
   }
 
   def calcFieldLen(gameState: GameField): Int = {
-    8 + 8 * (gameState.getNumPlayers / 2) + ((gameState.getNumPlayers - 1) / 2) * 3
+    5 + 11 * math.max(gameState.getNumPlayers / 2,
+            gameState.getNumPlayers - gameState.getNumPlayers / 2)
+  }
+
+  def centerString(fieldLen: Int, str: String): String = {
+
+    val padding: Int = ((fieldLen - 2 - str.length()) / 2)
+    val paddedComCards: String = " " * padding 
+                        + str.toString 
+                        + " " * (fieldLen - 2 - padding - str.toString().length)
+
+    paddedComCards
   }
 }

@@ -1,7 +1,9 @@
 package de.htwg.model
 
-class GameField(numPlayers: Int, players: Vector[Player] ) {
+class GameField(players: Vector[Player],
+                comCards: CommunityCards) {
 
-  def getNumPlayers: Int = numPlayers;
-  def getPlayers: Vector[Player] = players;
+  def getNumPlayers: Int = players.length
+  def getPlayers: Vector[Player] = players
+  def getCommunityCards: CommunityCards = comCards
 }
