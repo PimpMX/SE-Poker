@@ -6,7 +6,6 @@ import de.htwg.model.CommunityCards
 
 object TUI {
 
-  //  Kriegt stand jetzt noch keine Daten aber gibt zurück wie das Spielfeld aussehen soll.
   def produceCLIView(gameState: GameField): String = {
 
     val calculated = calcFieldLen(gameState)
@@ -29,20 +28,20 @@ object TUI {
     val comCards: CommunityCards = gameState.getCommunityCards
     val paddedComCards: String = centerString(fieldLen, comCards.toString())
 
-    val maxLen = math.max(botUserNames.length(), topUserNames.length())
+    val maxNameLen = math.max(botUserNames.length(), topUserNames.length())
 
     if(gameState.getNumPlayers > 2) {
 
       val outString: String = "*" * fieldLen + "\n" +
-        s"*   ${topUserNames.padTo(maxLen, " ").mkString("")}*\n" +
-        s"*   ${topUserCards.padTo(maxLen, " ").mkString("")}*\n" +
-        s"*   ${topUserBalance.padTo(maxLen, " ").mkString("")}*\n" +
+        s"*   ${topUserNames.padTo(maxNameLen, " ").mkString("")}*\n" +
+        s"*   ${topUserCards.padTo(maxNameLen, " ").mkString("")}*\n" +
+        s"*   ${topUserBalance.padTo(maxNameLen, " ").mkString("")}*\n" +
         "*" + " " * (fieldLen - 2)  + "*\n" +
         s"*${paddedComCards}*\n" +
         "*" + " " * (fieldLen - 2)  + "*\n" +
-        s"*   ${botUserBalance.padTo(maxLen, " ").mkString("")}*\n" +
-        s"*   ${botUserCards.padTo(maxLen, " ").mkString("")}*\n" +
-        s"*   ${botUserNames.padTo(maxLen, " ").mkString("")}*\n" +
+        s"*   ${botUserBalance.padTo(maxNameLen, " ").mkString("")}*\n" +
+        s"*   ${botUserCards.padTo(maxNameLen, " ").mkString("")}*\n" +
+        s"*   ${botUserNames.padTo(maxNameLen, " ").mkString("")}*\n" +
         "*" * fieldLen + "\n"
 
       outString
