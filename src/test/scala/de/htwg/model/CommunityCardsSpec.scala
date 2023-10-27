@@ -38,15 +38,15 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
         )))
       }
 
-      "give the correct toString with all cards unrevealed" in {
+      "give the correct toString with all cards unrevealed [**][**][**][**][**]" in {
         comCard.toString() should be ("[**][**][**][**][**]")
       }
 
-      "give the correct toString with one card revealed" in {
+      "give the correct toString with one card revealed [CA][**][**][**][**]" in {
         comCard.revealNext.toString() should be ("[CA][**][**][**][**]")
       }
 
-      "give the correct toString with two cards revealed" in {
+      "give the correct toString with two cards revealed [CA][P2][**][**][**]" in {
         comCard.revealNext.revealNext.toString() should be ("[CA][P2][**][**][**]")
       }
 

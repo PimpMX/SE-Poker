@@ -18,11 +18,12 @@ object TUI {
     )
 
     val topUserNames: String = (for (user <- topUsers) yield s"${user.getPlayerStr}    ").mkString("")
-    val topUserCards: String = (for (user <- topUsers) yield s"${user.getHand}   ").mkString("")
+    val topUserCards: String = (for (user <- topUsers) yield s"${user.hand
+    }   ").mkString("")
     val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
     val botUserNames: String = (for (user <- botUsers) yield s"${user.getPlayerStr}    ").mkString("")
-    val botUserCards: String = (for (user <- botUsers) yield s"${user.getHand}   ").mkString("")
+    val botUserCards: String = (for (user <- botUsers) yield s"${user.hand}   ").mkString("")
     val botUserBalance: String = (for (user <- botUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
     val comCards: CommunityCards = gameState.getCommunityCards

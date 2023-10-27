@@ -1,6 +1,6 @@
 package de.htwg.model
 
-class GameField(players: Vector[Player],
+case class GameField(players: Vector[Player],
                 comCards: CommunityCards) {
 
   def getNumPlayers: Int = players.length

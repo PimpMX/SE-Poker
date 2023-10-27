@@ -4,10 +4,11 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 
 class HandSpec extends AnyWordSpec with Matchers {
+
   "A Hand" when {
     "created with two cards" should {
       val hand = Hand(Card(Color.PIP, Rank.TWO), Card(Color.PIP, Rank.THREE))
-      "have Cards" in {
+      "have the correct cards" in {
         hand should be(Hand(Card(Color.PIP, Rank.TWO), Card(Color.PIP, Rank.THREE)))
       }
 
