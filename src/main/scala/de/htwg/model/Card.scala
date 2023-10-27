@@ -39,5 +39,10 @@ class Card(argColor: Color, argRank: Rank) {
     Rank.ACE -> "A"
   )
 
+  override def equals(obj: Any): Boolean =  obj match {
+    case card: Card => this.color == card.color && this.rank == card.rank
+    case _=> false
+  }
+
   override def toString: String = s"[${colorToString(color)}${rankToString(rank)}]"
 }
