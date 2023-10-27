@@ -23,4 +23,9 @@ class CommunityCards(cards: Vector[CommunityCard]) {
     override def toString(): String = {
         cards.map(card => { if(card.isRevealed) card.toString else "[**]"}).mkString("")
     }
+
+    override def equals(obj: Any): Boolean = obj match {
+        case comCard: CommunityCards => this.cards == comCard.getCards
+        case _=> false
+    }
 }
