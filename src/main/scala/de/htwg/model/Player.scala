@@ -5,7 +5,8 @@ import scala.util.Try
 case class Player(playerNum: Int,
             hand: Hand,
             balance: Int,
-            moneyInPool: Int) {
+            moneyInPool: Int,
+            skip: Boolean = false) {
 
   def getPlayerStr: String = s"Player${playerNum}"
   def getBalanceStr: String = s"${balance}"
