@@ -13,13 +13,25 @@ object Controller {
     var gameState: GameField = GameHandler.initGame(6)
 
     input match {
-      case "new game" => getCLIView(gameState)
-      case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) => return "entered bet"
-      case "bet all-in" => "entered bet all-in"
-      case "check" => 
+      case "new game" => 
+        println("new game started")
+        getCLIView(gameState)
+      case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) => 
+        println("entered bet")
         gameState = gameState.switchToNextPlayer()
         getCLIView(gameState)
-      case "fold" => "folded"
+      case "bet all-in" => 
+        println("entered bet all-in")
+        gameState = gameState.switchToNextPlayer()
+        getCLIView(gameState)
+      case "check" => 
+        println("checked")
+        gameState = gameState.switchToNextPlayer()
+        getCLIView(gameState)
+      case "fold" => 
+        println("folded")
+        gameState = gameState.switchToNextPlayer()
+        getCLIView(gameState)
       case _ => "Invalid input"
     }
   }
