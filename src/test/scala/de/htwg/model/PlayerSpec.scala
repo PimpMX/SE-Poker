@@ -9,7 +9,7 @@ class PlayerSpec extends AnyWordSpec with Matchers  {
     "created with player number 1, Pip - Ace and Hearts - Ten, 1000 balance and 0 betted money" should {
 
       val player: Player = Player(1,
-        Hand((new Card(Color.PIP, Rank.ACE), new Card(Color.HEARTS, Rank.TEN))),
+        Hand((new Card(PIP, ACE), new Card(HEARTS, TEN))),
         1000, 0)
 
       "have player number 1" in {
@@ -17,7 +17,7 @@ class PlayerSpec extends AnyWordSpec with Matchers  {
       }
 
       "have the correct hand" in {
-        player.hand should be(Hand((new Card(Color.PIP, Rank.ACE), new Card(Color.HEARTS, Rank.TEN))))
+        player.hand should be(Hand((new Card(PIP, ACE), new Card(HEARTS, TEN))))
       }
 
       "have the correct balance" in {
@@ -38,6 +38,22 @@ class PlayerSpec extends AnyWordSpec with Matchers  {
 
       "return betted string '0'" in {
         player.getBettedStr should be ("0")
+      }
+
+      "betting an amount less than or equal to his balance" should {
+        "return a new Player with the correct bet amount and balance" in {
+          val newPlayer = player.betMoney(500)
+          newPlayer should not be empty
+          newPlayer.get.balance should be (500)
+          newPlayer.get.moneyInPool should be (500)
+        }
+      }
+
+      "betting an amount greater than his balance" should {
+        "return None" in {
+          val newPlayer = player.betMoney(1500)
+          newPlayer shouldBe empty
+        }
       }
     }
   }

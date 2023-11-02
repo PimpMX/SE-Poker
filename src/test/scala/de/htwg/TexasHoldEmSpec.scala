@@ -8,7 +8,7 @@ class TexasHoldEmSpec extends AnyWordSpec with Matchers{
   "TexasHoldEm Main" when {
     "called" should {
       "return Unit" in {
-        assert(TexasHoldEm.run() ==())
+        assert(TexasHoldEm.main(Array()) ==())
       }
     }
   }

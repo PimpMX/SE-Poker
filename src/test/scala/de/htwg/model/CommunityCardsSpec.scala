@@ -9,32 +9,36 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
     "created with 5 Cards (Clubs - Ace, Pip - Two, Hearts - Ten, Spades - Eight, Pip - Five)" should {
 
       val cards: Vector[CommunityCard] = Vector(
-        new CommunityCard(Color.CLUBS, Rank.ACE, false),
-        new CommunityCard(Color.PIP, Rank.TWO, false),
-        new CommunityCard(Color.HEARTS, Rank.TEN, false),
-        new CommunityCard(Color.SPADES, Rank.EIGHT, false),
-        new CommunityCard(Color.PIP, Rank.FIVE, false)
+        new CommunityCard(CLUBS, ACE, false),
+        new CommunityCard(PIP, TWO, false),
+        new CommunityCard(HEARTS, TEN, false),
+        new CommunityCard(SPADES, EIGHT, false),
+        new CommunityCard(PIP, FIVE, false)
       )
 
       val comCard: CommunityCards = new CommunityCards(cards)
 
       "return the correct cards" in {
         comCard.getCards should contain theSameElementsAs Vector(
-          new CommunityCard(Color.CLUBS, Rank.ACE, false),
-          new CommunityCard(Color.PIP, Rank.TWO, false),
-          new CommunityCard(Color.HEARTS, Rank.TEN, false),
-          new CommunityCard(Color.SPADES, Rank.EIGHT, false),
-          new CommunityCard(Color.PIP, Rank.FIVE, false)
+          new CommunityCard(CLUBS, ACE, false),
+          new CommunityCard(PIP, TWO, false),
+          new CommunityCard(HEARTS, TEN, false),
+          new CommunityCard(SPADES, EIGHT, false),
+          new CommunityCard(PIP, FIVE, false)
         )
       }
 
+      "return false when comparing with a different Object" in {
+        comCard.equals(5) should be (false)
+      } 
+
       "return the correct revealNext CommunityCards instance" in {
         comCard.revealNext should be(new CommunityCards(Vector(
-          new CommunityCard(Color.CLUBS, Rank.ACE, true),
-          new CommunityCard(Color.PIP, Rank.TWO, false),
-          new CommunityCard(Color.HEARTS, Rank.TEN, false),
-          new CommunityCard(Color.SPADES, Rank.EIGHT, false),
-          new CommunityCard(Color.PIP, Rank.FIVE, false)
+          new CommunityCard(CLUBS, ACE, true),
+          new CommunityCard(PIP, TWO, false),
+          new CommunityCard(HEARTS, TEN, false),
+          new CommunityCard(SPADES, EIGHT, false),
+          new CommunityCard(PIP, FIVE, false)
         )))
       }
 
@@ -49,8 +53,6 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
       "give the correct toString with two cards revealed [CA][P2][**][**][**]" in {
         comCard.revealNext.revealNext.toString() should be ("[CA][P2][**][**][**]")
       }
-
-
     }
   }
 }

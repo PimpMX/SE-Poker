@@ -70,12 +70,8 @@ object TUI {
   }
 
   def centerString(fieldLen: Int, str: String): String = {
-
     val padding: Int = ((fieldLen - 2 - str.length()) / 2)
-    val paddedComCards: String = " " * padding 
-                        + str.toString 
-                        + " " * (fieldLen - 2 - padding - str.toString().length)
-
+    val paddedComCards: String = " " * padding + str + " " * (fieldLen - 2 - padding - str.length)
     paddedComCards
   }
 }

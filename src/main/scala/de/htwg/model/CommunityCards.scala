@@ -25,7 +25,7 @@ class CommunityCards(cards: Vector[CommunityCard]) {
     }
 
     override def equals(obj: Any): Boolean = obj match {
-        case comCard: CommunityCards => this.cards == comCard.getCards
+        case comCard: CommunityCards => this.cards sameElements comCard.getCards
         case _=> false
     }
 }

@@ -5,8 +5,7 @@ import de.htwg.model.CommunityCard
 
 object TexasHoldEm {
 
-  @main
-  def run(): Unit = {
+  def main(args: Array[String]): Unit = {
     println(Controller.getCLIView)
   }
 }

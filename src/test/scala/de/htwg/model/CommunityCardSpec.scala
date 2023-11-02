@@ -1,19 +1,17 @@
 package de.htwg.model
 
-package de.htwg.model
-
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 
 class CommunityCardSpec extends AnyWordSpec with Matchers {
   "A CommunityCard" when {
     "created with Color Hearts, Rank ACE and revealed true" should {
-      val card = CommunityCard(Color.HEARTS, Rank.ACE, true)
+      val card = new CommunityCard(HEARTS, ACE, true)
       "have Hearts Color" in {
-        card.color should be(Color.HEARTS)
+        card.color should be(HEARTS)
       }
       "have rank ACE" in {
-        card.rank should be(Rank.ACE)
+        card.rank should be(ACE)
       }
 
       "have revealed true" in {
