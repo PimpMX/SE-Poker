@@ -6,6 +6,9 @@ import de.htwg.model.CommunityCard
 object TexasHoldEm {
 
   def main(args: Array[String]): Unit = {
-    println(Controller.getCLIView)
+    while(true) {
+      val input = scala.io.StdIn.readLine()
+      println(Controller.userCmd(input))
+    }
   }
 }
