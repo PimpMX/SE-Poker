@@ -3,9 +3,9 @@ package de.htwg.model
 import scala.util.Try
 
 case class Player(playerNum: Int,
-             hand: Hand,
-             balance: Int,
-             moneyInPool: Int) {
+            hand: Hand,
+            balance: Int,
+            moneyInPool: Int) {
 
   def getPlayerStr: String = s"Player${playerNum}"
   def getBalanceStr: String = s"${balance}"
