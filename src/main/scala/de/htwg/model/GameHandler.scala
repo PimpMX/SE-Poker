@@ -55,8 +55,9 @@ object GameHandler {
       val comCardO: CommunityCards = new CommunityCards(comCard)
 
       game = Some(new GameField(players, comCardO))
-    } else
-
-    game.get
+      game.get
+    } else {
+      game.get
+    }
   }
 }
