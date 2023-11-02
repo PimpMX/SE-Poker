@@ -32,6 +32,10 @@ class GameFieldSpec extends AnyWordSpec with Matchers  {
       "return the correct community cards" in {
         gamefield.getCommunityCards should be(comCard)
       }
+
+      "return the correct next player" in {
+        gamefield.switchToNextPlayer() should be(GameField(players, comCard, 1))
+      }
     }
   }
 }
