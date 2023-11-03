@@ -10,7 +10,6 @@ case class GameField(players: Vector[Player],
 
   def switchToNextPlayer(): GameField = {
     val nextPlayer = (playerAtTurn + 1) % players.length
-    println(nextPlayer)
     GameField(players, comCards, nextPlayer)
   }
 }

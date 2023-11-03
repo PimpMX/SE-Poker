@@ -8,31 +8,36 @@ object Controller {
     TUI.produceCLIView(gameState)
   }
 
-  def userCmd(input: String): String = {
+  def gameLoop(): Unit = {
 
-    var gameState: GameField = GameHandler.initGame(6)
+    var gameState: Option[GameField] = Some(GameHandler.initGame(6))
+
+    while(true) {
+      val input = scala.io.StdIn.readLine()
+      gameState = userCmd(input, gameState.get)
+      
+      if(gameState.isDefined)
+        println(getCLIView(gameState.get))
+      else 
+        System.exit(0)
+    }
+  }
+
+  def userCmd(input: String, gameState: GameField): Option[GameField] = {
 
     input match {
       case "new game" => 
-        println("new game started")
-        getCLIView(gameState)
+        Some(GameHandler.initGame(6))
       case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) => 
-        println("entered bet")
-        gameState = gameState.switchToNextPlayer()
-        getCLIView(gameState)
+        Some(gameState.switchToNextPlayer())
       case "bet all-in" => 
-        println("entered bet all-in")
-        gameState = gameState.switchToNextPlayer()
-        getCLIView(gameState)
+        Some(gameState.switchToNextPlayer())
       case "check" => 
-        println("checked")
-        gameState = gameState.switchToNextPlayer()
-        getCLIView(gameState)
+        Some(gameState.switchToNextPlayer())
       case "fold" => 
-        println("folded")
-        gameState = gameState.switchToNextPlayer()
-        getCLIView(gameState)
+        Some(gameState.switchToNextPlayer())
       case _ => "Invalid input"
+        None
     }
   }
 }
