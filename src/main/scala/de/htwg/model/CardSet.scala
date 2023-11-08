@@ -5,7 +5,26 @@ import de.htwg.model.Card
 
 class CardSet() {
 
-def fullCardSet(): Vector[Card] = {
+  var removedCards: Set[Card] = Set()
+
+  def takeCard(): (Vector[Card], Vector[Card]) = {
+
+    val shuffledCards = Random.shuffle(getCards())
+
+    val cardToRemove = Vector(shuffledCards(0))
+
+    val freeCards = shuffledCards.filterNot(cardToRemove.contains)
+
+    println("cardToRemove: " + cardToRemove + " freeCards: " + freeCards + "\n")
+
+    removedCards = removedCards ++ cardToRemove
+
+    getRemovedCards()
+
+    (cardToRemove, freeCards)
+  }
+
+  def getCards() : Vector[Card] = {
 
     val cards: Vector[Card] = Vector(
       new Card(Color.CLUBS, Rank.ACE),
@@ -62,25 +81,35 @@ def fullCardSet(): Vector[Card] = {
       new Card(Color.SPADES, Rank.KING)
     )
 
-    val shuffledCards = Random.shuffle(cards)
+    println("cards: " + cards + "\n")
+    cards
+  }
 
-    val playerCardsToRemove: Vector[Card] = Vector(shuffledCards(0), shuffledCards(1))
-    val gameCardsToRemove: Vector[Card] = Vector(shuffledCards(2), shuffledCards(3), shuffledCards(4), shuffledCards(5), shuffledCards(6))
+  def getRemovedCards() : Set[Card] = {
+    println("removedCards: " + removedCards + "\n")
+    removedCards
+  }
 
-    val cardsToRemove = playerCardsToRemove ++ gameCardsToRemove
-
-    val freeCards = shuffledCards.filterNot(cardsToRemove.contains)
-    val usedCards = shuffledCards.filter(cardsToRemove.contains)
-
-    playerCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
-    println("- - - - - - - - - - - - - - - - -")
-    gameCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
-    
-    val countFree = freeCards.length
-    val countUsed = usedCards.length
-    println("Free: " + countFree + " Used: " + countUsed)
-
-
-    shuffledCards
-    }
 }
+
+
+// val shuffledCards = Random.shuffle(cards)
+
+//     val playerCardsToRemove: Vector[Card] = Vector(shuffledCards(0), shuffledCards(1))
+//     val gameCardsToRemove: Vector[Card] = Vector(shuffledCards(2), shuffledCards(3), shuffledCards(4), shuffledCards(5), shuffledCards(6))
+
+//     val cardsToRemove = playerCardsToRemove ++ gameCardsToRemove
+
+//     val freeCards = shuffledCards.filterNot(cardsToRemove.contains)
+//     val usedCards = shuffledCards.filter(cardsToRemove.contains)
+
+//     playerCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
+//     println("- - - - - - - - - - - - - - - - -")
+//     gameCardsToRemove.foreach(card => println(s"Color: ${card.getColor} Rank: ${card.getRank}"))
+    
+//     val countFree = freeCards.length
+//     val countUsed = usedCards.length
+//     println("Free: " + countFree + " Used: " + countUsed)
+
+
+//     shuffledCards

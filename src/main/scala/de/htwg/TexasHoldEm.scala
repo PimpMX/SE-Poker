@@ -9,6 +9,7 @@ object TexasHoldEm {
   def run(): Unit = {
     println(Controller.getCLIView)
     val cardSet = new CardSet()
-    val cards = cardSet.fullCardSet()
+    val cards = cardSet.takeCard()
+    val cards2 = cardSet.takeCard()
   }
 }
