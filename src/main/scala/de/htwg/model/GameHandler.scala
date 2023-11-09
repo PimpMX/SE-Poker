@@ -4,34 +4,32 @@ import de.htwg.model.GameField
 
 object GameHandler {
 
-  private var game: Option[GameField] = None
+  def generateTwoPlayerGame(): GameField = {
 
-  def initGame(numPlayers: Int): GameField = {
+    val player1: Player = new Player(0, Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))), 1000, 0)
+    val player2: Player = new Player(1, Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))), 1000, 0)
+    val players: Vector[Player] = Vector(player1, player2)
 
-    if(game.isEmpty) {
+    val comCard: Vector[CommunityCard] = Vector(new CommunityCard(CLUBS, ACE, false),
+    new CommunityCard(CLUBS, ACE, false), new CommunityCard(CLUBS, ACE, false),
+    new CommunityCard(CLUBS, ACE, false), new CommunityCard(CLUBS, ACE, false))
 
-      /*
+    val comCardO: CommunityCards = new CommunityCards(comCard)
+    GameField(players, comCardO)
+  }
 
-      val Player1 = new Player(0,
-        (new Card(Color.PIP, Rank.ACE), new Card(Color.SPADES, Rank.TWO)), 1000, 0)
+  def generateThreePlayerGame(): GameField = {
 
-      val Player2 = new Player(1,
-        (new Card(Color.PIP, Rank.ACE), new Card(Color.SPADES, Rank.TWO)), 1000, 0)
+    val player1: Player = new Player(0, Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))), 1000, 0)
+    val player2: Player = new Player(1, Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))), 1000, 0)
+    val player3: Player = new Player(2, Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))), 1000, 0)
+    val players: Vector[Player] = Vector(player1, player2, player3)
 
-      val Player3 = new Player(2,
-        (new Card(Color.PIP, Rank.ACE), new Card(Color.SPADES, Rank.TWO)), 1000, 0)
+    val comCard: Vector[CommunityCard] = Vector(new CommunityCard(CLUBS, ACE, false),
+    new CommunityCard(CLUBS, ACE, false), new CommunityCard(CLUBS, ACE, false),
+    new CommunityCard(CLUBS, ACE, false), new CommunityCard(CLUBS, ACE, false))
 
-      val Player4 = new Player(3,
-        (new Card(Color.PIP, Rank.ACE), new Card(Color.SPADES, Rank.TWO)), 1000, 0)
-       */
-
-      val players: Vector[Player] = Vector(new Player(0,
-        new Hand((new Card(Color.PIP, Rank.ACE), new Card(Color.CLUBS, Rank.ACE))),
-        1000, 0))
-
-      game = Some(new GameField(numPlayers, players))
-    }
-
-    game.get
+    val comCardO: CommunityCards = new CommunityCards(comCard)
+    GameField(players, comCardO)
   }
 }

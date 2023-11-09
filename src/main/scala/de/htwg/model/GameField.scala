@@ -1,7 +1,15 @@
 package de.htwg.model
 
-class GameField(numPlayers: Int, players: Vector[Player] ) {
+case class GameField(players: Vector[Player],
+                comCards: CommunityCards,
+                playerAtTurn: Int = 0) {
 
-  def getNumPlayers: Int = numPlayers;
-  def getPlayers: Vector[Player] = players;
+  def getNumPlayers: Int = players.length
+  def getPlayers: Vector[Player] = players
+  def getCommunityCards: CommunityCards = comCards
+
+  def switchToNextPlayer(): GameField = {
+    val nextPlayer = (playerAtTurn + 1) % players.length
+    GameField(players, comCards, nextPlayer)
+  }
 }
