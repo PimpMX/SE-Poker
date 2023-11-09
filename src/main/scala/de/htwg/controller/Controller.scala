@@ -27,7 +27,7 @@ object Controller {
 
     input match {
       case "new game" => 
-        Some(GameHandler.generateThreePlayerGame())
+        Some(GameHandler.generateTwoPlayerGame())
       case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) => 
         Some(gameState.switchToNextPlayer())
       case "bet all-in" =>

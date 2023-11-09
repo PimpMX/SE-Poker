@@ -42,7 +42,7 @@ object TUI {
         s"*   ${botUserBalance.padTo(maxNameLen, " ").mkString("")}*\n" +
         s"*   ${botUserCards.padTo(maxNameLen, " ").mkString("")}*\n" +
         s"*   ${botUserNames.padTo(maxNameLen, " ").mkString("")}*\n" +
-        "*" * fieldLen + "\n"
+        "*" * fieldLen
 
       outString
     } else {
@@ -57,7 +57,7 @@ object TUI {
         s"*${centerString(fieldLen, botUserBalance)}*\n" +
         s"*${centerString(fieldLen, botUserCards)}*\n" +
         s"*${centerString(fieldLen, botUserNames)}*\n" +
-        "*" * fieldLen + "\n"
+        "*" * fieldLen
 
       outString
     }

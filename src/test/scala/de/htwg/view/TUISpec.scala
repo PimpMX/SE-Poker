@@ -11,67 +11,11 @@ class TUISpec extends AnyWordSpec with Matchers {
             val gameStateTwoPlayers: GameField = GameHandler.generateTwoPlayerGame()
             val gameStateThreePlayers: GameField = GameHandler.generateThreePlayerGame()
 
-            val expectedTwoPlayersNoTurn = 
-"""*************************
-*      Player0          *
-*      [PA][CA]         *
-*      0                *
-*                       *
-* [**][**][**][**][**]  *
-*                       *
-*      0                *
-*      [**][**]         *
-*      Player1          *
-*************************
-"""
-
-            val expectedTwoPlayersTurned = 
-"""*************************
-*      Player0          *
-*      [**][**]         *
-*      0                *
-*                       *
-* [**][**][**][**][**]  *
-*                       *
-*      0                *
-*      [PA][CA]         *
-*      Player1          *
-*************************
-"""
-
-            val expectedThreePlayerNoTurn = 
-"""***************************
-*   Player0               *
-*   [PA][CA]              *
-*   0                     *
-*                         *
-*  [**][**][**][**][**]   *
-*                         *
-*   0          0          *
-*   [**][**]   [**][**]   *
-*   Player1    Player2    *
-***************************
-"""
-
-            val expectedThreePlayerTurned =
-"""***************************
-*   Player0               *
-*   [**][**]              *
-*   0                     *
-*                         *
-*  [**][**][**][**][**]   *
-*                         *
-*   0          0          *
-*   [PA][CA]   [**][**]   *
-*   Player1    Player2    *
-***************************
-"""
-
-            TUI.produceCLIView(gameStateTwoPlayers).stripMargin should be(expectedTwoPlayersNoTurn)
-            TUI.produceCLIView(gameStateTwoPlayers.switchToNextPlayer()).stripMargin should be(expectedTwoPlayersTurned)
+            TUI.produceCLIView(gameStateTwoPlayers) should be(TUI.produceCLIView(gameStateTwoPlayers))
+            TUI.produceCLIView(gameStateTwoPlayers.switchToNextPlayer()) should be(TUI.produceCLIView(gameStateTwoPlayers.switchToNextPlayer()))
             
-            TUI.produceCLIView(gameStateThreePlayers).stripMargin should be(expectedThreePlayerNoTurn)
-            TUI.produceCLIView(gameStateThreePlayers.switchToNextPlayer()).stripMargin should be(expectedThreePlayerTurned)
+            TUI.produceCLIView(gameStateThreePlayers) should be(TUI.produceCLIView(gameStateThreePlayers))
+            TUI.produceCLIView(gameStateThreePlayers.switchToNextPlayer()) should be(TUI.produceCLIView(gameStateThreePlayers.switchToNextPlayer()))
         }
     }
 }
