@@ -1,11 +1,7 @@
 package de.htwg.view
 
-import de.htwg.model.GameField
-import de.htwg.model.CommunityCard
-import de.htwg.model.CommunityCards
 import de.htwg.util._
 import de.htwg.controller._
-import de.htwg.model._
 
 class TUI(controller: Controller) extends Observer {
 
@@ -19,8 +15,6 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def gameLoop(): Unit = {
-
-    var gameState: Option[GameField] = Some(GameHandler.generateThreePlayerGame())
 
     while(true) {
       
