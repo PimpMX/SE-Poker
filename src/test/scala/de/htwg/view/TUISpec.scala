@@ -26,6 +26,7 @@ class TUISpec extends AnyWordSpec with Matchers {
 
             "have a working update" in {
                 tui.update(Event.Move)
+                tui.update(Event.Quit)
             }
 
             "be unregisterable from the controller" in {
