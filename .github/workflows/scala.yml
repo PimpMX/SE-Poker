@@ -28,3 +28,9 @@ jobs:
 
     - name: Package with sbt
       run: sbt package
+
+    - name: Upload executable jar
+      uses: actions/upload-artifact@v2
+      with:
+        name: se_poker
+        path: target/se_poker.jar
