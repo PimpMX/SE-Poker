@@ -21,7 +21,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Test with scoverage
-        run: sbt clean coverage test
+        run: sbt clean coverage test coverageReport
 
       - name: Package with sbt-assembly
         run: sbt clean assembly
