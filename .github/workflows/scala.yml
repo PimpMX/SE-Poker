@@ -3,9 +3,9 @@ name: SE-Poker CI/CD
 
 on:
   push:
-    branches: [ main, ci-cd,  ]
+    branches: [ ci-cd ]
   pull_request:
-    branches: [ main, ci-cd ]
+    branches: [ ci-cd ]
 
 jobs:
   build:
@@ -30,8 +30,8 @@ jobs:
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
 
       - name: Run tests
-        run: sbt clean test coverage
-
+        run: sbt clean coverage test
+      
       - name: Generate coverage report
         run: sbt coverageReport
 
