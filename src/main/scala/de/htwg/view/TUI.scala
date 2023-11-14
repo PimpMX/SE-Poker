@@ -19,35 +19,61 @@ class TUI(controller: Controller) extends Observer {
     while(true) {
       
       val input = scala.io.StdIn.readLine()
-      
-      if(!userCmd(input))
-        println("Invalid command")
+      val cmd = userCmd(input)
+
+      if(!cmd._1)
+        println(cmd._2.get)
     }
   }
 
-  def userCmd(input: String): Boolean = {
+  def userCmd(input: String): (Boolean, Option[String]) = {
 
     input match {
-      case "new game" => 
-        controller.restart_game()
-        true
+      
+      case command if command.startsWith("new game ") && command.substring(9).forall(_.isDigit) =>
+        
+        if(controller.newGame(command.substring(9).toInt)) {
+          (true, Option.empty)
+        } else {
+          (false, Option("Number should be in range 1-10"))
+        }
+      
       case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) => 
-        controller.bet(bet.substring(4).toInt)
-        true
+        
+        if(controller.bet(bet.substring(4).toInt)) {
+          (true, Option.empty)
+        } else {
+          (false, Option("Not enough money"))
+        }
+
       case "bet all-in" =>
-        controller.bet_all_in()
-        true
+
+        if(controller.betAllIn()) {
+          (true, Option.empty)
+        } else {
+          (false, Option("No money left to bet"))
+        }
+      
       case "check" => 
-        controller.check()
-        true
-      case "fold" => 
+        
+        if(controller.check()) {
+          (true, Option.empty)
+        } else {
+          (false, Option("Cannot check right now"))
+        }
+
+      case "fold" =>
+
         controller.fold()
-        true
+        (true, Option.empty)
+      
       case "exit" =>
+      
         controller.exit()
-        true
+        (true, Option.empty)
+      
       case _ =>
-        false
+        (false, Option("Invalid command"))
     }
   }
 }

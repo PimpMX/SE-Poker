@@ -5,7 +5,8 @@ import scala.util.Try
 case class Player(playerNum: Int,
             hand: Hand,
             balance: Int,
-            moneyInPool: Int) {
+            moneyInPool: Int,
+            hasFolded: Boolean = false) {
 
   def getPlayerStr: String = s"Player${playerNum}"
   def getBalanceStr: String = s"${balance}"
@@ -13,9 +14,17 @@ case class Player(playerNum: Int,
 
   def betMoney(amount: Int): Option[Player] = {
     if (amount <= balance) {
-      Option(new Player(playerNum, hand, balance - amount, moneyInPool + amount))
+      Option(Player(playerNum, hand, balance - amount, moneyInPool + amount))
     } else {
       Option.empty
+    }
+  }
+
+  def fold: Option[Player] = {
+    if(hasFolded) {
+      Option.empty
+    } else {
+      Option(Player(playerNum, hand, balance, moneyInPool, true))
     }
   }
 }

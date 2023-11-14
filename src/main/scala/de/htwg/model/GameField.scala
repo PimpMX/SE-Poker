@@ -1,5 +1,7 @@
 package de.htwg.model
 
+import scala.annotation.switch
+
 case class GameField(players: Vector[Player],
                 comCards: CommunityCards,
                 playerAtTurn: Int = 0) {
@@ -8,38 +10,81 @@ case class GameField(players: Vector[Player],
   def getPlayers: Vector[Player] = players
   def getCommunityCards: CommunityCards = comCards
 
-  def switchToNextPlayer(): GameField = {
+  def switchToNextPlayer: GameField = {
     val nextPlayer = (playerAtTurn + 1) % players.length
     GameField(players, comCards, nextPlayer)
   }
 
-  override def toString(): String = produceCLIView(this)
+  def getPlayerAtTurn: Player = {
+    players(playerAtTurn)
+  }
 
-  def produceCLIView(gameState: GameField): String = {
+  def activePlayerBet(amount: Int): Option[GameField] = {
 
-    val calculated = calcFieldLen(gameState)
+    val betted = this.getPlayerAtTurn.betMoney(amount)
+
+    if (betted.isDefined) {
+      val updated = players.updated(playerAtTurn, betted.get)
+      val gameField = GameField(updated, comCards, this.playerAtTurn)
+      Option(gameField.switchToNextPlayer)
+    } else {
+      Option.empty
+    }
+  }
+
+  def activePlayerAllIn(): Option[GameField] = {
+
+    val playerAtTurn = this.getPlayerAtTurn
+
+    if(playerAtTurn.balance <= 0) {
+      Option.empty
+    } else {
+      this.activePlayerBet(playerAtTurn.balance)
+    } 
+  }
+
+  def activePlayerCheck(): Option[GameField] = {
+    Option(switchToNextPlayer)
+  }
+
+  def activePlayerFold(): Option[GameField] = {
+
+    val folded = this.getPlayerAtTurn.fold
+
+    if(folded.isDefined) {
+      val updated = players.updated(playerAtTurn, folded.get)
+      val gameField = GameField(updated, comCards, this.playerAtTurn)
+      Option(gameField.switchToNextPlayer)
+    } else {
+      Option.empty
+    }
+  }
+
+  override def toString(): String = {
+
+    val calculated = calcFieldLen(this)
     val fieldLen = if(calculated > 25) { calculated } else { 25 }
     
-    val (topUsers, botUsers) = gameState.getPlayers.splitAt(
-      if (gameState.getPlayers.length > 1)
-        gameState.getPlayers.length / 2 
-      else gameState.getPlayers.length % 2
+    val (topUsers, botUsers) = this.getPlayers.splitAt(
+      if (this.getPlayers.length > 1)
+        this.getPlayers.length / 2 
+      else this.getPlayers.length % 2
     )
 
-    val topUserNames: String = (for (user <- topUsers) yield s"${user.getPlayerStr}    ").mkString("")
-    val topUserCards: String = (for (user <- topUsers) yield s"${if(gameState.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
+    val topUserNames: String = (for (user <- topUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
+    val topUserCards: String = (for (user <- topUsers) yield s"${if(this.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
     val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val botUserNames: String = (for (user <- botUsers) yield s"${user.getPlayerStr}    ").mkString("")
-    val botUserCards: String = (for (user <- botUsers) yield s"${if(gameState.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
+    val botUserNames: String = (for (user <- botUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
+    val botUserCards: String = (for (user <- botUsers) yield s"${if(this.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
     val botUserBalance: String = (for (user <- botUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val comCards: CommunityCards = gameState.getCommunityCards
+    val comCards: CommunityCards = this.getCommunityCards
     val paddedComCards: String = centerString(fieldLen, comCards.toString())
 
     val maxNameLen = math.max(botUserNames.length(), topUserNames.length())
 
-    if(gameState.getNumPlayers > 2) {
+    if(this.getNumPlayers > 2) {
 
       val outString: String = "*" * fieldLen + "\n" +
         s"*   ${topUserNames.padTo(maxNameLen, " ").mkString("")}*\n" +
