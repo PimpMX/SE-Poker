@@ -28,7 +28,10 @@ jobs:
         with:
           name: se_poker
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
-          
+
+      - name: Run tests
+        run: sbt clean test coverage
+
       - name: Generate coverage report
         run: sbt coverageReport
 
