@@ -26,8 +26,8 @@ jobs:
       - name: Test with scoverage
         run: sbt clean coverage test
 
-      - name: Package with sbt
-        run: sbt package
+      - name: Package with sbt-assembly
+        run: sbt clean assembly
 
       - name: Upload executable jar
         uses: actions/upload-artifact@v2
