@@ -12,25 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
 
-    - name: Build with sbt
-      run: sbt compile
+      - name: Build with sbt
+        run: sbt compile
 
-    - name: Test with scoverage
-      run: sbt clean coverage test
+      - name: Test with scoverage
+        run: sbt clean coverage test
 
-    - name: Package with sbt
-      run: sbt package
+      - name: Package with sbt
+        run: sbt package
 
-    - name: Upload executable jar
-      uses: actions/upload-artifact@v2
-      with:
-        name: se_poker
-        path: target/se_poker.jar
+      - name: Upload executable jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: se_poker
+          path: target/se_poker_3-0.1.0.jar
