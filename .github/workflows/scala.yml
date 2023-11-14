@@ -33,4 +33,4 @@ jobs:
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
       
       - name: Upload to coveralls
-        run: sbt coverageReport coveralls
+        run: sbt coveralls
