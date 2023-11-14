@@ -1,0 +1,29 @@
+
+name: SE-Poker CI/CD
+
+on:
+  push:
+    branches: [ ci-cd ]
+  pull_request:
+    branches: [ ci-cd ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Build with sbt
+      run: sbt compile
+
+    - name: Test with sbt
+      run: sbt test
+
+    - name: Package with sbt
+      run: sbt package
