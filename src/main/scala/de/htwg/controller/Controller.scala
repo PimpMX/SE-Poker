@@ -11,10 +11,6 @@ class Controller(var gameState: GameField) extends Observable {
     this.notifyObservers(Event.Move)
   }
 
-  def uncalled(): Unit = {
-    
-  }
-
   def bet(amount: Int): Unit = {
     gameState = gameState.switchToNextPlayer()
     this.notifyObservers(Event.Move)
