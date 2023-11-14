@@ -43,6 +43,9 @@ class TUI(controller: Controller) extends Observer {
       case "fold" => 
         controller.fold()
         true
+      case "exit" =>
+        controller.exit()
+        true
       case _ =>
         false
     }

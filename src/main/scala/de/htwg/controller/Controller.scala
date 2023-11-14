@@ -30,6 +30,10 @@ class Controller(var gameState: GameField) extends Observable {
     gameState = gameState.switchToNextPlayer()
     this.notifyObservers(Event.Move)
   }
+
+  def exit(): Unit = {
+    this.notifyObservers(Event.Quit)
+  }
   
   override def toString(): String = gameState.toString()
 }
