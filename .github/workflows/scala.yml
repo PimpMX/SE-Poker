@@ -29,16 +29,18 @@ jobs:
           name: se_poker
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
 
-      - name: Run tests
-        run: sbt clean coverage test
-      
-      - name: Generate coverage report
-        run: sbt coverageReport
-
-      - name: Aggregate coverage report
-        run: sbt coverageAggregate
-      
-      - name: Upload coverage to coveralls.io
-        env:
+      - name: Run tests and upload to coveralls.io
+        - env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: sbt coveralls
+        run: sbt clean coverage test coverageReport coveralls
+      
+      # - name: Generate coverage report
+      #   run: sbt coverageReport
+
+      # - name: Aggregate coverage report
+      #   run: sbt coverageAggregate
+      
+      # - name: Upload coverage to coveralls.io
+      #   env:
+      #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      #   run: sbt coveralls
