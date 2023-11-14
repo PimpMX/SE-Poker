@@ -3,9 +3,9 @@ name: SE-Poker CI/CD
 
 on:
   push:
-    branches: [ ci-cd ]
+    branches: [ main, ci-cd ]
   pull_request:
-    branches: [ ci-cd ]
+    branches: [ main, ci-cd ]
 
 jobs:
   build:
