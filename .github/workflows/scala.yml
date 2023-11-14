@@ -20,9 +20,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Build with sbt
-        run: sbt compile
-
       - name: Test with scoverage
         run: sbt clean coverage test
 
@@ -34,3 +31,6 @@ jobs:
         with:
           name: se_poker
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
+      
+      - name: Upload to coveralls
+        run: sbt coverageReport coveralls
