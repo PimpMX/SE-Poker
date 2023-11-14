@@ -30,7 +30,7 @@ jobs:
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
 
       - name: Run tests and upload to coveralls.io
-        - env:
+        env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: sbt clean coverage test coverageReport coveralls
       
