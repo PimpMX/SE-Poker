@@ -20,20 +20,23 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Test with scoverage
-        run: sbt clean coverage test coverageReport
+      - name: Run tests
+        run: sbt clean coverage test
       
-      - name: Aggregate coverage
+      - name: Generate coverage report
+        run: sbt coverageReport
+
+      - name: Aggregate coverage report
         run: sbt coverageAggregate
 
-      - name: Package with sbt-assembly
+      - name: Create executable
         run: sbt clean assembly
 
-      - name: Upload executable jar
+      - name: Upload executable
         uses: actions/upload-artifact@v2
         with:
           name: se_poker
           path: target/scala-3.3.1/SE-Poker-assembly-0.1.0.jar
       
-      - name: Upload to coveralls
+      - name: Upload coverage to coveralls.io
         run: sbt coveralls
