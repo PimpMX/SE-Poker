@@ -8,30 +8,53 @@ import de.htwg.util._
 
 class TUISpec extends AnyWordSpec with Matchers {
 
-    "TUI" when {
+    "TUI" should {
 
-        "created with Controller" should {
+        "have a working new game command" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
+            val tui = new TUI(controller)
+            tui.userCmd("new game 1") should be((true, Option.empty))
+            tui.userCmd("new game 11") should be((false, Option("Number should be in range 1-10")))
+        }
 
-            val controller = new Controller(GameHandler.generateThreePlayerGame())
+        "have a working bet command" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
 
-            "have a working userCmd" in {
-                tui.userCmd("bet 100") should be(true)
-                tui.userCmd("bet all-in") should be(true)
-                tui.userCmd("check") should be(true)
-                tui.userCmd("fold") should be(true)
-                tui.userCmd("new game") should be(true)
-                tui.userCmd("invalid command") should be(false)
-            }
+            tui.userCmd("bet 100") should be((true, Option.empty))
+            tui.userCmd("bet 10000") should be((false, Option("Not enough money")))
+        }
 
-            "have a working update" in {
-                tui.update(Event.Move)
-                tui.update(Event.Quit)
-            }
+        "have a working bet all-in command" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
+            val tui = new TUI(controller)
 
-            "be unregisterable from the controller" in {
-                controller.remove(tui)
-            }
+            tui.userCmd("bet all-in") should be((true, Option.empty))
+            tui.userCmd("bet all-in") should be((false, Option("No money left to bet")))
+        }
+
+        "have a working check command" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
+            val tui = new TUI(controller)
+            tui.userCmd("check") should be((true, Option.empty))
+        }
+
+        "have a working fold command" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
+            val tui = new TUI(controller)
+            tui.userCmd("fold") should be((true, Option.empty))
+        }
+
+        "have a working invalid command" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
+            val tui = new TUI(controller)
+            tui.userCmd("invalid command") should be((false, Option("Invalid command")))
+        }
+
+        "have a working update method from observer" in {
+            val controller = new Controller(GameHandler.generateGame(1).get)
+            val tui = new TUI(controller)
+            tui.update(Event.Move)
         }
     }
 }

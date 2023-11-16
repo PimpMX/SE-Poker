@@ -9,7 +9,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "Controller" when {
 
         val gameState = GameHandler.generateGame(2)
-        val controller = new Controller(gameState)
+        val controller = new Controller(gameState.get)
 
         "created with 2 players" should {
             
@@ -18,7 +18,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
             }
 
             "return no game for invalid bet" in {
-                controller.bet(1100) shouldBe(true)
+                controller.bet(1100) shouldBe(false)
             }
 
             "return a game for valid bet" in {
@@ -48,59 +48,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
             }
 
             "be able to render the GameState" in {
-                controller.toString() should be(gameState.get.toString())
-            }
-        }
-
-        "created with 11 players" should {
-
-            val gameState = GameHandler.generateGame(11)
-
-            "return no game" in {
-                gameState.isDefined shouldBe(false)
+                controller.toString() should be(controller.gameState.toString())
             }
         }
     }
-
-    // "Controller" should {
-
-    //     val gameState = GameHandler.generateTwoPlayerGame()
-    //     val controller = new Controller(gameState)
-
-    //     "return new game with valid number" in {
-    //         val newGame = controller.newGame(1)
-    //         newGame.shouldBe(true)
-    //     }
-
-    //     "return no game with invalid number" in {
-    //         val newGame = controller.newGame(0)
-    //         newGame.shouldBe(false)
-    //     }
-
-    //     "handle valid bet command correctly" in {
-    //         val bet = controller.bet(100)
-    //         bet.shouldBe(true)
-    //     }
-
-    //     "handle bet command correctly" in {
-    //         controller.bet(100)
-    //     }
-
-    //     "handle bet all-in command correctly" in {
-    //         controller.bet_all_in()
-    //     }
-
-    //     "handle check command correctly" in {
-    //         controller.check()
-    //     }
-
-    //     "handle fold command correctly" in {
-    //         controller.fold()
-    //     }
-
-    //     "return the correct string representation of the game state" in {
-    //         controller.restart_game()
-    //         controller.toString() should be(gameState.toString())
-    //     }
-    // }
 }

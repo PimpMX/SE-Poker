@@ -7,7 +7,6 @@ case class GameField(players: Vector[Player],
                 playerAtTurn: Int = 0) {
 
   def getNumPlayers: Int = players.length
-  def getPlayers: Vector[Player] = players
   def getCommunityCards: CommunityCards = comCards
 
   def switchToNextPlayer: GameField = {
@@ -65,10 +64,10 @@ case class GameField(players: Vector[Player],
     val calculated = calcFieldLen(this)
     val fieldLen = if(calculated > 25) { calculated } else { 25 }
     
-    val (topUsers, botUsers) = this.getPlayers.splitAt(
-      if (this.getPlayers.length > 1)
-        this.getPlayers.length / 2 
-      else this.getPlayers.length % 2
+    val (topUsers, botUsers) = this.players.splitAt(
+      if (this.players.length > 1)
+        this.players.length / 2 
+      else this.players.length % 2
     )
 
     val topUserNames: String = (for (user <- topUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
