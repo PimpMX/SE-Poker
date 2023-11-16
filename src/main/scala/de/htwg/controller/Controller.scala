@@ -6,29 +6,69 @@ import de.htwg.util._
 
 class Controller(var gameState: GameField) extends Observable {
 
-  def restart_game(): Unit = {
-    gameState = GameHandler.generateTwoPlayerGame()
-    this.notifyObservers(Event.Move)
+  def newGame(numPlayers: Int): Boolean = {
+
+    val generated = GameHandler.generateGame(numPlayers)
+
+    if(generated.isDefined) {
+      gameState = generated.get
+      this.notifyObservers(Event.Move)
+      true
+    } else {
+      false
+    }
+  }
+  
+  def bet(amount: Int): Boolean = {
+
+    val betted = gameState.activePlayerBet(amount)
+
+    if(betted.isDefined) {
+      gameState = betted.get
+      this.notifyObservers(Event.Move)
+      true
+    } else {
+      false
+    }
   }
 
-  def bet(amount: Int): Unit = {
-    gameState = gameState.switchToNextPlayer()
-    this.notifyObservers(Event.Move)
+  def betAllIn(): Boolean = {
+
+    val betted = gameState.activePlayerAllIn()
+
+    if(betted.isDefined) {
+      gameState = betted.get
+      this.notifyObservers(Event.Move)
+      true
+    } else {
+      false
+    }
   }
 
-  def bet_all_in(): Unit = {
-    gameState = gameState.switchToNextPlayer()
-    this.notifyObservers(Event.Move)
+  def check(): Boolean = {
+      
+    val checked = gameState.activePlayerCheck()
+
+    if(checked.isDefined) {
+      gameState = checked.get
+      this.notifyObservers(Event.Move)
+      true
+    } else {
+      false
+    }
   }
 
-  def check(): Unit = {
-    gameState = gameState.switchToNextPlayer()
-    this.notifyObservers(Event.Move)
-  }
+  def fold(): Boolean = {
+    
+    val folded = gameState.activePlayerFold()
 
-  def fold(): Unit = {
-    gameState = gameState.switchToNextPlayer()
-    this.notifyObservers(Event.Move)
+    if(folded.isDefined) {
+      gameState = folded.get
+      this.notifyObservers(Event.Move)
+      true
+    } else {
+      false
+    }
   }
 
   def exit(): Unit = {
