@@ -2,7 +2,7 @@ package de.htwg.model
 
 import scala.annotation.switch
 
-case class GameField(players: Vector[Player],
+case class GameField private(players: Vector[Player],
                 comCards: CommunityCards,
                 playerAtTurn: Int = 0) {
 
@@ -125,5 +125,24 @@ case class GameField(players: Vector[Player],
     val padding: Int = ((fieldLen - 2 - str.length()) / 2)
     val paddedComCards: String = " " * padding + str + " " * (fieldLen - 2 - padding - str.length)
     paddedComCards
+  }
+}
+
+object GameField {
+
+    def gameFactory(numPlayers: Int): Option[GameField] = {
+
+    if(numPlayers <= 0 || numPlayers > 10) {
+      Option.empty
+    } else {
+      val players: Vector[Player] = (0 until numPlayers).map { i =>
+        new Player(i, Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))), 1000, 0)
+      }.toVector
+  
+      val comCard: Vector[CommunityCard] = Vector.fill(5)(new CommunityCard(CLUBS, ACE, false))
+      val comCardO: CommunityCards = new CommunityCards(comCard)
+  
+      Option(GameField(players, comCardO))
+    }
   }
 }

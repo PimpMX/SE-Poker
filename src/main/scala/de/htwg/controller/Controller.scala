@@ -1,14 +1,14 @@
 package de.htwg.controller
 
 import de.htwg.view.TUI
-import de.htwg.model.{GameField, GameHandler}
+import de.htwg.model.GameField
 import de.htwg.util._
 
 class Controller(var gameState: GameField) extends Observable {
 
   def newGame(numPlayers: Int): Boolean = {
 
-    val generated = GameHandler.generateGame(numPlayers)
+    val generated = GameField.gameFactory(numPlayers)
 
     if(generated.isDefined) {
       gameState = generated.get
