@@ -8,7 +8,7 @@ class Controller(var gameState: GameField) extends Observable {
 
   def newGame(numPlayers: Int): Boolean = {
 
-    val generated = GameField.gameFactory(numPlayers)
+    val generated = GameField.apply(numPlayers)
 
     if(generated.isDefined) {
       gameState = generated.get

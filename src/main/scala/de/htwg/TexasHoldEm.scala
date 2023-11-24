@@ -8,7 +8,7 @@ object TexasHoldEm {
 
   def main(args: Array[String]): Unit = {
 
-    val controller = new Controller(GameField.gameFactory(4).get)
+    val controller = new Controller(GameField(4).get)
     val tui = new TUI(controller)
     tui.gameLoop()
   }
