@@ -1,7 +1,7 @@
 package de.htwg.util
 
 trait Command {
-  def doStep: Unit
+  def doStep: Boolean
   def undoStep: Unit
   def redoStep: Unit
 };

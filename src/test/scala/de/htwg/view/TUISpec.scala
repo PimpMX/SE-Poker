@@ -5,6 +5,8 @@ import org.scalatest.matchers.should.Matchers
 import de.htwg.model._
 import de.htwg.controller._
 import de.htwg.util._
+import scala.util.Success
+import scala.util.Failure
 
 class TUISpec extends AnyWordSpec with Matchers {
 
@@ -13,42 +15,42 @@ class TUISpec extends AnyWordSpec with Matchers {
         "have a working new game command" in {
             val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
-            tui.userCmd("new game 1") should be((true, Option.empty))
-            tui.userCmd("new game 11") should be((false, Option("Number should be in range 1-10")))
+            tui.userCmd("new game 1") shouldBe a[Success[_]]
+            tui.userCmd("new game 11") shouldBe a[Failure[_]]
         }
 
         "have a working bet command" in {
             val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
 
-            tui.userCmd("bet 100") should be((true, Option.empty))
-            tui.userCmd("bet 10000") should be((false, Option("Not enough money")))
+            tui.userCmd("bet 100") shouldBe a[Success[_]]
+            tui.userCmd("bet 10000") shouldBe a[Failure[_]]
         }
 
         "have a working bet all-in command" in {
             val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
 
-            tui.userCmd("bet all-in") should be((true, Option.empty))
-            tui.userCmd("bet all-in") should be((false, Option("No money left to bet")))
+            tui.userCmd("bet all-in") shouldBe a[Success[_]]
+            tui.userCmd("bet all-in") shouldBe a[Failure[_]]
         }
 
         "have a working check command" in {
             val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
-            tui.userCmd("check") should be((true, Option.empty))
+            tui.userCmd("check") shouldBe a[Success[_]]
         }
 
         "have a working fold command" in {
             val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
-            tui.userCmd("fold") should be((true, Option.empty))
+            tui.userCmd("fold") shouldBe a[Success[_]]
         }
 
         "have a working invalid command" in {
             val controller = new Controller(GameHandler.generateGame(1).get)
             val tui = new TUI(controller)
-            tui.userCmd("invalid command") should be((false, Option("Invalid command")))
+            tui.userCmd("invalid command") shouldBe a[Failure[_]]
         }
 
         "have a working update method from observer" in {

@@ -2,6 +2,9 @@ package de.htwg.view
 
 import de.htwg.util._
 import de.htwg.controller._
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 class TUI(controller: Controller) extends Observer {
 
@@ -16,64 +19,51 @@ class TUI(controller: Controller) extends Observer {
 
   def gameLoop(): Unit = {
 
-    while(true) {
-      
+    while (true) {
       val input = scala.io.StdIn.readLine()
       val cmd = userCmd(input)
 
-      if(!cmd._1)
-        println(cmd._2.get)
+      cmd match {
+        case Success(_) => // Keine Probleme
+        case Failure(exception) => println(exception.getMessage)
+      }
     }
   }
 
-  def userCmd(input: String): (Boolean, Option[String]) = {
-
+  def userCmd(input: String): Try[Unit] = Try {
+    
     input match {
-      
+
       case command if command.startsWith("new game ") && command.substring(9).forall(_.isDigit) =>
-        
-        if(controller.newGame(command.substring(9).toInt)) {
-          (true, Option.empty)
-        } else {
-          (false, Option("Number should be in range 1-10"))
-        }
-      
-      case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) => 
-        
-        if(controller.bet(bet.substring(4).toInt)) {
-          (true, Option.empty)
-        } else {
-          (false, Option("Not enough money"))
-        }
+        if (!controller.newGame(command.substring(9).toInt))
+          throw new IllegalArgumentException("Number should be in range 1-10")
 
+      case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) =>
+        if (!controller.bet(bet.substring(4).toInt))
+          throw new IllegalArgumentException("Not enough money")
+        
       case "bet all-in" =>
+        if (!controller.betAllIn())
+          throw new IllegalArgumentException("No money left to bet")
 
-        if(controller.betAllIn()) {
-          (true, Option.empty)
-        } else {
-          (false, Option("No money left to bet"))
-        }
-      
-      case "check" => 
-        
-        if(controller.check()) {
-          (true, Option.empty)
-        } else {
-          (false, Option("Cannot check right now"))
-        }
+      case "check" =>
+        if (!controller.check())
+          throw new IllegalArgumentException("Cannot check right now")
 
       case "fold" =>
-
         controller.fold()
-        (true, Option.empty)
-      
+
+      case "undo" =>
+        controller.undo()
+
+      case "redo" =>
+        controller.redo()
+
       case "exit" =>
-      
         controller.exit()
-        (true, Option.empty)
-      
+
       case _ =>
-        (false, Option("Invalid command"))
+        throw new IllegalArgumentException("Invalid command")
     }
   }
 }
