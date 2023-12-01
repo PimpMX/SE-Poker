@@ -31,24 +31,24 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def userCmd(input: String): Try[Unit] = Try {
-    
+
     input match {
 
       case command if command.startsWith("new game ") && command.substring(9).forall(_.isDigit) =>
         if (!controller.newGame(command.substring(9).toInt))
-          throw new IllegalArgumentException("Number should be in range 1-10")
+          Failure(new IllegalArgumentException("Number should be in range 1-10"))
 
       case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) =>
         if (!controller.bet(bet.substring(4).toInt))
-          throw new IllegalArgumentException("Not enough money")
+          Failure(new IllegalArgumentException("Not enough money"))
         
       case "bet all-in" =>
         if (!controller.betAllIn())
-          throw new IllegalArgumentException("No money left to bet")
+          Failure(new IllegalArgumentException("No money left to bet"))
 
       case "check" =>
         if (!controller.check())
-          throw new IllegalArgumentException("Cannot check right now")
+          Failure(new IllegalArgumentException("Cannot check right now"))
 
       case "fold" =>
         controller.fold()
@@ -63,7 +63,7 @@ class TUI(controller: Controller) extends Observer {
         controller.exit()
 
       case _ =>
-        throw new IllegalArgumentException("Invalid command")
+        Failure(new IllegalArgumentException("Invalid command"))
     }
   }
 }
