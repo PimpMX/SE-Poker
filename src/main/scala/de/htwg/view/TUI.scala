@@ -30,7 +30,7 @@ class TUI(controller: Controller) extends Observer {
     }
   }
 
-  def userCmd(input: String): Try[Unit] = Try {
+  def userCmd(input: String): Try[Unit] = {
 
     input match {
 
