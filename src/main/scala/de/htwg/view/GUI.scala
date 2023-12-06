@@ -132,6 +132,8 @@ class GamePanel(controller: Controller) extends Panel {
         g.setColor(Color.BLACK)
         g.drawRoundRect(10, 10, size.width - 20, size.height - 20, 10, 10)
 
+        g.drawim
+
         //  Draw Players
 
         val players = controller.gameState.players

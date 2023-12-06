@@ -3,9 +3,9 @@ name: SE-Poker CI/CD
 
 on:
   push:
-    branches: [ main, undoRedo ]
+    branches: [ main, gui ]
   pull_request:
-    branches: [ main, undoRedo ]
+    branches: [ main, gui ]
 
 jobs:
   build:
