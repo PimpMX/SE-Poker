@@ -37,30 +37,42 @@ class TUI(controller: Controller) extends Observer {
       case command if command.startsWith("new game ") && command.substring(9).forall(_.isDigit) =>
         if (!controller.newGame(command.substring(9).toInt))
           Failure(new IllegalArgumentException("Number should be in range 1-10"))
+        else
+          Success(())
 
       case bet if bet.startsWith("bet ") && bet.substring(4).forall(_.isDigit) =>
         if (!controller.bet(bet.substring(4).toInt))
           Failure(new IllegalArgumentException("Not enough money"))
-        
+        else
+          Success(())
+
       case "bet all-in" =>
         if (!controller.betAllIn())
           Failure(new IllegalArgumentException("No money left to bet"))
+        else
+          Success(())
 
       case "check" =>
         if (!controller.check())
           Failure(new IllegalArgumentException("Cannot check right now"))
+        else 
+          Success(())
 
       case "fold" =>
         controller.fold()
+        Success(())
 
       case "undo" =>
         controller.undo()
+        Success(())
 
       case "redo" =>
         controller.redo()
+        Success(())
 
       case "exit" =>
         controller.exit()
+        Success(())        
 
       case _ =>
         Failure(new IllegalArgumentException("Invalid command"))
