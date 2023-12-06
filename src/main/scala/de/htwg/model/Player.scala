@@ -28,3 +28,34 @@ case class Player(playerNum: Int,
     }
   }
 }
+
+class PlayerBuilder {
+  private var playerNum: Int = _
+  private var hand: Hand = _
+  private var balance: Int = _
+  private var moneyInPool: Int = _
+
+  def setPlayerNum(playerNum: Int): PlayerBuilder = {
+    this.playerNum = playerNum
+    this
+  }
+
+  def setHand(hand: Hand): PlayerBuilder = {
+    this.hand = hand
+    this
+  }
+
+  def setBalance(balance: Int): PlayerBuilder = {
+    this.balance = balance
+    this
+  }
+
+  def setMoneyInPool(moneyInPool: Int): PlayerBuilder = {
+    this.moneyInPool = moneyInPool
+    this
+  }
+
+  def build(): Player = {
+    Player(playerNum, hand, balance, moneyInPool)
+  }
+}

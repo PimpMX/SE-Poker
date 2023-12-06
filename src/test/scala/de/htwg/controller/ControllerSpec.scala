@@ -2,13 +2,13 @@ package de.htwg.controller
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.model.GameHandler
+import de.htwg.model.GameField
 
 class ControllerSpec extends AnyWordSpec with Matchers {
 
     "Controller" when {
 
-        val gameState = GameHandler.generateGame(2)
+        val gameState = GameField(2)
         val controller = new Controller(gameState.get)
 
         "created with 2 players" should {

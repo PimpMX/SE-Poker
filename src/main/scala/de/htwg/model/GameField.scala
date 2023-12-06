@@ -2,9 +2,10 @@ package de.htwg.model
 
 import scala.annotation.switch
 
-case class GameField(players: Vector[Player],
+case class GameField private(players: Vector[Player],
                 comCards: CommunityCards,
-                playerAtTurn: Int = 0) {
+                playerAtTurn: Int = 0,
+                viewStrategy: ViewStrategy = CLIViewStrategy()) {
 
   def getNumPlayers: Int = players.length
   def getCommunityCards: CommunityCards = comCards
@@ -59,31 +60,66 @@ case class GameField(players: Vector[Player],
     }
   }
 
-  override def toString(): String = {
+  override def toString(): String = viewStrategy.produceView(this)
+}
 
-    val calculated = calcFieldLen(this)
+object GameField {
+
+  def apply(numPlayers: Int): Option[GameField] = {
+
+    if(numPlayers <= 0 || numPlayers > 10) {
+      Option.empty
+    } else {
+
+      val playerBuilder = new PlayerBuilder()
+
+      val players: Vector[Player] = (0 until numPlayers).map { i =>
+        playerBuilder.setPlayerNum(i)
+          .setHand(Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))))
+          .setBalance(1000)
+          .setMoneyInPool(0)
+          .build()
+      }.toVector
+  
+      val comCard: Vector[CommunityCard] = Vector.fill(5)(new CommunityCard(CLUBS, ACE, false))
+      val comCardO: CommunityCards = new CommunityCards(comCard)
+  
+      Option(GameField(players, comCardO))
+    }
+  }
+}
+
+abstract class ViewStrategy {
+    def produceView(gameField: GameField): String
+}
+
+class CLIViewStrategy extends ViewStrategy {
+
+  def produceView(gameState: GameField): String = {
+
+    val calculated = calcFieldLen(gameState)
     val fieldLen = if(calculated > 25) { calculated } else { 25 }
     
-    val (topUsers, botUsers) = this.players.splitAt(
-      if (this.players.length > 1)
-        this.players.length / 2 
-      else this.players.length % 2
+    val (topUsers, botUsers) = gameState.players.splitAt(
+      if (gameState.players.length > 1)
+        gameState.players.length / 2 
+      else gameState.players.length % 2
     )
 
     val topUserNames: String = (for (user <- topUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val topUserCards: String = (for (user <- topUsers) yield s"${if(this.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
+    val topUserCards: String = (for (user <- topUsers) yield s"${if(gameState.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
     val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
     val botUserNames: String = (for (user <- botUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val botUserCards: String = (for (user <- botUsers) yield s"${if(this.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
+    val botUserCards: String = (for (user <- botUsers) yield s"${if(gameState.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
     val botUserBalance: String = (for (user <- botUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val comCards: CommunityCards = this.getCommunityCards
+    val comCards: CommunityCards = gameState.getCommunityCards
     val paddedComCards: String = centerString(fieldLen, comCards.toString())
 
     val maxNameLen = math.max(botUserNames.length(), topUserNames.length())
 
-    if(this.getNumPlayers > 2) {
+    if(gameState.getNumPlayers > 2) {
 
       val outString: String = "*" * fieldLen + "\n" +
         s"*   ${topUserNames.padTo(maxNameLen, " ").mkString("")}*\n" +

@@ -1,7 +1,7 @@
 package de.htwg.controller
 
 import de.htwg.view.TUI
-import de.htwg.model.{GameField, GameHandler}
+import de.htwg.model.GameField
 import de.htwg.util._
 import de.htwg.controller.commands.NewGameCmd
 import de.htwg.controller.commands.BetCmd
@@ -14,7 +14,6 @@ class Controller(var gameState: GameField) extends Observable {
   private val undoManager = new UndoManager
 
   def newGame(numPlayers: Int): Boolean = {
-
     val executed = undoManager.doStep(new NewGameCmd(this, numPlayers))
     if(executed) this.notifyObservers(Event.Move)
     executed
