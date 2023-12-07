@@ -9,6 +9,7 @@ import de.htwg.util.Event
 import java.awt.Color
 import java.awt.Font
 import de.htwg.model.Player
+import de.htwg.model.Card
 
 class GUI(controller: Controller) extends Frame with Observer {
 
@@ -97,7 +98,7 @@ class GUI(controller: Controller) extends Frame with Observer {
     }
 }
 
-class PlayerRenderable(player: Player) {
+class PlayerRenderable(player: Player, imageHandler: CardImages) {
     
     def getPlayer: Player = player
 
@@ -109,17 +110,27 @@ class PlayerRenderable(player: Player) {
             g.setColor(Color.RED)
         else
             g.setColor(Color.BLACK)
-
+            
         g.drawString(if(!player.hasFolded) player.getPlayerStr else "FOLDED", x, y)
-        g.drawString(if(atTurn) player.hand.toString else "[**][**]", x, y + 15)
-        g.drawString(player.getBalanceStr, x, y + 30)
-        g.drawString(player.getBettedStr, x, y + 45)
+        g.drawString(f"Balance: ${player.getBalanceStr}", x, y + 175)
+        g.drawString(f"Betted: ${player.getBettedStr}", x, y + 195)
+
+        if(atTurn)
+            g.drawImage(imageHandler.cardImages(player.hand.cards._1), x, y + 10, null)
+            g.drawImage(imageHandler.cardImages(player.hand.cards._2), x + 110, y + 10, null)
+        else
+            g.drawImage(imageHandler.cardBackside, x, y + 10, null)
+            g.drawImage(imageHandler.cardBackside, x + 110, y + 10, null)
     }
 }
 
 class GamePanel(controller: Controller) extends Panel {
 
+    //  Our preferred font
     val usedFont = new Font("Arial", Font.BOLD, 15)
+
+    //  Handles our card images
+    val imageHandler: CardImages = new CardImages
 
     override def paintComponent(g: Graphics2D): Unit = {
         
@@ -135,24 +146,33 @@ class GamePanel(controller: Controller) extends Panel {
         //  Draw Players
 
         val players = controller.gameState.players
-        val renderables = players.map(new PlayerRenderable(_))
+        val renderables = players.map(new PlayerRenderable(_, imageHandler))
         val (topRenderables, botRenderables) = renderables.splitAt((renderables.length / 2))
         val currentPlayer = controller.gameState.getPlayerAtTurn.playerNum
 
         for(i <- 0 until topRenderables.length) {
-            topRenderables(i).draw(g, usedFont, 40 + (i * 150), 40,
+            topRenderables(i).draw(g, usedFont, 40 + (i * 300), 40,
                 topRenderables(i).getPlayer.playerNum == currentPlayer)
         }
 
         for(i <- 0 until botRenderables.length) {
-            botRenderables(i).draw(g, usedFont, 40 + (i * 150), size.height - 100,
+            botRenderables(i).draw(g, usedFont, 40 + (i * 300), size.height - 225,
                 botRenderables(i).getPlayer.playerNum == currentPlayer)
         }
 
         //  Draw Community Cards
 
         val comCards = controller.gameState.comCards
-        g.setColor(Color.BLACK)
-        g.drawString(comCards.toString, size.width / 2 - 50, size.height / 2)
+
+        for(i <- 0 until comCards.getCards.length) {
+
+            if(comCards.getCards(i).isRevealed) {
+                val comCard = comCards.getCards(i)
+                val card = new Card(comCard.color, comCard.rank)
+                g.drawImage(imageHandler.cardImages(card), size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
+            } else {
+                g.drawImage(imageHandler.cardBackside, size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
+            }
+        }
     }
 }

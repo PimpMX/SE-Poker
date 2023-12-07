@@ -54,5 +54,13 @@ class Card(argColor: Color, argRank: Rank) {
     case _=> false
   }
 
+  override def hashCode(): Int = {
+    val prime = 31
+    var result = 1
+    result = prime * result + color.hashCode
+    result = prime * result + rank.hashCode
+    result
+  }
+
   override def toString: String = s"[${colorToString(color)}${rankToString(rank)}]"
 }
