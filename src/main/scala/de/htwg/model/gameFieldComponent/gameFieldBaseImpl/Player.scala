@@ -1,12 +1,21 @@
-package de.htwg.model
+package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
 
 import scala.util.Try
+import de.htwg.model.gameFieldComponent.PlayerInterface
+import de.htwg.model.gameFieldComponent.Hand
+import de.htwg.model.gameFieldComponent.PlayerBuilderInterface
 
 case class Player(playerNum: Int,
             hand: Hand,
             balance: Int,
             moneyInPool: Int,
-            hasFolded: Boolean = false) {
+            hasFolded: Boolean = false) extends PlayerInterface {
+
+  def getPlayerNum: Int = playerNum
+  def getBalance: Int = balance
+  def getMoneyInPool: Int = moneyInPool
+  def getHand: Hand = hand
+  def getFoldedStatus: Boolean = hasFolded
 
   def getPlayerStr: String = s"Player${playerNum}"
   def getBalanceStr: String = s"${balance}"
@@ -29,7 +38,7 @@ case class Player(playerNum: Int,
   }
 }
 
-class PlayerBuilder {
+class PlayerBuilder extends PlayerBuilderInterface {
   private var playerNum: Int = _
   private var hand: Hand = _
   private var balance: Int = _

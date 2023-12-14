@@ -1,14 +1,17 @@
-package de.htwg.model
+package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
 
-class CommunityCards(cards: Vector[CommunityCard]) {
+import de.htwg.model.gameFieldComponent.CommunityCardInterface
+import de.htwg.model.gameFieldComponent.CommunityCardsInterface
+
+class CommunityCards(cards: Vector[CommunityCardInterface]) extends CommunityCardsInterface {
   
-    def getCards: Vector[CommunityCard] = cards
+    def getCards: Vector[CommunityCardInterface] = cards
 
-    def revealNext: CommunityCards = {
+    def revealNext: CommunityCardsInterface = {
 
         var cardHasBeenRevealed = false
         
-        val newCards: Vector[CommunityCard] = cards.map(card => {
+        val newCards: Vector[CommunityCardInterface] = cards.map(card => {
             if (!cardHasBeenRevealed && !card.isRevealed) {
                 cardHasBeenRevealed = true
                 card.reveal

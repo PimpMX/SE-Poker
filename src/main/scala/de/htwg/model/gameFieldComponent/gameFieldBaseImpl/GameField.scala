@@ -1,25 +1,32 @@
-package de.htwg.model
+package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
 
 import scala.annotation.switch
+// import de.htwg.model.gameFieldComponent.CommunityCardsInterface
+// import de.htwg.model.gameFieldComponent.CommunityCardInterface
+// import de.htwg.model.gameFieldComponent.PlayerInterface
+// import de.htwg.model.gameFieldComponent.GameFieldInterface
+// import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.Player
+import de.htwg.model.gameFieldComponent._
 
-case class GameField private(players: Vector[Player],
-                comCards: CommunityCards,
+case class GameField private(players: Vector[PlayerInterface],
+                comCards: CommunityCardsInterface,
                 playerAtTurn: Int = 0,
-                viewStrategy: ViewStrategy = CLIViewStrategy()) {
+                viewStrategy: ViewStrategy = CLIViewStrategy()) extends GameFieldInterface {
 
+  def getPlayers: Vector[PlayerInterface] = players
+  def getCommunityCards: CommunityCardsInterface = comCards
   def getNumPlayers: Int = players.length
-  def getCommunityCards: CommunityCards = comCards
 
-  def switchToNextPlayer: GameField = {
+  def switchToNextPlayer: GameFieldInterface = {
     val nextPlayer = (playerAtTurn + 1) % players.length
     GameField(players, comCards, nextPlayer)
   }
 
-  def getPlayerAtTurn: Player = {
+  def getPlayerAtTurn: PlayerInterface = {
     players(playerAtTurn)
   }
 
-  def activePlayerBet(amount: Int): Option[GameField] = {
+  def activePlayerBet(amount: Int): Option[GameFieldInterface] = {
 
     val betted = this.getPlayerAtTurn.betMoney(amount)
 
@@ -32,22 +39,22 @@ case class GameField private(players: Vector[Player],
     }
   }
 
-  def activePlayerAllIn(): Option[GameField] = {
+  def activePlayerAllIn(): Option[GameFieldInterface] = {
 
     val playerAtTurn = this.getPlayerAtTurn
 
-    if(playerAtTurn.balance <= 0) {
+    if(playerAtTurn.getBalance <= 0) {
       Option.empty
     } else {
-      this.activePlayerBet(playerAtTurn.balance)
+      this.activePlayerBet(playerAtTurn.getBalance)
     } 
   }
 
-  def activePlayerCheck(): Option[GameField] = {
+  def activePlayerCheck(): Option[GameFieldInterface] = {
     Option(switchToNextPlayer)
   }
 
-  def activePlayerFold(): Option[GameField] = {
+  def activePlayerFold(): Option[GameFieldInterface] = {
 
     val folded = this.getPlayerAtTurn.fold
 
@@ -65,7 +72,7 @@ case class GameField private(players: Vector[Player],
 
 object GameField {
 
-  def apply(numPlayers: Int): Option[GameField] = {
+  def apply(numPlayers: Int): Option[GameFieldInterface] = {
 
     if(numPlayers <= 0 || numPlayers > 10) {
       Option.empty
@@ -73,7 +80,7 @@ object GameField {
 
       val playerBuilder = new PlayerBuilder()
 
-      val players: Vector[Player] = (0 until numPlayers).map { i =>
+      val players: Vector[PlayerInterface] = (0 until numPlayers).map { i =>
         playerBuilder.setPlayerNum(i)
           .setHand(Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))))
           .setBalance(1000)
@@ -81,7 +88,7 @@ object GameField {
           .build()
       }.toVector
   
-      val comCard: Vector[CommunityCard] = Vector.fill(5)(new CommunityCard(CLUBS, ACE, false))
+      val comCard: Vector[CommunityCardInterface] = Vector.fill(5)(new CommunityCard(CLUBS, ACE, false))
       val comCardO: CommunityCards = new CommunityCards(comCard)
   
       Option(GameField(players, comCardO))
@@ -90,31 +97,31 @@ object GameField {
 }
 
 abstract class ViewStrategy {
-    def produceView(gameField: GameField): String
+    def produceView(gameField: GameFieldInterface): String
 }
 
 class CLIViewStrategy extends ViewStrategy {
 
-  def produceView(gameState: GameField): String = {
+  def produceView(gameState: GameFieldInterface): String = {
 
     val calculated = calcFieldLen(gameState)
     val fieldLen = if(calculated > 25) { calculated } else { 25 }
     
-    val (topUsers, botUsers) = gameState.players.splitAt(
-      if (gameState.players.length > 1)
-        gameState.players.length / 2 
-      else gameState.players.length % 2
+    val (topUsers, botUsers) = gameState.getPlayers.splitAt(
+      if (gameState.getNumPlayers > 1)
+        gameState.getNumPlayers  / 2 
+      else gameState.getNumPlayers % 2
     )
 
-    val topUserNames: String = (for (user <- topUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val topUserCards: String = (for (user <- topUsers) yield s"${if(gameState.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
+    val topUserNames: String = (for (user <- topUsers) yield s"${if(user.getFoldedStatus == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
+    val topUserCards: String = (for (user <- topUsers) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
     val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val botUserNames: String = (for (user <- botUsers) yield s"${if(user.hasFolded == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val botUserCards: String = (for (user <- botUsers) yield s"${if(gameState.playerAtTurn == user.playerNum) user.hand else "[**][**]"}   ").mkString("")
+    val botUserNames: String = (for (user <- botUsers) yield s"${if(user.getFoldedStatus == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
+    val botUserCards: String = (for (user <- botUsers) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
     val botUserBalance: String = (for (user <- botUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val comCards: CommunityCards = gameState.getCommunityCards
+    val comCards: CommunityCardsInterface = gameState.getCommunityCards
     val paddedComCards: String = centerString(fieldLen, comCards.toString())
 
     val maxNameLen = math.max(botUserNames.length(), topUserNames.length())
@@ -152,7 +159,7 @@ class CLIViewStrategy extends ViewStrategy {
     }
   }
 
-  def calcFieldLen(gameState: GameField): Int = {
+  def calcFieldLen(gameState: GameFieldInterface): Int = {
     5 + 11 * math.max(gameState.getNumPlayers / 2,
             gameState.getNumPlayers - gameState.getNumPlayers / 2)
   }

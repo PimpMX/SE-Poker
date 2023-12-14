@@ -1,10 +1,11 @@
 package de.htwg
 
-import de.htwg.controller.Controller
-import de.htwg.model.GameField
+import de.htwg.controller.controllerBaseImpl.Controller
 import de.htwg.view.TUI
 import de.htwg.view.GUI
 import de.htwg.util._
+
+import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.GameField
 
 object TexasHoldEm {
 

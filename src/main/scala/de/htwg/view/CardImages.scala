@@ -1,6 +1,6 @@
 package de.htwg.view
 
-import de.htwg.model._
+import de.htwg.model.gameFieldComponent._
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
@@ -8,9 +8,11 @@ import scala.collection.MapView
 import java.awt.geom.AffineTransform
 import java.awt.image.AffineTransformOp
 
+import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.Card
+
 class CardImages {
 
-    val cardToImagePath: Map[Card, String] = Map(
+    val cardToImagePath: Map[CardInterface, String] = Map(
         Card(PIP, TWO) -> "assets/cards/2_of_hearts.png",
         Card(PIP, THREE) -> "assets/cards/3_of_hearts.png",
         Card(PIP, FOUR) -> "assets/cards/4_of_hearts.png",
@@ -65,10 +67,10 @@ class CardImages {
         Card(HEARTS, ACE) -> "assets/cards/ace_of_diamonds.png",
     )
 
-    val cardImages: Map[Card, BufferedImage] = loadCardImages
+    val cardImages: Map[CardInterface, BufferedImage] = loadCardImages
     val cardBackside: BufferedImage = getCardBackside
 
-    def loadCardImages: Map[Card, BufferedImage] = {
+    def loadCardImages: Map[CardInterface, BufferedImage] = {
         cardToImagePath.map {
             case (card, path) =>
             print(path)
@@ -76,7 +78,7 @@ class CardImages {
         }
     }
 
-    def cardToImage(card: Card): BufferedImage = {
+    def cardToImage(card: CardInterface): BufferedImage = {
         cardImages(card)
     }
 

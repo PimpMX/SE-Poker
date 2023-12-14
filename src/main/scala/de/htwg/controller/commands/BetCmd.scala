@@ -1,20 +1,21 @@
 package de.htwg.controller.commands
 
 import de.htwg.util.Command
-import de.htwg.controller.Controller
-import de.htwg.model.GameField
+import de.htwg.controller.ControllerInterface
+import de.htwg.model.gameFieldComponent.GameFieldInterface
+import scala.annotation.newMain
 
-class BetCmd(controller: Controller, amount: Int) extends Command {
+class BetCmd(controller: ControllerInterface, amount: Int) extends Command {
 
-  var memento: GameField = controller.gameState
+  var memento: GameFieldInterface = controller.getGameState()
 
   override def doStep: Boolean =  {
 
-    memento = controller.gameState
-    val newGameState = controller.gameState.activePlayerBet(amount)
+    memento = controller.getGameState()
+    val newGameState = controller.getGameState().activePlayerBet(amount)
 
     if(newGameState.isDefined) {
-      controller.gameState = newGameState.get
+      controller.setGameState(newGameState.get)
       true
     } else {
       false
@@ -22,14 +23,14 @@ class BetCmd(controller: Controller, amount: Int) extends Command {
   }
 
   override def undoStep: Unit = {
-    val tmp = controller.gameState
-    controller.gameState = memento
+    val tmp = controller.getGameState()
+    controller.setGameState(memento)
     memento = tmp
   }
   
   override def redoStep: Unit = {
-    val tmp = controller.gameState
-    controller.gameState = memento
+    val tmp = controller.getGameState()
+    controller.setGameState(memento)
     memento = tmp
   }
 }

@@ -6,7 +6,7 @@ import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
 
-class TUI(controller: Controller) extends Observer {
+class TUI(controller: ControllerInterface) extends Observer {
 
   controller.add(this)
 
