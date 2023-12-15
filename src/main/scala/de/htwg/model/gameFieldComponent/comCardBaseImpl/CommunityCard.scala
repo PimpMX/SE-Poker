@@ -1,4 +1,4 @@
-package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
+package de.htwg.model.gameFieldComponent.comCardBaseImpl
 
 import de.htwg.model.gameFieldComponent._
 

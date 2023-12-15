@@ -3,6 +3,11 @@ package de.htwg.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import de.htwg.model.gameFieldComponent.comCardBaseImpl._
+import de.htwg.model.gameFieldComponent.comCardsBaseImpl._
+import de.htwg.model.gameFieldComponent.cardBaseImpl.Card
+import de.htwg.model.gameFieldComponent._
+
 class CommunityCardsSpec extends AnyWordSpec with Matchers  {
 
   "CommunityCards" when {

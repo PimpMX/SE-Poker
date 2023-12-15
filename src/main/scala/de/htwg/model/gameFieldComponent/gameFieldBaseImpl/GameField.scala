@@ -1,14 +1,11 @@
 package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
 
-import scala.annotation.switch
-// import de.htwg.model.gameFieldComponent.CommunityCardsInterface
-// import de.htwg.model.gameFieldComponent.CommunityCardInterface
-// import de.htwg.model.gameFieldComponent.PlayerInterface
-// import de.htwg.model.gameFieldComponent.GameFieldInterface
-// import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.Player
+import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.GameField
 import de.htwg.model.gameFieldComponent._
+import scala.annotation.switch
+import de.htwg.model._
 
-case class GameField private(players: Vector[PlayerInterface],
+case class GameField(players: Vector[PlayerInterface],
                 comCards: CommunityCardsInterface,
                 playerAtTurn: Int = 0,
                 viewStrategy: ViewStrategy = CLIViewStrategy()) extends GameFieldInterface {
@@ -68,32 +65,6 @@ case class GameField private(players: Vector[PlayerInterface],
   }
 
   override def toString(): String = viewStrategy.produceView(this)
-}
-
-object GameField {
-
-  def apply(numPlayers: Int): Option[GameFieldInterface] = {
-
-    if(numPlayers <= 0 || numPlayers > 10) {
-      Option.empty
-    } else {
-
-      val playerBuilder = new PlayerBuilder()
-
-      val players: Vector[PlayerInterface] = (0 until numPlayers).map { i =>
-        playerBuilder.setPlayerNum(i)
-          .setHand(Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))))
-          .setBalance(1000)
-          .setMoneyInPool(0)
-          .build()
-      }.toVector
-  
-      val comCard: Vector[CommunityCardInterface] = Vector.fill(5)(new CommunityCard(CLUBS, ACE, false))
-      val comCardO: CommunityCards = new CommunityCards(comCard)
-  
-      Option(GameField(players, comCardO))
-    }
-  }
 }
 
 abstract class ViewStrategy {

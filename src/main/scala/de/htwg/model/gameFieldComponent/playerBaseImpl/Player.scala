@@ -1,4 +1,4 @@
-package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
+package de.htwg.model.gameFieldComponent.playerBaseImpl
 
 import scala.util.Try
 import de.htwg.model.gameFieldComponent.PlayerInterface

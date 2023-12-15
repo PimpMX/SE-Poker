@@ -8,7 +8,8 @@ import scala.collection.MapView
 import java.awt.geom.AffineTransform
 import java.awt.image.AffineTransformOp
 
-import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.Card
+import de.htwg.model.gameFieldComponent.cardBaseImpl.Card
+import de.htwg.model.gameFieldComponent.CardInterface
 
 class CardImages {
 
@@ -73,7 +74,6 @@ class CardImages {
     def loadCardImages: Map[CardInterface, BufferedImage] = {
         cardToImagePath.map {
             case (card, path) =>
-            print(path)
             card -> scaleImage(ImageIO.read(new File(path)), 0.20)
         }
     }

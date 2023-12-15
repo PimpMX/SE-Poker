@@ -2,7 +2,7 @@ package de.htwg.controller.commands
 
 import de.htwg.util.Command
 import de.htwg.model.gameFieldComponent.GameFieldInterface
-import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.GameField
+import de.htwg.model.gameFieldComponent.gameFieldGenerator.GameGenerator
 import de.htwg.controller.ControllerInterface
 
 class NewGameCmd(controller: ControllerInterface, amountPlayers: Int) extends Command {
@@ -12,7 +12,7 @@ class NewGameCmd(controller: ControllerInterface, amountPlayers: Int) extends Co
   override def doStep: Boolean =  {
 
     memento = controller.getGameState()
-    val newGameState = GameField(amountPlayers)
+    val newGameState = GameGenerator(amountPlayers)
 
     if(newGameState.isDefined) {
       controller.setGameState(newGameState.get)

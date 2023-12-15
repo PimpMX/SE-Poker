@@ -3,6 +3,11 @@ package de.htwg.model
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 
+import de.htwg.model.gameFieldComponent.cardBaseImpl._
+import de.htwg.model.gameFieldComponent.playerBaseImpl._
+import de.htwg.model.gameFieldComponent.cardBaseImpl._
+import de.htwg.model.gameFieldComponent._
+
 class HandSpec extends AnyWordSpec with Matchers {
 
   "A Hand" when {
