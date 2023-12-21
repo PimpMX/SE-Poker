@@ -13,3 +13,7 @@ trait GameFieldInterface {
     def activePlayerFold(): Option[GameFieldInterface]
     def toString(): String
 }
+
+trait GameFieldFactoryInterface {
+    def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int): GameFieldInterface
+}

@@ -5,6 +5,8 @@ import de.htwg.controller._
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import com.google.inject.Guice
+import de.htwg.TexasHoldEmModule
 
 class TUI(controller: ControllerInterface) extends Observer {
 
@@ -12,8 +14,8 @@ class TUI(controller: ControllerInterface) extends Observer {
 
   override def update(e: Event): Unit = {
     e match {
-      case Event.Quit => System.exit(0)
-      case Event.Move => println(controller.toString)
+      case Quit => System.exit(0)
+      case Move => println(controller.toString)
     }
   }
 

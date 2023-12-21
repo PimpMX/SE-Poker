@@ -10,6 +10,8 @@ import java.awt.Color
 import java.awt.Font
 
 import de.htwg.model.gameFieldComponent.PlayerInterface
+import com.google.inject.Guice
+import de.htwg.TexasHoldEmModule
 
 class GUI(controller: ControllerInterface) extends Frame with Observer {
 
@@ -115,12 +117,13 @@ class PlayerRenderable(player: PlayerInterface, imageHandler: CardImages) {
         g.drawString(f"Balance: ${player.getBalanceStr}", x, y + 175)
         g.drawString(f"Betted: ${player.getBettedStr}", x, y + 195)
 
-        if(atTurn)
+        if(atTurn) {
             g.drawImage(imageHandler.cardImages(player.getHand.cards._1), x, y + 10, null)
             g.drawImage(imageHandler.cardImages(player.getHand.cards._2), x + 110, y + 10, null)
-        else
+        } else {
             g.drawImage(imageHandler.cardBackside, x, y + 10, null)
             g.drawImage(imageHandler.cardBackside, x + 110, y + 10, null)
+        }
     }
 }
 

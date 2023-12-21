@@ -1,71 +1,8 @@
 package de.htwg.model.gameFieldComponent.gameFieldBaseImpl
 
-import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.GameField
 import de.htwg.model.gameFieldComponent._
 import scala.annotation.switch
 import de.htwg.model._
-
-case class GameField(players: Vector[PlayerInterface],
-                comCards: CommunityCardsInterface,
-                playerAtTurn: Int = 0,
-                viewStrategy: ViewStrategy = CLIViewStrategy()) extends GameFieldInterface {
-
-  def getPlayers: Vector[PlayerInterface] = players
-  def getCommunityCards: CommunityCardsInterface = comCards
-  def getNumPlayers: Int = players.length
-
-  def switchToNextPlayer: GameFieldInterface = {
-    val nextPlayer = (playerAtTurn + 1) % players.length
-    GameField(players, comCards, nextPlayer)
-  }
-
-  def getPlayerAtTurn: PlayerInterface = {
-    players(playerAtTurn)
-  }
-
-  def activePlayerBet(amount: Int): Option[GameFieldInterface] = {
-
-    val betted = this.getPlayerAtTurn.betMoney(amount)
-
-    if (betted.isDefined) {
-      val updated = players.updated(playerAtTurn, betted.get)
-      val gameField = GameField(updated, comCards, this.playerAtTurn)
-      Option(gameField.switchToNextPlayer)
-    } else {
-      Option.empty
-    }
-  }
-
-  def activePlayerAllIn(): Option[GameFieldInterface] = {
-
-    val playerAtTurn = this.getPlayerAtTurn
-
-    if(playerAtTurn.getBalance <= 0) {
-      Option.empty
-    } else {
-      this.activePlayerBet(playerAtTurn.getBalance)
-    } 
-  }
-
-  def activePlayerCheck(): Option[GameFieldInterface] = {
-    Option(switchToNextPlayer)
-  }
-
-  def activePlayerFold(): Option[GameFieldInterface] = {
-
-    val folded = this.getPlayerAtTurn.fold
-
-    if(folded.isDefined) {
-      val updated = players.updated(playerAtTurn, folded.get)
-      val gameField = GameField(updated, comCards, this.playerAtTurn)
-      Option(gameField.switchToNextPlayer)
-    } else {
-      Option.empty
-    }
-  }
-
-  override def toString(): String = viewStrategy.produceView(this)
-}
 
 abstract class ViewStrategy {
     def produceView(gameField: GameFieldInterface): String
@@ -140,4 +77,71 @@ class CLIViewStrategy extends ViewStrategy {
     val paddedComCards: String = " " * padding + str + " " * (fieldLen - 2 - padding - str.length)
     paddedComCards
   }
+}
+
+case class GameField(players: Vector[PlayerInterface],
+                comCards: CommunityCardsInterface,
+                playerAtTurn: Int = 0,
+                viewStrategy: ViewStrategy = new CLIViewStrategy) extends GameFieldInterface {
+
+  def getPlayers: Vector[PlayerInterface] = players
+  def getCommunityCards: CommunityCardsInterface = comCards
+  def getNumPlayers: Int = players.length
+
+  def switchToNextPlayer: GameFieldInterface = {
+    val nextPlayer = (playerAtTurn + 1) % players.length
+    GameField(players, comCards, nextPlayer)
+  }
+
+  def getPlayerAtTurn: PlayerInterface = {
+    players(playerAtTurn)
+  }
+
+  def activePlayerBet(amount: Int): Option[GameFieldInterface] = {
+
+    val betted = this.getPlayerAtTurn.betMoney(amount)
+
+    if (betted.isDefined) {
+      val updated = players.updated(playerAtTurn, betted.get)
+      val gameField = GameField(updated, comCards, this.playerAtTurn)
+      Option(gameField.switchToNextPlayer)
+    } else {
+      Option.empty
+    }
+  }
+
+  def activePlayerAllIn(): Option[GameFieldInterface] = {
+
+    val playerAtTurn = this.getPlayerAtTurn
+
+    if(playerAtTurn.getBalance <= 0) {
+      Option.empty
+    } else {
+      this.activePlayerBet(playerAtTurn.getBalance)
+    } 
+  }
+
+  def activePlayerCheck(): Option[GameFieldInterface] = {
+    Option(switchToNextPlayer)
+  }
+
+  def activePlayerFold(): Option[GameFieldInterface] = {
+
+    val folded = this.getPlayerAtTurn.fold
+
+    if(folded.isDefined) {
+      val updated = players.updated(playerAtTurn, folded.get)
+      val gameField = GameField(updated, comCards, this.playerAtTurn)
+      Option(gameField.switchToNextPlayer)
+    } else {
+      Option.empty
+    }
+  }
+
+  override def toString(): String = viewStrategy.produceView(this)
+}
+
+
+class GameFieldFactory extends GameFieldFactoryInterface {
+  override def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int): GameFieldInterface = new GameField(players, comCards, playerAtTurn)
 }

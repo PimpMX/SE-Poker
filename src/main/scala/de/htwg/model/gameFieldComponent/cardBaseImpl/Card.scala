@@ -45,3 +45,7 @@ class Card(color: Color, rank: Rank) extends CardInterface {
 
   override def toString: String = s"[${colorToString(color)}${rankToString(rank)}]"
 }
+
+class CardFactory extends CardFactoryInterface {
+  override def apply(color: Color, rank: Rank): CardInterface = new Card(color, rank)
+}

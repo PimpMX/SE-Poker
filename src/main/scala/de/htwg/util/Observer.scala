@@ -1,14 +1,16 @@
 package de.htwg.util
 
-trait Observer:
+trait Observer {
   def update(e: Event): Unit
+}
 
-trait Observable:
+trait Observable {
   var subscribers: Vector[Observer] = Vector()
   def add(s: Observer) = subscribers = subscribers :+ s
   def remove(s: Observer) = subscribers = subscribers.filterNot(o => o == s)
   def notifyObservers(e: Event) = subscribers.foreach(o => o.update(e))
+}
 
-enum Event:
-  case Quit
-  case Move
+sealed trait Event
+case object Quit extends Event
+case object Move extends Event

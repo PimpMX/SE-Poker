@@ -6,3 +6,7 @@ trait CommunityCardsInterface {
     def toString(): String
     def equals(obj: Any): Boolean
 }
+
+trait CommunityCardsFactoryInterface {
+    def apply(cards: Vector[CommunityCardInterface]): CommunityCardsInterface
+}

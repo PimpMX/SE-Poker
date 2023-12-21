@@ -28,3 +28,7 @@ trait CardInterface {
   def equals(obj: Any): Boolean
   def hashCode: Int
 }
+
+trait CardFactoryInterface {
+  def apply(color: Color, rank: Rank): CardInterface
+}

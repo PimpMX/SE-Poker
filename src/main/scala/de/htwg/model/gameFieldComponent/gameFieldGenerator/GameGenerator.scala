@@ -7,18 +7,25 @@ import de.htwg.model.gameFieldComponent.cardBaseImpl._
 import de.htwg.model.gameFieldComponent.comCardsBaseImpl._
 import de.htwg.model.gameFieldComponent.comCardBaseImpl._
 import de.htwg.model.gameFieldComponent.playerBaseImpl._
+import com.google.inject.Guice
+import de.htwg.TexasHoldEmModule
 
-object GameGenerator {
+class GameGenerator extends GameGeneratorInterface {
 
-  def apply(numPlayers: Int): Option[GameField] = {
+  val injector = Guice.createInjector(new TexasHoldEmModule)
+
+  val playerBuilder = injector.getInstance(classOf[PlayerBuilderInterface])
+  val gameFieldFactory = injector.getInstance(classOf[GameFieldFactoryInterface])
+  val communityCardFactory = injector.getInstance(classOf[CommunityCardFactoryInterface])
+  val communityCardsFactory = injector.getInstance(classOf[CommunityCardsFactoryInterface])
+  
+  def apply(numPlayers: Int): Option[GameFieldInterface] = {
 
     if(numPlayers <= 0 || numPlayers > 10) {
       Option.empty
     } else {
 
-      val playerBuilder = new PlayerBuilder()
-
-      val players: Vector[Player] = (0 until numPlayers).map { i =>
+      val players: Vector[PlayerInterface] = (0 until numPlayers).map { i =>
         playerBuilder.setPlayerNum(i)
           .setHand(Hand((new Card(PIP, ACE), new Card(CLUBS, ACE))))
           .setBalance(1000)
@@ -26,10 +33,10 @@ object GameGenerator {
           .build()
       }.toVector
   
-      val comCard: Vector[CommunityCard] = Vector.fill(5)(new CommunityCard(CLUBS, ACE, false))
-      val comCardO: CommunityCards = new CommunityCards(comCard)
+      val comCard: Vector[CommunityCardInterface] = Vector.fill(5)(communityCardFactory(PIP, ACE, false))
+      val comCardO: CommunityCardsInterface = communityCardsFactory(comCard)
   
-      Option(GameField(players, comCardO))
+      Option(gameFieldFactory(players, comCardO, 0))
     }
   }
 }

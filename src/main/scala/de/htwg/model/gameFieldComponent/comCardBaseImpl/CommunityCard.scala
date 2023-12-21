@@ -49,3 +49,7 @@ class CommunityCard(color: Color, rank: Rank, revealed: Boolean) extends Communi
 
     override def toString: String = s"[${colorToString(color)}${rankToString(rank)}]"
 }
+
+class CommunityCardFactory extends CommunityCardFactoryInterface {
+    override def apply(color: Color, rank: Rank, revealed: Boolean): CommunityCardInterface = new CommunityCard(color, rank, revealed)
+}

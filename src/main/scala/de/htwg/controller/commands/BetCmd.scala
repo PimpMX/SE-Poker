@@ -3,7 +3,6 @@ package de.htwg.controller.commands
 import de.htwg.util.Command
 import de.htwg.controller.ControllerInterface
 import de.htwg.model.gameFieldComponent.GameFieldInterface
-import scala.annotation.newMain
 
 class BetCmd(controller: ControllerInterface, amount: Int) extends Command {
 

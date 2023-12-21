@@ -2,6 +2,7 @@ package de.htwg.model.gameFieldComponent.comCardsBaseImpl
 
 import de.htwg.model.gameFieldComponent.CommunityCardInterface
 import de.htwg.model.gameFieldComponent.CommunityCardsInterface
+import de.htwg.model.gameFieldComponent.CommunityCardsFactoryInterface
 
 class CommunityCards(cards: Vector[CommunityCardInterface]) extends CommunityCardsInterface {
   
@@ -31,4 +32,8 @@ class CommunityCards(cards: Vector[CommunityCardInterface]) extends CommunityCar
         case comCard: CommunityCards => this.cards sameElements comCard.getCards
         case _=> false
     }
+}
+
+class CommunityCardsFactory extends CommunityCardsFactoryInterface {
+    override def apply(cards: Vector[CommunityCardInterface]): CommunityCardsInterface = new CommunityCards(cards)
 }
