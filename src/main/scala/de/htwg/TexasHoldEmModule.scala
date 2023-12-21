@@ -12,10 +12,12 @@ import de.htwg.model.gameFieldComponent.playerBaseImpl._
 import de.htwg.model.gameFieldComponent.comCardBaseImpl._
 import de.htwg.model.gameFieldComponent.comCardsBaseImpl._
 import de.htwg.model.gameFieldComponent.gameFieldGenerator.GameGenerator
+import de.htwg.model.gameFieldComponent.cardBaseImpl.CardFactory
 
 class TexasHoldEmModule extends AbstractModule with ScalaModule {
   
     override def configure() = {
+        bind[CardFactoryInterface].to[CardFactory]
         bind[ControllerInterface].to[Controller]
         bind[GameFieldFactoryInterface].to[GameFieldFactory]
         bind[PlayerBuilderInterface].to[PlayerBuilder]

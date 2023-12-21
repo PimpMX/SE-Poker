@@ -10,15 +10,10 @@ class ControllerSpec extends AnyWordSpec with Matchers {
 
     "Controller" when {
 
-        val gameState = GameGenerator(2)
-        val controller = new Controller(gameState.get)
+        val controller = new Controller
 
         "created with 2 players" should {
             
-            "have a valid GameState" in {
-                gameState.isDefined shouldBe(true)
-            }
-
             "return no game for invalid bet" in {
                 controller.bet(1100) shouldBe(false)
             }
@@ -50,7 +45,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
             }
 
             "be able to render the GameState" in {
-                controller.toString() should be(controller.gameState.toString())
+                controller.toString() should be(controller.getGameState().toString())
             }
         }
     }

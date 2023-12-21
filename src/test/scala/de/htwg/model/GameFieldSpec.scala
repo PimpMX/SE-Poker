@@ -10,32 +10,34 @@ class GameFieldSpec extends AnyWordSpec with Matchers  {
 
     "GameField" should {
 
+        val gameGenerator = new GameGenerator
+
         "return correct amount of players" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.getNumPlayers shouldBe(1)
         }
 
         "return correct amount of community cards" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.getCommunityCards.getCards.length shouldBe(5)
         }
 
         "have a working switch player method" in {
-            val gameField = GameGenerator(2)
+            val gameField = gameGenerator(2)
             gameField.isDefined shouldBe(true)
             gameField.get.switchToNextPlayer.getPlayerAtTurn.getPlayerNum shouldBe(1)
         }
 
         "return correct player at turn" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.getPlayerAtTurn.getPlayerNum shouldBe(0)
         }
 
         "have a working bet method" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
 
             gameField.get.activePlayerBet(100).get.getPlayerAtTurn.getBalance shouldBe(900)
@@ -43,26 +45,26 @@ class GameFieldSpec extends AnyWordSpec with Matchers  {
         }
 
         "have a working all-in method" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.activePlayerAllIn().isDefined shouldBe(true)
             gameField.get.activePlayerAllIn().get.activePlayerAllIn() shouldBe(Option.empty)
         }
 
         "have a working check method" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.activePlayerCheck().get.getPlayerAtTurn.getPlayerNum shouldBe(0)
         }
 
         "have a working fold method" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.activePlayerFold().isDefined shouldBe(true)
         }
 
         "have a working toString method" in {
-            val gameField = GameGenerator(1)
+            val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
             gameField.get.toString() shouldBe(gameField.get.toString())
         }

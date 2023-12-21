@@ -1,25 +1,18 @@
 package de.htwg.controller.controllerBaseImpl
 
-import de.htwg.view.TUI
-import de.htwg.model.gameFieldComponent.GameFieldInterface
 import de.htwg.util._
-import de.htwg.controller.commands.NewGameCmd
-import de.htwg.controller.commands.BetCmd
-import de.htwg.controller.commands.BetAllInCmd
-import de.htwg.controller.commands.CheckCmd
-import de.htwg.controller.commands.FoldCmd
-import de.htwg.controller.ControllerInterface
+import de.htwg.controller.commands._
 import com.google.inject.Guice
-import de.htwg.TexasHoldEmModule
 import de.htwg.model.gameFieldComponent._
-import de.htwg.model.gameFieldComponent.gameFieldGenerator._
+import de.htwg.controller.ControllerInterface
+import de.htwg.TexasHoldEmModule
 
 class Controller extends ControllerInterface with Observable {
 
   val injector = Guice.createInjector(new TexasHoldEmModule)
   val gameGenerator = injector.getInstance(classOf[GameGeneratorInterface])
 
-  private var gameState = gameGenerator(4).get 
+  private var gameState = gameGenerator(2).get 
   private val undoManager = new UndoManager
 
   def getGameState(): GameFieldInterface = gameState
