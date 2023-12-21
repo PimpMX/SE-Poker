@@ -13,11 +13,11 @@ object TexasHoldEm {
   def main(args: Array[String]): Unit = {
 
     val injector = Guice.createInjector(new TexasHoldEmModule)
-    // val controller = injector.getInstance(classOf[ControllerInterface])
-    // val tui = new TUI(controller)
-    // val gui = new GUI(controller)
+    val controller = injector.getInstance(classOf[ControllerInterface])
+    val tui = new TUI(controller)
+    val gui = new GUI(controller)
 
-    // controller.notifyObservers(Move)
-    // tui.gameLoop()
+    controller.notifyObservers(Move)
+    tui.gameLoop()
   }
 }
