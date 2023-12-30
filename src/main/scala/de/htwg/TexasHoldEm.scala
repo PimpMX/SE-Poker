@@ -13,7 +13,7 @@ object TexasHoldEm {
 
     val injector = Guice.createInjector(new TexasHoldEmModule)
     val controller = injector.getInstance(classOf[ControllerInterface])
-
+    
     val tui = new TUI(controller)
     val gui = new GUI(controller)
 

@@ -13,6 +13,8 @@ import de.htwg.model.gameFieldComponent.comCardBaseImpl._
 import de.htwg.model.gameFieldComponent.comCardsBaseImpl._
 import de.htwg.model.gameFieldComponent.gameFieldGenerator.GameGenerator
 import de.htwg.model.gameFieldComponent.cardBaseImpl.CardFactory
+import de.htwg.model.gameFieldComponent.cardSetBaseImpl.CardSet
+import de.htwg.model.gameFieldComponent.cardSetBaseImpl.CardSetFactory
 
 class TexasHoldEmModule extends AbstractModule with ScalaModule {
   
@@ -24,5 +26,6 @@ class TexasHoldEmModule extends AbstractModule with ScalaModule {
         bind[CommunityCardFactoryInterface].to[CommunityCardFactory]
         bind[CommunityCardsFactoryInterface].to[CommunityCardsFactory]
         bind[GameGeneratorInterface].to[GameGenerator]
+        bind[CardSetFactoryInterface].to[CardSetFactory]
     }
 }
