@@ -5,7 +5,7 @@ import de.htwg.model.gameFieldComponent._
 class CommunityCard(color: Color, rank: Rank, revealed: Boolean) extends CommunityCardInterface {
   
     val colorToString: Map[Color, String] = Map(
-        PIP -> "P",
+        DIAMONDS -> "D",
         SPADES -> "S",
         CLUBS -> "C",
         HEARTS -> "H"

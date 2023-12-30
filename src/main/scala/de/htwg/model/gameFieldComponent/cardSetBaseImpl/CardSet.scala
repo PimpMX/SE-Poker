@@ -16,7 +16,7 @@ class CardSet(var freeCards: Vector[CardInterface], var takenCards: Vector[CardI
         //  Generate all 52 cards
 
         val regularCardSet = (for {
-            color <- List(PIP, SPADES, CLUBS, HEARTS)
+            color <- List(HEARTS, DIAMONDS, CLUBS, SPADES)
             rank <- List(TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE)
         } yield cardFactory(color, rank)).toVector
 

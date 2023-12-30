@@ -8,7 +8,7 @@ class Card(color: Color, rank: Rank) extends CardInterface {
   val getRank: Rank = rank;
 
   val colorToString: Map[Color, String] = Map(
-    PIP -> "P",
+    DIAMONDS -> "D",
     SPADES -> "S",
     CLUBS -> "C",
     HEARTS -> "H"

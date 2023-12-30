@@ -1,10 +1,10 @@
 package de.htwg.model.gameFieldComponent
 
 sealed trait Color
-case object PIP extends Color
-case object SPADES extends Color
-case object CLUBS extends Color
 case object HEARTS extends Color
+case object DIAMONDS extends Color
+case object CLUBS extends Color
+case object SPADES extends Color
 
 sealed trait Rank
 case object TWO extends Rank
