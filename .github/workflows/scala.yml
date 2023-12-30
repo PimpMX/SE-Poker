@@ -3,9 +3,9 @@ name: SE-Poker CI/CD
 
 on:
   push:
-    branches: [ main, gui, gui+components, guiCompDi ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, gui, gui+components, guiCompDi ]
+    branches: [ main ]
 
 jobs:
   build:
