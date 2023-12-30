@@ -7,4 +7,5 @@ trait CommunityCardInterface extends CardInterface {
 
 trait CommunityCardFactoryInterface {
     def apply(color: Color, rank: Rank, revealed: Boolean): CommunityCardInterface
+    def apply(card: CardInterface): CommunityCardInterface
 }

@@ -9,6 +9,7 @@ class CardSet(var freeCards: Vector[CardInterface], var takenCards: Vector[CardI
 
     val injector = Guice.createInjector(new TexasHoldEmModule)
     val cardFactory = injector.getInstance(classOf[CardFactoryInterface])
+    val communityCardFactory = injector.getInstance(classOf[CommunityCardFactoryInterface])
 
     override def initialize: CardSetInterface = {
 
@@ -38,9 +39,15 @@ class CardSet(var freeCards: Vector[CardInterface], var takenCards: Vector[CardI
         takenCards
     }
 
-    override def take(amount: Int): (Vector[CardInterface], CardSetInterface) = {
+    override def takeCard(amount: Int): (Vector[CardInterface], CardSetInterface) = {
         val (taken, free) = freeCards.splitAt(amount)
         (taken, new CardSet(free, takenCards ++ taken))
+    }
+
+    override def takeCommunityCard(amount: Int): (Vector[CommunityCardInterface], CardSetInterface) = {
+        val (taken, free) = freeCards.splitAt(amount)
+        val takenCommunityCards = taken.map { card => communityCardFactory(card) }
+        (takenCommunityCards, new CardSet(free, takenCards ++ taken))
     }
 }
 

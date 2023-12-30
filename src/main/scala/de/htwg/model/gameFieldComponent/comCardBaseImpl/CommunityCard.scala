@@ -52,4 +52,5 @@ class CommunityCard(color: Color, rank: Rank, revealed: Boolean) extends Communi
 
 class CommunityCardFactory extends CommunityCardFactoryInterface {
     override def apply(color: Color, rank: Rank, revealed: Boolean): CommunityCardInterface = new CommunityCard(color, rank, revealed)
+    override def apply(card: CardInterface): CommunityCardInterface = new CommunityCard(card.getColor, card.getRank, false)
 }
