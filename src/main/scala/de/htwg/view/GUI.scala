@@ -10,8 +10,6 @@ import java.awt.Color
 import java.awt.Font
 
 import de.htwg.model.gameFieldComponent.PlayerInterface
-import com.google.inject.Guice
-import de.htwg.TexasHoldEmModule
 
 class GUI(controller: ControllerInterface) extends Frame with Observer {
 

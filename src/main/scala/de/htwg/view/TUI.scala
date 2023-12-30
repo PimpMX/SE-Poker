@@ -5,8 +5,6 @@ import de.htwg.controller._
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
-import com.google.inject.Guice
-import de.htwg.TexasHoldEmModule
 
 class TUI(controller: ControllerInterface) extends Observer {
 

@@ -141,7 +141,6 @@ case class GameField(players: Vector[PlayerInterface],
   override def toString(): String = viewStrategy.produceView(this)
 }
 
-
 class GameFieldFactory extends GameFieldFactoryInterface {
   override def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int): GameFieldInterface = new GameField(players, comCards, playerAtTurn)
 }
