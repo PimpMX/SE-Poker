@@ -9,7 +9,10 @@ import de.htwg.util.Event
 import java.awt.Color
 import java.awt.Font
 
-import de.htwg.model.gameFieldComponent.PlayerInterface
+import de.htwg.model.gameFieldComponent._
+import javax.smartcardio.Card
+import com.google.inject.Guice
+import de.htwg.TexasHoldEmModule
 
 class GUI(controller: ControllerInterface) extends Frame with Observer {
 
@@ -127,6 +130,9 @@ class PlayerRenderable(player: PlayerInterface, imageHandler: CardImages) {
 
 class GamePanel(controller: ControllerInterface) extends Panel {
 
+    val injector = Guice.createInjector(new TexasHoldEmModule)
+    val cardFactory = injector.getInstance(classOf[CardFactoryInterface])
+
     //  Our preferred font
     val usedFont = new Font("Arial", Font.BOLD, 15)
 
@@ -168,8 +174,8 @@ class GamePanel(controller: ControllerInterface) extends Panel {
         for(i <- 0 until comCards.getCards.length) {
 
             if(comCards.getCards(i).isRevealed) {
-                val comCard = comCards.getCards(i)
-                g.drawImage(imageHandler.cardImages(comCard), size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
+                val renderedCard = cardFactory(comCards.getCards(i).getColor, comCards.getCards(i).getRank)
+                g.drawImage(imageHandler.cardImages(renderedCard), size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
             } else {
                 g.drawImage(imageHandler.cardBackside, size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
             }

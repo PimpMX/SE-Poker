@@ -7,9 +7,10 @@ import de.htwg.model._
 case class GameField(players: Vector[PlayerInterface],
                 comCards: CommunityCardsInterface,
                 playerAtTurn: Int = 0,
-                lastBetPlayerIdx: Int = 0,
+                lastRaisePlayerIdx: Int = 0,
                 bigBlindPlayerIdx: Int = 0,
                 bettingRound: BettingRound = PREFLOP,
+                highestBet: Int = 0,
                 viewStrategy: ViewStrategy = new CLIViewStrategy) extends GameFieldInterface {
   
   def getPlayers: Vector[PlayerInterface] = players
@@ -19,13 +20,30 @@ case class GameField(players: Vector[PlayerInterface],
 
   def switchToNextPlayer: GameFieldInterface = {
 
-    // println("Last bet player: " + this.lastBetPlayerIdx)
-    // println("Big Blind Index: " + this.bigBlindPlayerIdx)
-    // println("Player at turn: " + this.playerAtTurn)
-    // println("betting Round" + this.bettingRound)
-
     val nextPlayer = (playerAtTurn + 1) % players.length
-    GameField(players, comCards, nextPlayer)
+    val highestBet = players.map(_.getMoneyInPool).max
+    val isNextRound = nextPlayer == this.lastRaisePlayerIdx 
+    val bettingRound = if(isNextRound) this.getNextRound else this.bettingRound
+   
+    val nextComCards = if(isNextRound && bettingRound == FLOP)
+        this.comCards.revealNext.revealNext.revealNext
+      else if(isNextRound && bettingRound != DONE)
+        this.comCards.revealNext
+      else this.comCards
+
+    printf("Player %d is now at turn\n", nextPlayer)
+    printf("LastRaisePlayerIdx: %d\n", lastRaisePlayerIdx)
+    printf("BigBlindPlayerIdx: %d\n", bigBlindPlayerIdx)
+    printf("BettingRound: %s\n", bettingRound)
+    printf("HighestBet: %d\n", players.map(_.getMoneyInPool).max)
+
+    GameField(players,
+      nextComCards,
+      nextPlayer,
+      this.lastRaisePlayerIdx,
+      this.bigBlindPlayerIdx,
+      bettingRound,
+      highestBet)
   }
 
   def getNextRound: BettingRound = {
@@ -44,9 +62,16 @@ case class GameField(players: Vector[PlayerInterface],
 
   def activePlayerBet(amount: Int): Option[GameFieldInterface] = {
 
+    if(this.getPlayerAtTurn.getMoneyInPool + amount < this.highestBet) {
+      return Option.empty
+    }
+
     val betted = this.getPlayerAtTurn.betMoney(amount)
 
     if (betted.isDefined) {
+
+      val lastRaisePlayerIdx = if(betted.get.getMoneyInPool > highestBet)
+        playerAtTurn else this.lastRaisePlayerIdx
 
       val updated = players.updated(playerAtTurn, betted.get)
 
@@ -54,11 +79,10 @@ case class GameField(players: Vector[PlayerInterface],
         updated, 
         this.comCards,
         this.playerAtTurn,
-        this.playerAtTurn,
+        lastRaisePlayerIdx,
         this.bigBlindPlayerIdx,
-        if(this.playerAtTurn == this.lastBetPlayerIdx)
-          this.getNextRound 
-        else this.bettingRound,
+        this.bettingRound,
+        this.highestBet
       )
       
       Option(gameField.switchToNextPlayer)
@@ -80,16 +104,11 @@ case class GameField(players: Vector[PlayerInterface],
 
   def activePlayerCheck(): Option[GameFieldInterface] = {
 
-    val gameField = GameField(
-        this.players,
-        this.comCards,
-        this.playerAtTurn,
-        this.lastBetPlayerIdx,
-        this.bigBlindPlayerIdx,
-        this.bettingRound
-    )
-
-    Option(gameField.switchToNextPlayer)
+    if(this.getPlayerAtTurn.getMoneyInPool < this.highestBet) {
+      return Option.empty
+    } else {
+      return Option(this.switchToNextPlayer)
+    }
   }
 
   def activePlayerFold(): Option[GameFieldInterface] = {
@@ -103,9 +122,10 @@ case class GameField(players: Vector[PlayerInterface],
         updated,
         this.comCards,
         this.playerAtTurn,
-        this.lastBetPlayerIdx,
+        this.lastRaisePlayerIdx,
         this.bigBlindPlayerIdx,
-        this.bettingRound
+        this.bettingRound,
+        this.highestBet
       )
       
       Option(gameField.switchToNextPlayer)

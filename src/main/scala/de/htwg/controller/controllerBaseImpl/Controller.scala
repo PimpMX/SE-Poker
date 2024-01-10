@@ -19,7 +19,6 @@ class Controller extends ControllerInterface with Observable {
 
   def setGameState(newGameState: GameFieldInterface): Unit = {
     gameState = newGameState
-    this.notifyObservers(Move)
   } 
 
   def newGame(numPlayers: Int): Boolean = {
