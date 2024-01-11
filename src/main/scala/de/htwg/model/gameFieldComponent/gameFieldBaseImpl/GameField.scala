@@ -17,6 +17,9 @@ case class GameField(players: Vector[PlayerInterface],
   def getCommunityCards: CommunityCardsInterface = comCards
   def getNumPlayers: Int = players.length
   def getBettingRound: BettingRound = bettingRound
+  def getLastRaisePlayerIdx: Int = lastRaisePlayerIdx
+  def getBigBlindPlayerIdx: Int = bigBlindPlayerIdx
+  def getHighestBet: Int = highestBet
 
   def switchToNextPlayer: GameFieldInterface = {
 
@@ -140,3 +143,4 @@ case class GameField(players: Vector[PlayerInterface],
 class GameFieldFactory extends GameFieldFactoryInterface {
   override def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int): GameFieldInterface = new GameField(players, comCards, playerAtTurn)
 }
+

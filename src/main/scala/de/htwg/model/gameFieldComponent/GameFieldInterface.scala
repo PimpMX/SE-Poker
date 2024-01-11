@@ -12,6 +12,9 @@ trait GameFieldInterface {
     def getPlayers: Vector[PlayerInterface]
     def getNumPlayers: Int
     def getBettingRound: BettingRound
+    def getLastRaisePlayerIdx: Int
+    def getBigBlindPlayerIdx: Int
+    def getHighestBet: Int
     def getCommunityCards: CommunityCardsInterface
     def switchToNextPlayer: GameFieldInterface
     def getPlayerAtTurn: PlayerInterface

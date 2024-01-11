@@ -1,0 +1,117 @@
+{
+  "players" : [ {
+    "playerNum" : 0,
+    "balance" : 1000,
+    "moneyInPool" : 0,
+    "hand" : {
+      "cards" : [ {
+        "suit" : {
+          "color" : "DIAMONDS"
+        },
+        "rank" : {
+          "rank" : "KING"
+        }
+      }, {
+        "suit" : {
+          "color" : "CLUBS"
+        },
+        "rank" : {
+          "rank" : "FIVE"
+        }
+      } ]
+    },
+    "foldedStatus" : false
+  }, {
+    "playerNum" : 1,
+    "balance" : 1000,
+    "moneyInPool" : 0,
+    "hand" : {
+      "cards" : [ {
+        "suit" : {
+          "color" : "DIAMONDS"
+        },
+        "rank" : {
+          "rank" : "SIX"
+        }
+      }, {
+        "suit" : {
+          "color" : "HEARTS"
+        },
+        "rank" : {
+          "rank" : "TWO"
+        }
+      } ]
+    },
+    "foldedStatus" : false
+  } ],
+  "comCards" : {
+    "cards" : [ {
+      "suit" : {
+        "color" : "CLUBS"
+      },
+      "rank" : {
+        "rank" : "SEVEN"
+      },
+      "isRevealed" : false
+    }, {
+      "suit" : {
+        "color" : "DIAMONDS"
+      },
+      "rank" : {
+        "rank" : "THREE"
+      },
+      "isRevealed" : false
+    }, {
+      "suit" : {
+        "color" : "SPADES"
+      },
+      "rank" : {
+        "rank" : "SEVEN"
+      },
+      "isRevealed" : false
+    }, {
+      "suit" : {
+        "color" : "CLUBS"
+      },
+      "rank" : {
+        "rank" : "ACE"
+      },
+      "isRevealed" : false
+    }, {
+      "suit" : {
+        "color" : "HEARTS"
+      },
+      "rank" : {
+        "rank" : "FIVE"
+      },
+      "isRevealed" : false
+    } ]
+  },
+  "playerAtTurn" : {
+    "playerNum" : 0,
+    "balance" : 1000,
+    "moneyInPool" : 0,
+    "hand" : {
+      "cards" : [ {
+        "suit" : {
+          "color" : "DIAMONDS"
+        },
+        "rank" : {
+          "rank" : "KING"
+        }
+      }, {
+        "suit" : {
+          "color" : "CLUBS"
+        },
+        "rank" : {
+          "rank" : "FIVE"
+        }
+      } ]
+    },
+    "foldedStatus" : false
+  },
+  "lastRaisePlayerIdx" : 0,
+  "bigBlindPlayerIdx" : 0,
+  "bettingRound" : "PREFLOP",
+  "highestBet" : 0
+}
