@@ -26,5 +26,6 @@ trait PlayerBuilderInterface {
     def setHand(hand: Hand): PlayerBuilderInterface
     def setBalance(balance: Int): PlayerBuilderInterface
     def setMoneyInPool(moneyInPool: Int): PlayerBuilderInterface
+    def setFoldedStatus(foldedStatus: Boolean): PlayerBuilderInterface
     def build(): PlayerInterface
 }

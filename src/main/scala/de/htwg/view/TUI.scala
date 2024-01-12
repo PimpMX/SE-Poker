@@ -5,8 +5,14 @@ import de.htwg.controller._
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import com.google.inject.Guice
+import de.htwg.TexasHoldEmModule
+import de.htwg.model.fileIoComponent.FileIOInterface
 
 class TUI(controller: ControllerInterface) extends Observer {
+
+  val injector = Guice.createInjector(new TexasHoldEmModule)
+  val fileIO = injector.getInstance(classOf[FileIOInterface])
 
   controller.add(this)
 
@@ -72,7 +78,16 @@ class TUI(controller: ControllerInterface) extends Observer {
 
       case "exit" =>
         controller.exit()
-        Success(())        
+        Success(())
+
+      case "save" =>
+        fileIO.save(controller.getGameState())
+        Success(())
+
+      case "load" =>
+        controller.setGameState(fileIO.load)
+        controller.notifyObservers(Move)
+        Success(())
 
       case _ =>
         Failure(new IllegalArgumentException("Invalid command"))

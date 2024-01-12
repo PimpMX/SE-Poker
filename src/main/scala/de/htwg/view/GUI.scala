@@ -13,8 +13,13 @@ import de.htwg.model.gameFieldComponent._
 import javax.smartcardio.Card
 import com.google.inject.Guice
 import de.htwg.TexasHoldEmModule
+import de.htwg.model.fileIoComponent.FileIOInterface
+import de.htwg.util.Move
 
 class GUI(controller: ControllerInterface) extends Frame with Observer {
+
+    val injector = Guice.createInjector(new TexasHoldEmModule)
+    val fileIO = injector.getInstance(classOf[FileIOInterface])
 
     controller.add(this)
 
@@ -78,6 +83,16 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
             mnemonic = Key.F
             contents += new MenuItem(Action("New") { newGameDialog() })
             contents += new MenuItem(Action("Quit") { controller.exit() })
+
+            contents += new MenuItem(Action("Load") {
+                controller.setGameState(fileIO.load)
+                controller.notifyObservers(Move)
+            })
+            
+            contents += new MenuItem(Action("Save") {
+                fileIO.save(controller.getGameState())
+                controller.notifyObservers(Move)
+            })
         }
 
         contents += new Menu("Edit") {

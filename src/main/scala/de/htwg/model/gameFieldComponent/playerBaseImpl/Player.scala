@@ -4,6 +4,7 @@ import scala.util.Try
 import de.htwg.model.gameFieldComponent.PlayerInterface
 import de.htwg.model.gameFieldComponent.Hand
 import de.htwg.model.gameFieldComponent.PlayerBuilderInterface
+import scala.compiletime.ops.boolean
 
 case class Player(playerNum: Int,
             hand: Hand,
@@ -43,6 +44,7 @@ class PlayerBuilder extends PlayerBuilderInterface {
   private var hand: Hand = _
   private var balance: Int = _
   private var moneyInPool: Int = _
+  private var hasFolded: Boolean = false
 
   def setPlayerNum(playerNum: Int): PlayerBuilder = {
     this.playerNum = playerNum
@@ -64,7 +66,12 @@ class PlayerBuilder extends PlayerBuilderInterface {
     this
   }
 
+  def setFoldedStatus(foldedStatus: Boolean): PlayerBuilder = {
+    this.hasFolded = foldedStatus
+    this
+  }
+
   def build(): Player = {
-    Player(playerNum, hand, balance, moneyInPool)
+    Player(playerNum, hand, balance, moneyInPool, hasFolded)
   }
 }

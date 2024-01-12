@@ -45,7 +45,7 @@ class GameGenerator extends GameGeneratorInterface {
       val communityCards: CommunityCardsInterface =
         communityCardsFactory(cardSet.takeCommunityCard(5)._1)
   
-      Option(gameFieldFactory(players, communityCards, 0))
+      Option(gameFieldFactory(players, communityCards, 0, 0, 0, PREFLOP, 0))
     }
   }
 }

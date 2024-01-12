@@ -141,6 +141,12 @@ case class GameField(players: Vector[PlayerInterface],
 }
 
 class GameFieldFactory extends GameFieldFactoryInterface {
-  override def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int): GameFieldInterface = new GameField(players, comCards, playerAtTurn)
+  def apply(players: Vector[PlayerInterface],
+    comCards: CommunityCardsInterface,
+    playerAtTurn: Int,
+    lastRaisePlayerIdx: Int,
+    bigBlindPlayerIdx: Int,
+    bettingRound: BettingRound,
+    highestBet: Int): GameFieldInterface = new GameField(players, comCards, playerAtTurn, lastRaisePlayerIdx, bigBlindPlayerIdx, bettingRound, highestBet)
 }
 

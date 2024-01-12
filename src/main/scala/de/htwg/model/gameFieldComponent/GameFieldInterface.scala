@@ -26,5 +26,5 @@ trait GameFieldInterface {
 }
 
 trait GameFieldFactoryInterface {
-    def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int): GameFieldInterface
+    def apply(players: Vector[PlayerInterface], comCards: CommunityCardsInterface, playerAtTurn: Int, lastRaisePlayerIdx: Int, bigBlindPlayerIdx: Int, bettingRound: BettingRound, highestBet: Int): GameFieldInterface
 }
