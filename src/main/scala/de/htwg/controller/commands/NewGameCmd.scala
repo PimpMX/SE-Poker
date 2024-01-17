@@ -21,7 +21,7 @@ class NewGameCmd(controller: ControllerInterface, amountPlayers: Int) extends Co
     val newGameState = gameGenerator(amountPlayers)
 
     if(newGameState.isDefined) {
-      controller.setGameState(newGameState.get)
+      controller.setGameState(newGameState.get.startOfRound)
       true
     } else {
       false

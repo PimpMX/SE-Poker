@@ -23,9 +23,9 @@ class CLIViewStrategy extends ViewStrategy {
     val topUserCards: String = (for (user <- topUsers) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
     val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val botUserNames: String = (for (user <- botUsers) yield s"${if(user.getFoldedStatus == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val botUserCards: String = (for (user <- botUsers) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
-    val botUserBalance: String = (for (user <- botUsers) yield f"${user.getBettedStr}%-11s").mkString("")
+    val botUserNames: String = (for (user <- botUsers.reverse) yield s"${if(user.getFoldedStatus == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
+    val botUserCards: String = (for (user <- botUsers.reverse) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
+    val botUserBalance: String = (for (user <- botUsers.reverse) yield f"${user.getBettedStr}%-11s").mkString("")
 
     val comCards: CommunityCardsInterface = gameState.getCommunityCards
     val paddedComCards: String = centerString(fieldLen, comCards.toString())

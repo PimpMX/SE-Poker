@@ -12,7 +12,7 @@ class Controller extends ControllerInterface with Observable {
   val injector = Guice.createInjector(new TexasHoldEmModule)
   val gameGenerator = injector.getInstance(classOf[GameGeneratorInterface])
 
-  private var gameState = gameGenerator(2).get 
+  private var gameState = gameGenerator(2).get.startOfRound
   private val undoManager = new UndoManager
 
   def getGameState(): GameFieldInterface = gameState

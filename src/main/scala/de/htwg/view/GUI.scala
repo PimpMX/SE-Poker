@@ -178,8 +178,8 @@ class GamePanel(controller: ControllerInterface) extends Panel {
         }
 
         for(i <- 0 until botRenderables.length) {
-            botRenderables(i).draw(g, usedFont, 40 + (i * 300), size.height - 225,
-                botRenderables(i).getPlayer.getPlayerNum == currentPlayer)
+            botRenderables.reverse(i).draw(g, usedFont, 40 + (i * 300), size.height - 225,
+                botRenderables.reverse(i).getPlayer.getPlayerNum == currentPlayer)
         }
 
         //  Draw Community Cards

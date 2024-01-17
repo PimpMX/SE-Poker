@@ -21,10 +21,11 @@ case class Player(playerNum: Int,
   def getPlayerStr: String = s"Player${playerNum}"
   def getBalanceStr: String = s"${balance}"
   def getBettedStr: String = s"${moneyInPool}"
-
+  
   def betMoney(amount: Int): Option[Player] = {
-    if (amount <= balance) {
-      Option(Player(playerNum, hand, balance - amount, moneyInPool + amount))
+
+    if (amount <= balance && hasFolded == false) {
+      Option(Player(playerNum, hand, balance - amount, moneyInPool + amount, hasFolded))
     } else {
       Option.empty
     }
@@ -36,6 +37,22 @@ case class Player(playerNum: Int,
     } else {
       Option(Player(playerNum, hand, balance, moneyInPool, true))
     }
+  }
+
+  def setHand(hand: Hand): PlayerInterface = {
+    Player(playerNum, hand, balance, moneyInPool, hasFolded)
+  }
+
+  def setMoneyInPool(amount: Int): PlayerInterface = {
+    Player(playerNum, hand, balance, amount, hasFolded)
+  }
+
+  def setBalance(amount: Int): PlayerInterface = {
+    Player(playerNum, hand, amount, moneyInPool, hasFolded)
+  }
+
+  def setFolded(hasFolded: Boolean): PlayerInterface = {
+    Player(playerNum, hand, balance, moneyInPool, hasFolded)
   }
 }
 

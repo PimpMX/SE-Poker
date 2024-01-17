@@ -12,12 +12,19 @@ trait PlayerInterface {
     def getMoneyInPool: Int
     def getHand: Hand
     def getFoldedStatus: Boolean
-
     def getPlayerStr: String
     def getBalanceStr: String
     def getBettedStr: String
+    
     def betMoney(amount: Int): Option[PlayerInterface]
     def fold: Option[PlayerInterface]
+
+    // TODO: Get rid of this workaround and use factory/builder in the GameField class
+
+    def setHand(hand: Hand): PlayerInterface
+    def setMoneyInPool(amount: Int): PlayerInterface
+    def setBalance(amount: Int): PlayerInterface
+    def setFolded(hasFolded: Boolean): PlayerInterface
 }
 
 trait PlayerBuilderInterface {

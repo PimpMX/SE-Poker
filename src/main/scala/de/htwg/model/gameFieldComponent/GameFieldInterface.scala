@@ -22,6 +22,7 @@ trait GameFieldInterface {
     def activePlayerAllIn(): Option[GameFieldInterface]
     def activePlayerCheck(): Option[GameFieldInterface]
     def activePlayerFold(): Option[GameFieldInterface]
+    def startOfRound: GameFieldInterface
     def toString(): String
 }
 
