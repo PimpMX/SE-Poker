@@ -21,7 +21,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Compile executable
-        run: sbt clean build
+        run: sbt build
 
       # - name: Upload executable
       #   uses: actions/upload-artifact@v2
