@@ -10,3 +10,5 @@ target
 out
 .bsp
 .DS_STORE
+gameField.json
+gameField.xml
