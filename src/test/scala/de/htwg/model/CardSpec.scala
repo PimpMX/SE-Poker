@@ -7,10 +7,10 @@ import de.htwg.model.gameFieldComponent._
 
 class CardSpec extends AnyWordSpec with Matchers {
   "A Card" when {
-    "created with Color PIP and Rank TWO" should {
-      val card = new Card(PIP, TWO)
+    "created with Color SPADES and Rank TWO" should {
+      val card = new Card(SPADES, TWO)
       "have PIP Color" in {
-        card.getColor should be(PIP)
+        card.getColor should be(SPADES)
       }
       "have rank TWO" in {
         card.getRank should be(TWO)

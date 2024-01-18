@@ -15,10 +15,10 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
 
       val cards: Vector[CommunityCard] = Vector(
         new CommunityCard(CLUBS, ACE, false),
-        new CommunityCard(PIP, TWO, false),
+        new CommunityCard(SPADES, TWO, false),
         new CommunityCard(HEARTS, TEN, false),
         new CommunityCard(SPADES, EIGHT, false),
-        new CommunityCard(PIP, FIVE, false)
+        new CommunityCard(SPADES, FIVE, false)
       )
 
       val comCard: CommunityCards = new CommunityCards(cards)
@@ -26,10 +26,10 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
       "return the correct cards" in {
         comCard.getCards should contain theSameElementsAs Vector(
           new CommunityCard(CLUBS, ACE, false),
-          new CommunityCard(PIP, TWO, false),
+          new CommunityCard(SPADES, TWO, false),
           new CommunityCard(HEARTS, TEN, false),
           new CommunityCard(SPADES, EIGHT, false),
-          new CommunityCard(PIP, FIVE, false)
+          new CommunityCard(SPADES, FIVE, false)
         )
       }
 
@@ -40,10 +40,10 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
       "return the correct revealNext CommunityCards instance" in {
         comCard.revealNext should be(new CommunityCards(Vector(
           new CommunityCard(CLUBS, ACE, true),
-          new CommunityCard(PIP, TWO, false),
+          new CommunityCard(SPADES, TWO, false),
           new CommunityCard(HEARTS, TEN, false),
           new CommunityCard(SPADES, EIGHT, false),
-          new CommunityCard(PIP, FIVE, false)
+          new CommunityCard(SPADES, FIVE, false)
         )))
       }
 
@@ -55,8 +55,8 @@ class CommunityCardsSpec extends AnyWordSpec with Matchers  {
         comCard.revealNext.toString() should be ("[CA][**][**][**][**]")
       }
 
-      "give the correct toString with two cards revealed [CA][P2][**][**][**]" in {
-        comCard.revealNext.revealNext.toString() should be ("[CA][P2][**][**][**]")
+      "give the correct toString with two cards revealed [CA][S2][**][**][**]" in {
+        comCard.revealNext.revealNext.toString() should be ("[CA][S2][**][**][**]")
       }
     }
   }

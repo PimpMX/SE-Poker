@@ -62,6 +62,12 @@ class TUISpec extends AnyWordSpec with Matchers {
             val tui = new TUI(controller)
             tui.update(Move)
         }
+
+        "have a working exit command" in {
+            val controller = new Controller
+            val tui = new TUI(controller)
+            tui.userCmd("exit") shouldBe a[Success[_]]
+        }
     }
 }
 

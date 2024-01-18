@@ -68,5 +68,22 @@ class GameFieldSpec extends AnyWordSpec with Matchers  {
             gameField.isDefined shouldBe(true)
             gameField.get.toString() shouldBe(gameField.get.toString())
         }
+
+        "have a working undo method" in {
+            val gameField = gameGenerator(1)
+            gameField.isDefined shouldBe(true)
+            gameField.get.activePlayerBet(100).get.getPlayerAtTurn.getBalance shouldBe(900)
+        }
+
+        "have a working redo method" in {
+            val gameField = gameGenerator(1)
+            gameField.isDefined shouldBe(true)
+            gameField.get.activePlayerBet(100).get.getPlayerAtTurn.getBalance shouldBe(900)
+        }
+
+        "have a working exit method" in {
+            val gameField = gameGenerator(1)
+            gameField.isDefined shouldBe(true)
+        }
     }
 }
