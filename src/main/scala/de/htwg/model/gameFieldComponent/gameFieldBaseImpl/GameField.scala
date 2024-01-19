@@ -25,6 +25,7 @@ case class GameField(players: Vector[PlayerInterface],
   val injector = Guice.createInjector(new TexasHoldEmModule)
   val cardSetFactory = injector.getInstance(classOf[CardSetFactoryInterface])
   val communityCardsFactory = injector.getInstance(classOf[CommunityCardsFactoryInterface])
+  val playerFactory = injector.getInstance(classOf[PlayerFactoryInterface])
 
   def getPlayers: Vector[PlayerInterface] = players
   def getCommunityCards: CommunityCardsInterface = comCards
@@ -91,7 +92,13 @@ case class GameField(players: Vector[PlayerInterface],
       val (hand, newCardSet) = cardSet.takeCard(2)
       cardSet = newCardSet
 
-      player.setHand(Hand(hand(0), hand(1)))
+      // Return new player object with new cards
+
+      playerFactory(player.getPlayerNum,
+        Hand(hand(0), hand(1)),
+        player.getBalance,
+        player.getMoneyInPool,
+        player.getFoldedStatus)
     }
 
     val newComCards = communityCardsFactory(cardSet.takeCommunityCard(5)._1)
@@ -150,7 +157,9 @@ case class GameField(players: Vector[PlayerInterface],
     //  Determine pool money and reset players for next round
 
     val poolMoney = players.map(_.getMoneyInPool).sum
-    var updatedPlayers = players.map(_.setMoneyInPool(0).setFolded(false))
+    var updatedPlayers = players.map(player => 
+      playerFactory(player.getPlayerNum, player.getHand, player.getBalance, 0, false)
+    )
 
     //  Determine the winner
 
@@ -165,7 +174,13 @@ case class GameField(players: Vector[PlayerInterface],
     updatedPlayers = updatedPlayers.map { player =>
 
       if(player.getPlayerNum == winnerIdx) {
-        player.setBalance(player.getBalance + poolMoney)
+
+        playerFactory(player.getPlayerNum,
+          player.getHand,
+          player.getBalance + poolMoney,
+          player.getMoneyInPool,
+          player.getFoldedStatus)
+      
       } else {
         player
       }

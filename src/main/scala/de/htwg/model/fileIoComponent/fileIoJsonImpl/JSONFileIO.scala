@@ -15,7 +15,7 @@ class JSONFileIO extends FileIOInterface {
 
   val injector = Guice.createInjector(new TexasHoldEmModule)
   val cardFactory = injector.getInstance(classOf[CardFactoryInterface])
-  val playerBuilder = injector.getInstance(classOf[PlayerBuilderInterface])
+  val playerFactory = injector.getInstance(classOf[PlayerFactoryInterface])
   val comCardsFactory = injector.getInstance(classOf[CommunityCardsFactoryInterface])
   val comCardFactory = injector.getInstance(classOf[CommunityCardFactoryInterface])
   val gameFieldFactory = injector.getInstance(classOf[GameFieldFactoryInterface])
@@ -104,13 +104,11 @@ class JSONFileIO extends FileIOInterface {
       val hand = (json \ "hand").as[Hand]
       val foldedStatus = (json \ "foldedStatus").as[Boolean]
 
-      playerBuilder.setPlayerNum(playerNum)
-      playerBuilder.setBalance(balance)
-      playerBuilder.setMoneyInPool(moneyInPool)
-      playerBuilder.setHand(hand)
-      playerBuilder.setFoldedStatus(foldedStatus)
-
-      JsSuccess(playerBuilder.build())
+      JsSuccess(playerFactory(playerNum,
+        hand,
+        balance,
+        moneyInPool,
+        foldedStatus))
     }
   }
 

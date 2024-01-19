@@ -13,7 +13,7 @@ class XMLFileIO extends FileIOInterface {
 
   val injector = Guice.createInjector(new TexasHoldEmModule)
   val cardFactory = injector.getInstance(classOf[CardFactoryInterface])
-  val playerBuilder = injector.getInstance(classOf[PlayerBuilderInterface])
+  val playerFactory = injector.getInstance(classOf[PlayerFactoryInterface])
   val comCardsFactory = injector.getInstance(classOf[CommunityCardsFactoryInterface])
   val comCardFactory = injector.getInstance(classOf[CommunityCardFactoryInterface])
   val gameFieldFactory = injector.getInstance(classOf[GameFieldFactoryInterface])
@@ -88,13 +88,7 @@ class XMLFileIO extends FileIOInterface {
     val hand = readHand((xml \ "hand").head)
     val foldedStatus = (xml \ "foldedStatus").text.toBoolean
 
-    playerBuilder.setPlayerNum(playerNum)
-    playerBuilder.setBalance(balance)
-    playerBuilder.setMoneyInPool(moneyInPool)
-    playerBuilder.setHand(hand)
-    playerBuilder.setFoldedStatus(foldedStatus)
-
-    playerBuilder.build()
+    playerFactory(playerNum, hand, balance, moneyInPool, foldedStatus)
   }
 
   def readPlayers(xml: NodeSeq): Vector[PlayerInterface] = {
