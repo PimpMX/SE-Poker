@@ -5,7 +5,8 @@ case object PREFLOP extends BettingRound
 case object FLOP extends BettingRound
 case object TURN extends BettingRound
 case object RIVER extends BettingRound
-case object DONE extends BettingRound
+case object SHOWDOWN extends BettingRound
+case object GAME_FINISHED extends BettingRound
 
 trait GameFieldInterface {
 

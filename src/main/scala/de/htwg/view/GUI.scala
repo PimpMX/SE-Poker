@@ -116,7 +116,7 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
     }
 }
 
-class PlayerRenderable(player: PlayerInterface, imageHandler: CardImages) {
+class PlayerRenderable(player: PlayerInterface, gameState: GameFieldInterface, imageHandler: CardImages) {
     
     def getPlayer: PlayerInterface = player
 
@@ -133,7 +133,12 @@ class PlayerRenderable(player: PlayerInterface, imageHandler: CardImages) {
         g.drawString(f"Balance: ${player.getBalanceStr}", x, y + 175)
         g.drawString(f"Betted: ${player.getBettedStr}", x, y + 195)
 
-        if(atTurn) {
+        //  Only reveal the cards of the player if hes at turn OR
+        //  if the game is in showdown AND the player hasn't folded
+        //  since it is a strategic decision to show your cards or not
+
+        if(atTurn && gameState.getBettingRound != SHOWDOWN ||
+            (gameState.getBettingRound == SHOWDOWN && player.getFoldedStatus == false)) {
             g.drawImage(imageHandler.cardImages(player.getHand.cards._1), x, y + 10, null)
             g.drawImage(imageHandler.cardImages(player.getHand.cards._2), x + 110, y + 10, null)
         } else {
@@ -168,7 +173,7 @@ class GamePanel(controller: ControllerInterface) extends Panel {
         //  Draw Players
 
         val players = controller.getGameState().getPlayers
-        val renderables = players.map(new PlayerRenderable(_, imageHandler))
+        val renderables = players.map(new PlayerRenderable(_, controller.getGameState(), imageHandler))
         val (topRenderables, botRenderables) = renderables.splitAt((renderables.length / 2))
         val currentPlayer = controller.getGameState().getPlayerAtTurn.getPlayerNum
 
@@ -188,7 +193,7 @@ class GamePanel(controller: ControllerInterface) extends Panel {
 
         for(i <- 0 until comCards.getCards.length) {
 
-            if(comCards.getCards(i).isRevealed) {
+            if(comCards.getCards(i).isRevealed || controller.getGameState().getBettingRound == SHOWDOWN) {
                 val renderedCard = cardFactory(comCards.getCards(i).getColor, comCards.getCards(i).getRank)
                 g.drawImage(imageHandler.cardImages(renderedCard), size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
             } else {

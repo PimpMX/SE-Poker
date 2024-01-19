@@ -21,6 +21,10 @@ case class Player(playerNum: Int,
   def getPlayerStr: String = s"Player${playerNum}"
   def getBalanceStr: String = s"${balance}"
   def getBettedStr: String = s"${moneyInPool}"
+
+  def isAllIn: Boolean = {
+    moneyInPool >= 0 && balance == 0
+  }
   
   def betMoney(amount: Int): Option[Player] = {
 

@@ -19,12 +19,28 @@ class CLIViewStrategy extends ViewStrategy {
       else gameState.getNumPlayers % 2
     )
 
-    val topUserNames: String = (for (user <- topUsers) yield s"${if(user.getFoldedStatus == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val topUserCards: String = (for (user <- topUsers) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
+    val topUserNames: String = (for (user <- topUsers) yield s"${
+        if(user.getFoldedStatus == false)
+          user.getPlayerStr
+        else "FOLDED "}    ").mkString("")
+
+    val topUserCards: String = (for (user <- topUsers) yield s"${
+      if(gameState.getPlayerAtTurn == user || (gameState.getBettingRound == SHOWDOWN && user.getFoldedStatus == false))
+        user.getHand
+      else "[**][**]"}   ").mkString("")
+
     val topUserBalance: String = (for (user <- topUsers) yield f"${user.getBettedStr}%-11s").mkString("")
 
-    val botUserNames: String = (for (user <- botUsers.reverse) yield s"${if(user.getFoldedStatus == false) user.getPlayerStr else "FOLDED "}    ").mkString("")
-    val botUserCards: String = (for (user <- botUsers.reverse) yield s"${if(gameState.getPlayerAtTurn == user) user.getHand else "[**][**]"}   ").mkString("")
+    val botUserNames: String = (for (user <- botUsers.reverse) yield s"${
+      if(user.getFoldedStatus == false)
+        user.getPlayerStr
+      else "FOLDED "}    ").mkString("")
+
+    val botUserCards: String = (for (user <- botUsers.reverse) yield s"${
+      if(gameState.getPlayerAtTurn == user || (gameState.getBettingRound == SHOWDOWN && user.getFoldedStatus == false))
+        user.getHand
+      else "[**][**]"}   ").mkString("")
+
     val botUserBalance: String = (for (user <- botUsers.reverse) yield f"${user.getBettedStr}%-11s").mkString("")
 
     val comCards: CommunityCardsInterface = gameState.getCommunityCards

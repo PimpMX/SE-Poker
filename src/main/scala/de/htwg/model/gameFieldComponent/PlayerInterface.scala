@@ -16,6 +16,7 @@ trait PlayerInterface {
     def getBalanceStr: String
     def getBettedStr: String
     
+    def isAllIn: Boolean
     def betMoney(amount: Int): Option[PlayerInterface]
     def fold: Option[PlayerInterface]
 }
