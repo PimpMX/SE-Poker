@@ -190,6 +190,7 @@ class JSONFileIO extends FileIOInterface {
         case "FLOP" => FLOP
         case "TURN" => TURN
         case "RIVER" => RIVER
+        case "SHOWDOWN" => SHOWDOWN
       }
       val highestBet = (json \ "highestBet").as[Int]
 

@@ -91,10 +91,14 @@ case class GameField(players: Vector[PlayerInterface],
       this.getPlayersLeftInRound(0).getPlayerNum
     } else {
 
-      // cardEvaluator.rankCards(this.getPlayersLeftInRound, this.comCards)
-
-      this.getPlayersLeftInRound(0).getPlayerNum
       // Call the Card Evaluator
+
+      val cardEvaluations = cardEvaluator.rankCards(this.getPlayersLeftInRound, this.comCards)
+      val winningHand = cardEvaluations.head
+
+      print(winningHand.player.getPlayerStr + " wins with " + winningHand.handRank.toString() + "\n")
+
+      winningHand.player.getPlayerNum
     }
 
     //  Give the winner the pool money
