@@ -20,101 +20,32 @@ case class GameField(players: Vector[PlayerInterface],
   val BIG_BLIND_AMOUNT = 50
   val SMALL_BLIND_AMOUNT = 25
 
-  //  Needed for dealNewCards
-
   val injector = Guice.createInjector(new TexasHoldEmModule)
   val cardSetFactory = injector.getInstance(classOf[CardSetFactoryInterface])
   val communityCardsFactory = injector.getInstance(classOf[CommunityCardsFactoryInterface])
-
-  def getPlayers: Vector[PlayerInterface] = players
-  def getCommunityCards: CommunityCardsInterface = comCards
-  def getNumPlayers: Int = players.length
-  def getBettingRound: BettingRound = bettingRound
-  def getLastRaisePlayerIdx: Int = lastRaisePlayerIdx
-  def getBigBlindPlayerIdx: Int = bigBlindPlayerIdx
-  def getHighestBet: Int = highestBet
-
-  def switchToNextPlayer: GameFieldInterface = {
-
-    //  First we check if theres more than one player left
-    //  Because if theres only one player left, he wins
-
-    if(this.getPlayersLeftInRound.length == 1) {
-      return this.endOfRound
-    }
-
-    //  Evaluate the next player, since there is more than one
-    //  player left there should be another player at turn
-
-    var nextPlayer = (playerAtTurn + 1) % players.length
-
-    //  We want to skip all players that folded
-
-    while(players(nextPlayer).getFoldedStatus) {
-      nextPlayer = (nextPlayer + 1) % players.length
-    }
-
-    val highestBet = players.map(_.getMoneyInPool).max
-    val isNextRound = nextPlayer == this.lastRaisePlayerIdx 
-    val bettingRound = if(isNextRound) this.getNextRound else this.bettingRound
-
-    //  If the RIVER round is done we can end the round
-    //  and pick a winner based on the cards 
-   
-    if(bettingRound == DONE) {
-      return this.endOfRound
-    }
-
-    val nextComCards = if(isNextRound && bettingRound == FLOP)
-        this.comCards.revealNext.revealNext.revealNext
-      else if(isNextRound && bettingRound != DONE)
-        this.comCards.revealNext
-      else this.comCards
-
-    GameField(players,
-      nextComCards,
-      nextPlayer,
-      this.lastRaisePlayerIdx,
-      this.bigBlindPlayerIdx,
-      bettingRound,
-      highestBet)
-  }
-
-  def dealNewCards: GameField = {
-
-    var cardSet = cardSetFactory().initialize.shuffle
-
-    //  Give every player a new hand
-
-    val updatedPlayers: Vector[PlayerInterface] = this.players.map { player =>
-      
-      val (hand, newCardSet) = cardSet.takeCard(2)
-      cardSet = newCardSet
-
-      player.setHand(Hand(hand(0), hand(1)))
-    }
-
-    val newComCards = communityCardsFactory(cardSet.takeCommunityCard(5)._1)
-
-    GameField(updatedPlayers,
-      newComCards,
-      this.playerAtTurn,
-      this.lastRaisePlayerIdx,
-      this.bigBlindPlayerIdx,
-      this.bettingRound,
-      this.highestBet)
-  }
-
+  val playerFactory = injector.getInstance(classOf[PlayerFactoryInterface])
+  val cardEvaluator = injector.getInstance(classOf[CardEvaluatorInterface])
+  
   def startOfRound: GameFieldInterface = {
 
-    if(this.players.length == 1) {
-      return this
+    //  Filter out players that dont have enough money to play
+    //  (Simplified because player may be able to pay the small blind)
+
+    var updatedPlayers = this.players.filter(_.getBalance >= BIG_BLIND_AMOUNT)
+
+    if(updatedPlayers.length == 1) {
+
+      //  If theres only one player left, the game is over
+
+      GameField(updatedPlayers,
+        this.comCards,
+        this.playerAtTurn,
+        this.lastRaisePlayerIdx,
+        this.bigBlindPlayerIdx,
+        GAME_FINISHED,
+        this.highestBet)
+    
     } else {
-
-      //  Filter out players that dont have enough money to play
-      //  (Simplified because player may be able to pay the small blind)
-
-      var updatedPlayers = this.players.filter(_.getBalance >= BIG_BLIND_AMOUNT)
 
       val newBigBlindPlayerIdx = (this.bigBlindPlayerIdx + 1) % updatedPlayers.length
       val smallBlindIdx = if (newBigBlindPlayerIdx - 1 < 0)
@@ -150,13 +81,19 @@ case class GameField(players: Vector[PlayerInterface],
     //  Determine pool money and reset players for next round
 
     val poolMoney = players.map(_.getMoneyInPool).sum
-    var updatedPlayers = players.map(_.setMoneyInPool(0).setFolded(false))
+    var updatedPlayers = players.map(player => 
+      playerFactory(player.getPlayerNum, player.getHand, player.getBalance, 0, false)
+    )
 
     //  Determine the winner
 
     val winnerIdx = if(this.getPlayersLeftInRound.length == 1) {
       this.getPlayersLeftInRound(0).getPlayerNum
     } else {
+
+      // cardEvaluator.rankCards(this.getPlayersLeftInRound, this.comCards)
+
+      this.getPlayersLeftInRound(0).getPlayerNum
       // Call the Card Evaluator
     }
 
@@ -165,7 +102,13 @@ case class GameField(players: Vector[PlayerInterface],
     updatedPlayers = updatedPlayers.map { player =>
 
       if(player.getPlayerNum == winnerIdx) {
-        player.setBalance(player.getBalance + poolMoney)
+
+        playerFactory(player.getPlayerNum,
+          player.getHand,
+          player.getBalance + poolMoney,
+          player.getMoneyInPool,
+          player.getFoldedStatus)
+      
       } else {
         player
       }
@@ -185,20 +128,123 @@ case class GameField(players: Vector[PlayerInterface],
       case PREFLOP => FLOP
       case FLOP => TURN
       case TURN => RIVER
-      case RIVER => DONE
-      case DONE => DONE
+      case RIVER => SHOWDOWN
+      case SHOWDOWN => PREFLOP
+      case GAME_FINISHED => GAME_FINISHED
     }
+  }
+
+  def getPlayers: Vector[PlayerInterface] = players
+  def getCommunityCards: CommunityCardsInterface = comCards
+  def getNumPlayers: Int = players.length
+  def getBettingRound: BettingRound = bettingRound
+  def getLastRaisePlayerIdx: Int = lastRaisePlayerIdx
+  def getBigBlindPlayerIdx: Int = bigBlindPlayerIdx
+  def getHighestBet: Int = highestBet
+
+  def switchToNextPlayer: GameFieldInterface = {
+
+    //  First we check if the round is over, the round is either over
+    //  when theres only one player left (everyone else folded) or when
+    //  theres nobody left to bet (everyone is all in)
+
+    if(this.getPlayersLeftInRound.length == 1 || !this.playersAreStillBetting) {
+
+      //  Round is over and should be evaluated
+
+      return GameField(this.players,
+        this.comCards,
+        this.playerAtTurn,
+        this.lastRaisePlayerIdx,
+        this.bigBlindPlayerIdx,
+        SHOWDOWN,
+        this.highestBet)
+    }
+
+    //  Evaluate the next player, since there is more than one
+    //  player left there should be another player at turn
+
+    var nextPlayer = (playerAtTurn + 1) % players.length
+
+    //  We want to skip all players that folded
+
+    while(players(nextPlayer).getFoldedStatus || players(nextPlayer).isAllIn) {
+      nextPlayer = (nextPlayer + 1) % players.length
+    }
+
+    val highestBet = players.map(_.getMoneyInPool).max
+    val isNextRound = nextPlayer == this.lastRaisePlayerIdx 
+    val bettingRound = if(isNextRound) this.getNextRound else this.bettingRound
+
+    val nextComCards = if(isNextRound && bettingRound == FLOP)
+        this.comCards.revealNext.revealNext.revealNext
+      else if(isNextRound && bettingRound != SHOWDOWN)
+        this.comCards.revealNext
+      else this.comCards
+
+    GameField(players,
+      nextComCards,
+      nextPlayer,
+      this.lastRaisePlayerIdx,
+      this.bigBlindPlayerIdx,
+      bettingRound,
+      highestBet)
+  }
+
+  def dealNewCards: GameField = {
+
+    var cardSet = cardSetFactory().initialize.shuffle
+
+    //  Give every player a new hand
+
+    val updatedPlayers: Vector[PlayerInterface] = this.players.map { player =>
+      
+      val (hand, newCardSet) = cardSet.takeCard(2)
+      cardSet = newCardSet
+
+      // Return new player object with new cards
+
+      playerFactory(player.getPlayerNum,
+        Hand(hand(0), hand(1)),
+        player.getBalance,
+        player.getMoneyInPool,
+        player.getFoldedStatus)
+    }
+
+    val newComCards = communityCardsFactory(cardSet.takeCommunityCard(5)._1)
+
+    GameField(updatedPlayers,
+      newComCards,
+      this.playerAtTurn,
+      this.lastRaisePlayerIdx,
+      this.bigBlindPlayerIdx,
+      this.bettingRound,
+      this.highestBet)
   }
 
   def getPlayerAtTurn: PlayerInterface = {
     players(playerAtTurn)
   }
 
+  // Returns amount of players still in round (didn't fold)
+
   def getPlayersLeftInRound: Vector[PlayerInterface] = {
-    players.filter(!_.getFoldedStatus)
+    players.filter(player => { !player.getFoldedStatus })
+  }
+
+  // To check if there are still players that can bet
+
+  def playersAreStillBetting: Boolean = {
+    players.exists(player => { !player.getFoldedStatus && !player.isAllIn })
   }
 
   def activePlayerBet(amount: Int): Option[GameFieldInterface] = {
+
+    if(this.bettingRound == SHOWDOWN) {
+      return Option(this.endOfRound)
+    } else if(this.bettingRound == GAME_FINISHED) {
+      return Option.empty
+    }
 
     if(this.getPlayerAtTurn.getMoneyInPool + amount < this.highestBet) {
       return Option.empty
@@ -231,16 +277,44 @@ case class GameField(players: Vector[PlayerInterface],
 
   def activePlayerAllIn(): Option[GameFieldInterface] = {
 
-    val playerAtTurn = this.getPlayerAtTurn
+    if(this.bettingRound == SHOWDOWN) {
+      return Option(this.endOfRound)
+    } else if(this.bettingRound == GAME_FINISHED) {
+      return Option.empty
+    }
 
-    if(playerAtTurn.getBalance <= 0) {
-      Option.empty
+    val betted = this.getPlayerAtTurn.betMoney(this.getPlayerAtTurn.getBalance)
+
+    if (betted.isDefined) {
+
+      val lastRaisePlayerIdx = if(betted.get.getMoneyInPool > highestBet)
+        playerAtTurn else this.lastRaisePlayerIdx
+
+      val updated = players.updated(playerAtTurn, betted.get)
+
+      val gameField = GameField(
+        updated, 
+        this.comCards,
+        this.playerAtTurn,
+        lastRaisePlayerIdx,
+        this.bigBlindPlayerIdx,
+        this.bettingRound,
+        this.highestBet
+      )
+      
+      Option(gameField.switchToNextPlayer)
     } else {
-      this.activePlayerBet(playerAtTurn.getBalance)
-    } 
+      Option.empty
+    }
   }
 
   def activePlayerCheck(): Option[GameFieldInterface] = {
+
+    if(this.bettingRound == SHOWDOWN) {
+      return Option(this.endOfRound)
+    } else if(this.bettingRound == GAME_FINISHED) {
+      return Option.empty
+    }
 
     if(this.getPlayerAtTurn.getMoneyInPool < this.highestBet) {
       return Option.empty
@@ -250,6 +324,12 @@ case class GameField(players: Vector[PlayerInterface],
   }
 
   def activePlayerFold(): Option[GameFieldInterface] = {
+
+    if(this.bettingRound == SHOWDOWN) {
+      return Option(this.endOfRound)
+    } else if(this.bettingRound == GAME_FINISHED) {
+      return Option.empty
+    }
 
     val folded = this.getPlayerAtTurn.fold
 

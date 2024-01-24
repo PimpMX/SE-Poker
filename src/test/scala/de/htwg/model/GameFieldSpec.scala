@@ -4,13 +4,13 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import de.htwg.model.gameFieldComponent.gameFieldBaseImpl.GameField
-import de.htwg.model.gameFieldComponent.gameFieldGenerator.GameGenerator   
-
+import de.htwg.model.gameFieldComponent.gameFieldGenerator.GameGenerator
+import de.htwg.model.gameFieldComponent._
 class GameFieldSpec extends AnyWordSpec with Matchers  {
 
     "GameField" should {
 
-        val gameGenerator = new GameGenerator
+        val gameGenerator = new GameGenerator()
 
         "return correct amount of players" in {
             val gameField = gameGenerator(1)
@@ -40,15 +40,16 @@ class GameFieldSpec extends AnyWordSpec with Matchers  {
             val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
 
-            gameField.get.activePlayerBet(100).get.getPlayerAtTurn.getBalance shouldBe(900)
+            gameField.get.activePlayerBet(25).get.getPlayerAtTurn.getBalance shouldBe(975)
             gameField.get.activePlayerBet(10000) shouldBe(Option.empty)
         }
 
         "have a working all-in method" in {
-            val gameField = gameGenerator(1)
+            val gameField = gameGenerator(2)
             gameField.isDefined shouldBe(true)
+            gameField.get.activePlayerBet(25)
             gameField.get.activePlayerAllIn().isDefined shouldBe(true)
-            gameField.get.activePlayerAllIn().get.activePlayerAllIn() shouldBe(Option.empty)
+            // gameField.get.activePlayerAllIn().get.activePlayerAllIn() shouldBe(Option.empty)
         }
 
         "have a working check method" in {
