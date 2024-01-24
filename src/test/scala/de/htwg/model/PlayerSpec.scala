@@ -11,10 +11,10 @@ import de.htwg.model.gameFieldComponent._
 class PlayerSpec extends AnyWordSpec with Matchers  {
 
   "Player" when {
-    "created with player number 1, Pip - Ace and Hearts - Ten, 1000 balance and 0 betted money" should {
+    "created with player number 1, DIAMONDS - Ace and Hearts - Ten, 1000 balance and 0 betted money" should {
 
       val player: Player = Player(1,
-        Hand((new Card(PIP, ACE), new Card(HEARTS, TEN))),
+        Hand((new Card(DIAMONDS, ACE), new Card(HEARTS, TEN))),
         1000, 0)
 
       "have player number 1" in {
@@ -22,7 +22,7 @@ class PlayerSpec extends AnyWordSpec with Matchers  {
       }
 
       "have the correct hand" in {
-        player.hand should be(Hand((new Card(PIP, ACE), new Card(HEARTS, TEN))))
+        player.hand should be(Hand((new Card(DIAMONDS, ACE), new Card(HEARTS, TEN))))
       }
 
       "have the correct balance" in {
@@ -60,6 +60,7 @@ class PlayerSpec extends AnyWordSpec with Matchers  {
           newPlayer shouldBe empty
         }
       }
+      
     }
   }
 }

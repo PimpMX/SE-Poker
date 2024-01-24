@@ -12,13 +12,13 @@ class HandSpec extends AnyWordSpec with Matchers {
 
   "A Hand" when {
     "created with two cards" should {
-      val hand = Hand((new Card(PIP, TWO), new Card(PIP, THREE)))
+      val hand = Hand((new Card(DIAMONDS, TWO), new Card(DIAMONDS, THREE)))
       "have the correct cards" in {
-        hand should be((Hand(new Card(PIP, TWO), new Card(PIP, THREE))))
+        hand should be((Hand(new Card(DIAMONDS, TWO), new Card(DIAMONDS, THREE))))
       }
 
-      "have a string representation of [P2][P3]" in {
-        hand.toString should be("[P2][P3]")
+      "have a string representation of [D2][D3]" in {
+        hand.toString should be("[D2][D3]")
       }
     }
   }
