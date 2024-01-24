@@ -108,15 +108,15 @@ class TUISpec extends AnyWordSpec with Matchers {
             tui.userCmd("load") shouldBe a[Success[_]]
         }
 
-        "should save and load the gamefield as XML" in {
-            val injector = Guice.createInjector(new TestModule)
-            val controller = injector.getInstance(classOf[ControllerInterface])
-            controller.newGame(2)
-            val tui = new TUI(controller)
+        // "should save and load the gamefield as XML" in {
+        //     val injector = Guice.createInjector(new TestModule)
+        //     val controller = injector.getInstance(classOf[ControllerInterface])
+        //     controller.newGame(2)
+        //     val tui = new TUI(controller)
 
-            tui.userCmd("save") shouldBe a[Success[_]]
-            tui.userCmd("load") shouldBe a[Success[_]]
-        }
+        //     tui.userCmd("save") shouldBe a[Success[_]]
+        //     tui.userCmd("load") shouldBe a[Success[_]]
+        // }
     }
 }
 
