@@ -9,7 +9,8 @@ case object SHOWDOWN extends BettingRound
 case object GAME_FINISHED extends BettingRound
 
 trait GameFieldInterface {
-
+    
+    def startOfRound: GameFieldInterface
     def getPlayers: Vector[PlayerInterface]
     def getNumPlayers: Int
     def getBettingRound: BettingRound
@@ -23,7 +24,6 @@ trait GameFieldInterface {
     def activePlayerAllIn(): Option[GameFieldInterface]
     def activePlayerCheck(): Option[GameFieldInterface]
     def activePlayerFold(): Option[GameFieldInterface]
-    def startOfRound: GameFieldInterface
     def toString(): String
 }
 
