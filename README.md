@@ -4,11 +4,9 @@ Project for my Software-Engineering class. In this class we are developing the n
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/PimpMX/SE-Poker/scala.yml?branch=main&label=Build)](https://github.com/PimpMX/SE-Poker/actions/workflows/scala.yml) [![Coverage Status](https://coveralls.io/repos/github/PimpMX/SE-Poker/badge.svg?branch=main)](https://coveralls.io/github/PimpMX/SE-Poker?branch=main)
 
-<img src="assets/tui_img.png"/>
-(TUI aktueller Stand 24.01.24)
 
 <img src="assets/gui_img.png"/>
-(GUI aktueller Stand 24.01.24)
+<img src="assets/tui_img.png"/>
 
 
 
