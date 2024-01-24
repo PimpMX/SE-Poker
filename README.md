@@ -7,8 +7,8 @@ Project for my Software-Engineering class. In this class we are developing the n
 Current GUI
 <img src="assets/gui_img.png"/>
 
-Current TUI
 <img src="assets/tui_img.png"/>
+Current TUI
 
 
 
