@@ -9,6 +9,7 @@ import java.awt.image.AffineTransformOp
 
 import de.htwg.model.gameFieldComponent.cardBaseImpl.Card
 import de.htwg.model.gameFieldComponent.CardInterface
+import scala.collection.mutable.Buffer
 
 class CardImages {
 
@@ -69,6 +70,16 @@ class CardImages {
 
     val cardImages: Map[CardInterface, BufferedImage] = loadCardImages
     val cardBackside: BufferedImage = getCardBackside
+
+    val bigBlindImage: BufferedImage = scaleImage(ImageIO.read(new File("assets/gui/big_blind.png")), 0.2)
+    val smallBlindImage: BufferedImage = scaleImage(ImageIO.read(new File("assets/gui/small_blind.png")), 0.2)
+    val pokerChipsImage: BufferedImage = scaleImage(ImageIO.read(new File("assets/gui/poker_chips.png")), 0.12)
+    val tableBackground: BufferedImage = scaleImage(ImageIO.read(new File("assets/gui/table_background.jpg")), 0.8)
+
+    def getBigBlindImage: BufferedImage = bigBlindImage
+    def getSmallBlindImage: BufferedImage = smallBlindImage
+    def getPokerChipsImage: BufferedImage = pokerChipsImage
+    def getTableBackground: BufferedImage = tableBackground
 
     def loadCardImages: Map[CardInterface, BufferedImage] = {
         cardToImagePath.map {

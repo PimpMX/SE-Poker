@@ -145,6 +145,7 @@ case class GameField(players: Vector[PlayerInterface],
   def getLastRaisePlayerIdx: Int = lastRaisePlayerIdx
   def getBigBlindPlayerIdx: Int = bigBlindPlayerIdx
   def getHighestBet: Int = highestBet
+  def getMoneyInPool: Int = players.map(player => player.getMoneyInPool).sum
 
   def switchToNextPlayer: GameFieldInterface = {
 

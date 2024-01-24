@@ -17,6 +17,7 @@ trait GameFieldInterface {
     def getLastRaisePlayerIdx: Int
     def getBigBlindPlayerIdx: Int
     def getHighestBet: Int
+    def getMoneyInPool: Int
     def getCommunityCards: CommunityCardsInterface
     def switchToNextPlayer: GameFieldInterface
     def getPlayerAtTurn: PlayerInterface
