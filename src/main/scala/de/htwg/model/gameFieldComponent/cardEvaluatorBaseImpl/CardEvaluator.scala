@@ -1,8 +1,6 @@
 package de.htwg.model.gameFieldComponent.cardEvaluatorBaseImpl
 
 import de.htwg.model.gameFieldComponent._
-import com.google.inject.Guice
-import de.htwg.TexasHoldEmModule
 
 class CardEvaluator extends CardEvaluatorInterface {
 
