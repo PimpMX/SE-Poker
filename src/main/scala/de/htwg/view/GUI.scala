@@ -323,7 +323,7 @@ class GamePanel(controller: ControllerInterface) extends Panel {
                 g.setColor(Color.BLUE)
                 g.drawString(winMessage, size.width / 2 - 150, size.height / 2 + 120)
             }
-        } else if(gameState.getBettingRound != GAME_FINISHED) {
+        } else if(gameState.getBettingRound == GAME_FINISHED) {
 
             val winPlayer = gameState.getPlayers.headOption
 
