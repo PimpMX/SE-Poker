@@ -10,6 +10,7 @@ trait ControllerInterface extends Observable {
     def newGame(numPlayers: Int): Boolean
     def bet(amount: Int): Boolean
     def betAllIn(): Boolean
+    def call(): Boolean
     def check(): Boolean
     def fold(): Boolean
     def undo(): Unit

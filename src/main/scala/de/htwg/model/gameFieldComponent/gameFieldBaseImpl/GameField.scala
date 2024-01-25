@@ -313,6 +313,29 @@ case class GameField(players: Vector[PlayerInterface],
     }
   }
 
+  def activePlayerCall(): Option[GameFieldInterface] = {
+    
+    if(this.bettingRound == SHOWDOWN) {
+      return Option(this.endOfRound)
+    } else if(this.bettingRound == GAME_FINISHED) {
+      return Option.empty
+    }
+
+    //  If the player already has the current betting level he can't call
+    //  since he already has enough money in the pot
+
+    if(this.getPlayerAtTurn.getMoneyInPool >= this.highestBet)
+      return Option.empty
+
+    val moneyToBet = this.highestBet - this.getPlayerAtTurn.getMoneyInPool
+
+    print("MoneyToBet: " + moneyToBet + "\n")
+
+    //  Now we can just use the other method we have to achieve the bet
+
+    this.activePlayerBet(moneyToBet)
+  }
+
   def activePlayerCheck(): Option[GameFieldInterface] = {
 
     if(this.bettingRound == SHOWDOWN) {

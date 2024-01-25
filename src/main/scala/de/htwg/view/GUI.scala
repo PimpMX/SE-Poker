@@ -54,9 +54,13 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
             errorOutputField.foreground = Color.red
             controller.bet(betInputField.text.toInt)
         }
-        
+
         contents += Button("All-In") {
             controller.betAllIn()
+        }
+
+        contents += Button("Call") {
+            controller.call()
         }
 
         contents += Button("Check") {

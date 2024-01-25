@@ -41,6 +41,13 @@ class Controller extends ControllerInterface with Observable {
     executed
   }
 
+  def call(): Boolean = {
+
+    val executed = undoManager.doStep(new CallCmd(this))
+    if(executed) this.notifyObservers(Move)
+    executed
+  }
+
   def check(): Boolean = {
       
     val executed = undoManager.doStep(new CheckCmd(this))
