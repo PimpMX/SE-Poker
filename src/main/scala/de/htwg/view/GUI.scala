@@ -25,9 +25,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
     controller.add(this)
 
     title = "SE-Poker"
-    visible = true
-    preferredSize = new Dimension(1920, 1080)
-    minimumSize = new Dimension(1920, 1080)
+    preferredSize = new Dimension(1600, 1080)
+    minimumSize = new Dimension(1000, 1000)
 
     val betInputField = new TextField {
         columns = 5
@@ -119,6 +118,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
             controller.newGame(input.get.toInt)
         }
     }
+
+    pack()  
+    visible = true
 }
 
 class PlayerRenderable(player: PlayerInterface, gameState: GameFieldInterface, imageHandler: CardImages) {
@@ -182,6 +184,7 @@ class GamePanel(controller: ControllerInterface) extends Panel {
 
     //  Our preferred font
     val usedFont = new Font("Arial", Font.BOLD, 17)
+    val secondFont = new Font("Arial", Font.BOLD, 25)
 
     //  Handles our card images
     val imageHandler: CardImages = new CardImages
@@ -192,11 +195,6 @@ class GamePanel(controller: ControllerInterface) extends Panel {
 
         //  Enable Anti-Aliasing
 
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-
-        //  Draw Background first
-
-        g.drawImage(imageHandler.getTableBackground, 0, 0, null)
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
@@ -206,6 +204,10 @@ class GamePanel(controller: ControllerInterface) extends Panel {
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        
+        //  Draw Background first
+
+        g.drawImage(imageHandler.getTableBackground, 0, 0, null)
 
         //  Draw Players
 
