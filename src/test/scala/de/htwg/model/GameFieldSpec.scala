@@ -56,20 +56,20 @@ class GameFieldSpec extends AnyWordSpec with Matchers  {
             val gameField = gameGenerator(2)
             gameField.isDefined shouldBe(true)
             gameField.get.activePlayerBet(25)
-            gameField.get.activePlayerAllIn().isDefined shouldBe(true)
+            gameField.get.activePlayerAllIn.isDefined shouldBe(true)
             // gameField.get.activePlayerAllIn().get.activePlayerAllIn() shouldBe(Option.empty)
         }
 
         "have a working check method" in {
             val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
-            gameField.get.activePlayerCheck().get.getPlayerAtTurn.getPlayerNum shouldBe(0)
+            gameField.get.activePlayerCheck.get.getPlayerAtTurn.getPlayerNum shouldBe(0)
         }
 
         "have a working fold method" in {
             val gameField = gameGenerator(1)
             gameField.isDefined shouldBe(true)
-            gameField.get.activePlayerFold().isDefined shouldBe(true)
+            gameField.get.activePlayerFold.isDefined shouldBe(true)
         }
 
         "have a working toString method" in {

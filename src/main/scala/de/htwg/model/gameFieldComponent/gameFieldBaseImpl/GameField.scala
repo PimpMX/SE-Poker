@@ -96,7 +96,7 @@ case class GameField(players: Vector[PlayerInterface],
       val cardEvaluations = cardEvaluator.rankCards(this.getPlayersLeftInRound, this.comCards)
       val winningHand = cardEvaluations.head
 
-      print(winningHand.player.getPlayerStr + " wins with " + winningHand.handRank.toString() + "\n")
+      // print(winningHand.player.getPlayerStr + " wins with " + winningHand.handRank.toString() + "\n")
 
       winningHand.player.getPlayerNum
     }

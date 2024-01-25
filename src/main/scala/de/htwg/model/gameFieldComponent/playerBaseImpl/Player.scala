@@ -25,7 +25,7 @@ case class Player(playerNum: Int,
   def isAllIn: Boolean = {
     moneyInPool >= 0 && balance == 0
   }
-  
+
   def betMoney(amount: Int): Option[Player] = {
 
     if (amount <= balance && hasFolded == false) {

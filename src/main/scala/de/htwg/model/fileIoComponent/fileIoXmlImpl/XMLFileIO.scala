@@ -172,6 +172,7 @@ class XMLFileIO extends FileIOInterface {
       case "TURN" => TURN
       case "RIVER" => RIVER
       case "SHOWDOWN" => SHOWDOWN
+      case "GAME_FINISHED" => GAME_FINISHED
     }
     val highestBet = (xml \ "highestBet").text.toInt
 
