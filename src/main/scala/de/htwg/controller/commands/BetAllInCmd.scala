@@ -11,7 +11,7 @@ class BetAllInCmd(controller: ControllerInterface) extends Command {
   override def doStep: Boolean =  {
 
     memento = controller.getGameState()
-    val newGameState = controller.getGameState().activePlayerAllIn()
+    val newGameState = controller.getGameState().activePlayerAllIn
 
     if(newGameState.isDefined) {
       controller.setGameState(newGameState.get)

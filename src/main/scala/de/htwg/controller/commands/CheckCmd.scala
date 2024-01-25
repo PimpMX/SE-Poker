@@ -11,7 +11,7 @@ class CheckCmd(controller: ControllerInterface) extends Command {
   override def doStep: Boolean =  {
 
     memento = controller.getGameState()
-    val newGameState = controller.getGameState().activePlayerCheck()
+    val newGameState = controller.getGameState().activePlayerCheck
 
     if(newGameState.isDefined) {
       controller.setGameState(newGameState.get)

@@ -26,8 +26,8 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
 
     title = "SE-Poker"
     visible = true
-    preferredSize = new Dimension(800, 512)
-    minimumSize = new Dimension(200, 400)
+    preferredSize = new Dimension(1920, 1080)
+    minimumSize = new Dimension(1920, 1080)
 
     val betInputField = new TextField {
         columns = 5

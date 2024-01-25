@@ -11,7 +11,7 @@ class FoldCmd(controller: ControllerInterface) extends Command {
   override def doStep: Boolean =  {
 
     memento = controller.getGameState()
-    val newGameState = controller.getGameState().activePlayerFold()
+    val newGameState = controller.getGameState().activePlayerFold
 
     if(newGameState.isDefined) {
       controller.setGameState(newGameState.get)

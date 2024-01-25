@@ -58,6 +58,12 @@ class TUI(controller: ControllerInterface) extends Observer {
         else
           Success(())
 
+      case "call" =>
+        if(!controller.call())
+          Failure(new IllegalArgumentException("You already have enough money in the pot!"))
+        else
+          Success(())
+
       case "check" =>
         if (!controller.check())
           Failure(new IllegalArgumentException("Cannot check right now"))

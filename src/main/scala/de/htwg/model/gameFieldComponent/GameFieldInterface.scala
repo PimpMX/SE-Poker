@@ -22,11 +22,11 @@ trait GameFieldInterface {
     def switchToNextPlayer: GameFieldInterface
     def getPlayerAtTurn: PlayerInterface
     def activePlayerBet(amount: Int): Option[GameFieldInterface]
-    def activePlayerAllIn(): Option[GameFieldInterface]
-    def activePlayerCall(): Option[GameFieldInterface]
-    def activePlayerCheck(): Option[GameFieldInterface]
-    def activePlayerFold(): Option[GameFieldInterface]
-    def toString(): String
+    def activePlayerAllIn: Option[GameFieldInterface]
+    def activePlayerCall: Option[GameFieldInterface]
+    def activePlayerCheck: Option[GameFieldInterface]
+    def activePlayerFold: Option[GameFieldInterface]
+    def toString: String
 }
 
 trait GameFieldFactoryInterface {

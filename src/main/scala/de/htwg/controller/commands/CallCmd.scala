@@ -11,7 +11,7 @@ class CallCmd(controller: ControllerInterface) extends Command {
   override def doStep: Boolean =  {
 
     memento = controller.getGameState()
-    val newGameState = controller.getGameState().activePlayerCall()
+    val newGameState = controller.getGameState().activePlayerCall
 
     if(newGameState.isDefined) {
       controller.setGameState(newGameState.get)

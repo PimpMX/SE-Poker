@@ -280,7 +280,7 @@ case class GameField(players: Vector[PlayerInterface],
     }
   }
 
-  def activePlayerAllIn(): Option[GameFieldInterface] = {
+  def activePlayerAllIn: Option[GameFieldInterface] = {
 
     if(this.bettingRound == SHOWDOWN) {
       return Option(this.endOfRound)
@@ -313,7 +313,7 @@ case class GameField(players: Vector[PlayerInterface],
     }
   }
 
-  def activePlayerCall(): Option[GameFieldInterface] = {
+  def activePlayerCall: Option[GameFieldInterface] = {
     
     if(this.bettingRound == SHOWDOWN) {
       return Option(this.endOfRound)
@@ -329,14 +329,12 @@ case class GameField(players: Vector[PlayerInterface],
 
     val moneyToBet = this.highestBet - this.getPlayerAtTurn.getMoneyInPool
 
-    print("MoneyToBet: " + moneyToBet + "\n")
-
     //  Now we can just use the other method we have to achieve the bet
 
     this.activePlayerBet(moneyToBet)
   }
 
-  def activePlayerCheck(): Option[GameFieldInterface] = {
+  def activePlayerCheck: Option[GameFieldInterface] = {
 
     if(this.bettingRound == SHOWDOWN) {
       return Option(this.endOfRound)
@@ -351,7 +349,7 @@ case class GameField(players: Vector[PlayerInterface],
     }
   }
 
-  def activePlayerFold(): Option[GameFieldInterface] = {
+  def activePlayerFold: Option[GameFieldInterface] = {
 
     if(this.bettingRound == SHOWDOWN) {
       return Option(this.endOfRound)
@@ -380,7 +378,7 @@ case class GameField(players: Vector[PlayerInterface],
     }
   }
 
-  override def toString(): String = viewStrategy.produceView(this)
+  override def toString: String = viewStrategy.produceView(this)
 }
 
 class GameFieldFactory extends GameFieldFactoryInterface {
