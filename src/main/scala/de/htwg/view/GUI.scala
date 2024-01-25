@@ -16,6 +16,8 @@ import de.htwg.TexasHoldEmModule
 import de.htwg.model.fileIoComponent.FileIOInterface
 import de.htwg.util.Move
 import java.awt.RenderingHints
+import javax.swing.SwingConstants
+import swing.Alignment.Value
 
 class GUI(controller: ControllerInterface) extends Frame with Observer {
 
@@ -34,8 +36,9 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
     }
 
     val errorOutputField = new TextField {
-        preferredSize = new Dimension(200, 27)
-        editable = false
+        preferredSize = new Dimension(1200, 40)
+        font = new Font("Arial", Font.BOLD, 30) // Set a larger font
+        horizontalAlignment = Alignment.Center // Center the text horizontally
     }
 
     val gamePanel = new GamePanel(controller)
@@ -50,20 +53,52 @@ class GUI(controller: ControllerInterface) extends Frame with Observer {
         contents += betInputField
         
         contents += Button("Bet") {
-            errorOutputField.foreground = Color.red
-            controller.bet(betInputField.text.toInt)
+
+            val executed = controller.bet(betInputField.text.toInt)
+            
+            if(executed) {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = ""
+            } else {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = "You don't have enough money left or are betting to little!"
+            }
         }
 
         contents += Button("All-In") {
-            controller.betAllIn()
+
+            val executed = controller.betAllIn()
+
+            if(executed) {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = ""
+            }
         }
 
         contents += Button("Call") {
-            controller.call()
+            
+            val executed = controller.call()
+
+            if(executed) {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = ""
+            } else {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = "You have enough money in the pot or dont have enough money to call!"
+            }
         }
 
         contents += Button("Check") {
-            controller.check()
+
+            val executed = controller.check()
+
+            if(executed) {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = ""
+            } else {
+                errorOutputField.foreground = Color.red
+                errorOutputField.text = "You cannot check right now, you have to bet more money!"
+            }
         }
 
         contents += Button("Fold") {
