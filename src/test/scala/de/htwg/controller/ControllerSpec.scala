@@ -51,6 +51,25 @@ class ControllerSpec extends AnyWordSpec with Matchers {
                 controller.toString() should be(controller.getGameState().toString())
             }
 
+            "return no game for invalid call" in {
+                controller.call() shouldBe(false)
+            }
+
+            "return a game for call" in {
+                controller.bet(25) shouldBe(true)
+                controller.call() shouldBe(true)
+            }
+
+            "undo the call action" in {
+                controller.undo()
+                controller.toString() should be(controller.getGameState().toString())
+            }
+
+            "redo the call action" in {
+                controller.redo()
+                controller.toString() should be(controller.getGameState().toString())
+            }
+
             "return a game for valid bet all-in" in {
                 controller.betAllIn() shouldBe(true)
             }

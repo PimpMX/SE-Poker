@@ -29,8 +29,8 @@ class GUITest extends AnyWordSpec with Matchers {
                     case Success(e) => {
                         gui.get.title should be("SE-Poker")
                         gui.get.visible should be(true)
-                        gui.get.preferredSize shouldBe new Dimension(800, 512)
-                        gui.get.minimumSize should be(new Dimension(200, 400))
+                        gui.get.preferredSize shouldBe new Dimension(1600, 1080)
+                        gui.get.minimumSize should be(new Dimension(1000, 1000))
                     } 
                     case Failure(e) => println("[INFO] Starting without GUI")
                 }
