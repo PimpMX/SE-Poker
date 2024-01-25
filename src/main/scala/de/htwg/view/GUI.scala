@@ -127,7 +127,7 @@ class PlayerRenderable(player: PlayerInterface, gameState: GameFieldInterface, i
     
     def getPlayer: PlayerInterface = player
 
-    def draw(g: Graphics2D, font: Font, x: Int, y: Int, atTurn: Boolean, isBottomRenderable: Boolean): Unit = {
+    def draw(g: Graphics2D, eval: Option[Vector[CardEvaluation]], font: Font, x: Int, y: Int, atTurn: Boolean, isBottomRenderable: Boolean): Unit = {
         
         g.setFont(font)
 
@@ -135,8 +135,39 @@ class PlayerRenderable(player: PlayerInterface, gameState: GameFieldInterface, i
             g.setColor(new Color(255, 64, 0))
         else
             g.setColor(Color.WHITE)
+
+        //  Depending on if the player has folded and which round it is 
+        //  We render different strings. Round != Showdown just produces the playername
+        //  and Round == Showdown and Player not Folded additionally shows the hand ranking
+        //  at last if the player is folded we only show "FOLDED"
+
+        val displayString = if(!player.getFoldedStatus && gameState.getBettingRound != SHOWDOWN) {
+            player.getPlayerStr
+        } else if(!player.getFoldedStatus && gameState.getBettingRound == SHOWDOWN && eval.isDefined) {
             
-        g.drawString(if(!player.getFoldedStatus) player.getPlayerStr else "FOLDED", x, y)
+            val playerEval = eval.get.filter(e => e.player.getPlayerNum == player.getPlayerNum)
+            
+            if(playerEval.headOption.isDefined) {
+
+                player.getPlayerStr + " (" + (playerEval.head.handRank match {
+                    case ROYAL_FLUSH => "Royal Flush"
+                    case STRAIGHT_FLUSH => "Straight Flush"
+                    case FOUR_OF_A_KIND => "Four of a Kind"
+                    case FULL_HOUSE => "Full House"
+                    case FLUSH => "Flush"
+                    case STRAIGHT => "Straight"
+                    case THREE_OF_A_KIND => "Three of a Kind"
+                    case TWO_PAIR => "Two Pair"
+                    case ONE_PAIR => "One Pair"
+                    case HIGH_CARD => "High Card"
+                }) + ")"
+
+            } else player.getPlayerStr
+        } else {
+            "FOLDED"
+        }
+
+        g.drawString(displayString, x, y)
         g.drawString(f"Balance: ${player.getBalanceStr}", x, y + 175)
         g.drawString(f"Current Bet: ${player.getBettedStr}", x, y + 195)
 
@@ -181,6 +212,7 @@ class GamePanel(controller: ControllerInterface) extends Panel {
 
     val injector = Guice.createInjector(new TexasHoldEmModule)
     val cardFactory = injector.getInstance(classOf[CardFactoryInterface])
+    val cardEvaluator = injector.getInstance(classOf[CardEvaluatorInterface])
 
     //  Our preferred font
     val usedFont = new Font("Arial", Font.BOLD, 17)
@@ -190,7 +222,7 @@ class GamePanel(controller: ControllerInterface) extends Panel {
     val imageHandler: CardImages = new CardImages
 
     override def paintComponent(g: Graphics2D): Unit = {
-        
+
         super.paintComponent(g)
 
         //  Enable Anti-Aliasing
@@ -209,30 +241,41 @@ class GamePanel(controller: ControllerInterface) extends Panel {
 
         g.drawImage(imageHandler.getTableBackground, 0, 0, null)
 
+        //  Get current GameState for easy accessibility
+
+        val gameState = controller.getGameState()
+
+        //  In case we are in SHOWDOWN we want to get the card evaluations to render them
+
+        val cardEvaluation: Option[Vector[CardEvaluation]] = if(gameState.getBettingRound == SHOWDOWN)
+                Some(cardEvaluator.rankCards(gameState.getPlayers, gameState.getCommunityCards))
+            else 
+                Option.empty
+
         //  Draw Players
 
-        val players = controller.getGameState().getPlayers
-        val renderables = players.map(new PlayerRenderable(_, controller.getGameState(), imageHandler))
+        val players = gameState.getPlayers
+        val renderables = players.map(new PlayerRenderable(_, gameState, imageHandler))
         val (topRenderables, botRenderables) = renderables.splitAt((renderables.length / 2))
-        val currentPlayer = controller.getGameState().getPlayerAtTurn.getPlayerNum
+        val currentPlayer = gameState.getPlayerAtTurn.getPlayerNum
 
         for(i <- 0 until topRenderables.length) {
-            topRenderables(i).draw(g, usedFont, 40 + (i * 300), 40,
+            topRenderables(i).draw(g, cardEvaluation, usedFont, 40 + (i * 300), 40,
                 topRenderables(i).getPlayer.getPlayerNum == currentPlayer, false)
         }
 
         for(i <- 0 until botRenderables.length) {
-            botRenderables.reverse(i).draw(g, usedFont, 40 + (i * 300), size.height - 225,
+            botRenderables.reverse(i).draw(g, cardEvaluation, usedFont, 40 + (i * 300), size.height - 225,
                 botRenderables.reverse(i).getPlayer.getPlayerNum == currentPlayer, true)
         }
 
         //  Draw Community Cards
 
-        val comCards = controller.getGameState().getCommunityCards
+        val comCards = gameState.getCommunityCards
 
         for(i <- 0 until comCards.getCards.length) {
 
-            if(comCards.getCards(i).isRevealed || controller.getGameState().getBettingRound == SHOWDOWN) {
+            if(comCards.getCards(i).isRevealed || gameState.getBettingRound == SHOWDOWN) {
                 val renderedCard = cardFactory(comCards.getCards(i).getColor, comCards.getCards(i).getRank)
                 g.drawImage(imageHandler.cardImages(renderedCard), size.width / 2 - 200 + (i * 110), size.height / 2 - 75, null)
             } else {
@@ -240,8 +283,46 @@ class GamePanel(controller: ControllerInterface) extends Panel {
             }
         }
 
+        //  Draw Pot Information
+
         g.drawImage(imageHandler.pokerChipsImage, size.width / 2 - 550, size.height / 2 - 130, null)
+        
+        g.setFont(usedFont)
         g.setColor(Color.BLUE)
-        g.drawString(f"Current Pot: ${controller.getGameState().getMoneyInPool}", size.width / 2 - 520, size.height / 2 + 125)
+        g.drawString(f"Current Pot: ${gameState.getMoneyInPool}", size.width / 2 - 520, size.height / 2 + 125)
+    
+        //  Draw round is over alert in case the round is over
+
+        if(gameState.getBettingRound == SHOWDOWN) {
+
+            g.setFont(secondFont)
+            g.setColor(Color.RED)
+            
+            g.drawString("ROUND IS OVER", size.width / 2 - 40, size.height / 2 - 150)
+            g.drawString("PRESS ANY BUTTON FOR NEXT ROUND", size.width / 2 - 170, size.height / 2 - 120)
+            
+            val winPlayer = cardEvaluation
+
+            if(winPlayer.isDefined && winPlayer.get.headOption.isDefined) {
+
+                val winningEval = winPlayer.get.head
+
+                val winMessage = winningEval.player.getPlayerStr + " won the Pot with a " + (winningEval.handRank match {
+                    case ROYAL_FLUSH => "Royal Flush"
+                    case STRAIGHT_FLUSH => "Straight Flush"
+                    case FOUR_OF_A_KIND => "Four of a Kind"
+                    case FULL_HOUSE => "Full House"
+                    case FLUSH => "Flush"
+                    case STRAIGHT => "Straight"
+                    case THREE_OF_A_KIND => "Three of a Kind"
+                    case TWO_PAIR => "Two Pair"
+                    case ONE_PAIR => "One Pair"
+                    case HIGH_CARD => "High Card"
+                })
+
+                g.setColor(Color.BLUE)
+                g.drawString(winMessage, size.width / 2 - 150, size.height / 2 + 120)
+            }
+        }
     }
 }

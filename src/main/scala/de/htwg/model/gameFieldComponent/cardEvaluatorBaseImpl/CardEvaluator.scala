@@ -11,9 +11,14 @@ class CardEvaluator extends CardEvaluatorInterface {
   override def rankCards(players: Vector[PlayerInterface],
     comCards: CommunityCardsInterface): Vector[CardEvaluation] = {
 
+    //  We have to make sure we only include players who haven't folded
+    //  (In case the callee doesnt make sure of this)
+
+    val filteredPlayers = players.filter(player => player.getFoldedStatus == false)
+
     //  We determine the highest possible handRank for each player 
 
-    val cardEvaluations: Vector[CardEvaluation] = players.map(player => {
+    val cardEvaluations: Vector[CardEvaluation] = filteredPlayers.map(player => {
       val (highestRank, handRank) = determineHighestRank(player.getHand, comCards.getCards)
       CardEvaluation(player, handRank, highestRank)
     })
